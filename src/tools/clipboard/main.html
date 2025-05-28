@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>Artorias Tools</title>
+</head>
+
+<body>
+    <div id="menu">
+        <div id="icon-selector">
+            <div id="tools-selector">
+                <div>
+                    <span>⛩️</span>
+                    <h3 style="display: none;">Dashboard</h3>
+                </div>
+                <div>
+                    <span>📋</span>
+                    <h3 style="display: none;">Clipboard</h3>
+                </div>
+                <div>
+                    <span>🖌️</span>
+                    <h3 style="display: none;">Whiteboard</h3>
+                </div>
+                <div>
+                    <span>🧮</span>
+                    <h3 style="display: none;">Logs</h3>
+                </div>
+                <div>
+                    <span>💾</span>
+                    <h3 style="display: none;">Template</h3>
+                </div>
+                <div>
+                    <span>⚖️</span>
+                    <h3 style="display: none;">Converter</h3>
+                </div>
+                <div>
+                    <span>🗓️</span>
+                    <h3 style="display: none;">Calendar</h3>
+                </div>
+                <div>
+                    <span>📊</span>
+                    <h3 style="display: none;">Graphics</h3>
+                </div>
+                <div>
+                    <span>🔐</span>
+                    <h3 style="display: none;">Password</h3>
+                </div>
+            </div>
+            <div id="settings-selector">
+                <div>
+                    <span>🗿</span>
+                </div>
+                <div>
+                    <span>⚙️</span>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- <style> enfaite je sais pas trop quoi en foutre ptdrr
+            #menu-icon-selected {
+                display: none;
+            }
+        </style>
+        <div id="menu-icon-selected">
+            <h2 style="white-space: nowrap;">Yuzu compiler</h2>
+        </div> -->
+    </div>
+
+    <div id="main-app">
+
+        <div id="history-clippaper">
+            <div id="title-history-clippaper">
+                <div id="categorie-clippaper">
+                    <h3>Date</h3>
+                    <h3>Content</h3>
+                </div>
+                <div id="right-title-paper">
+                    <button id="clear-clippaper">Clear</button>
+                    <select id="repeate-refresh">
+                        <option value="0">no refresh</option>
+                        <option value="100">100 milliseconds</option>
+                        <option value="500">500 milliseconds</option>
+                        <option value="1000">1 second</option>
+                        <option value="5000">5 seconds</option>
+                        <option value="10000">10 seconds</option>
+                        <option value="30000">30 seconds</option>
+                        <option value="60000">1 minute</option>
+                        <option value="120000">2 minutes</option>
+                        <option value="300000">5 minutes</option>
+                        <option value="600000">10 minutes</option>
+                        <option value="1800000">30 minutes</option>
+                        <option value="3600000">1 hour</option>
+                        <option value="7200000">2 hours</option>
+                        <option value="18000000">5 hours</option>
+                        <option value="43200000">12 hours</option>
+                        <option value="86400000">1 day</option>
+                    </select>
+                </div>
+            </div>
+            <div id="clippaper-list"></div>
+            <div style="display: block;" id="loading">Loading... </div>
+
+        </div>
+
+        <style>
+            #history-clippaper {
+                height: 100%;
+                overflow-x: hidden;
+            }
+
+            #title-history-clippaper {
+                display: flex;
+                flex-direction: row;
+                border-bottom: 1px solid #b5b5b5;
+            }
+
+            #title-history-clippaper>div {
+                display: flex;
+                flex-direction: row;
+                width: 100%;
+            }
+
+            #right-title-paper {
+                /* width: 100%; */
+                justify-content: end;
+                align-items: center;
+            }
+
+            #right-title-paper>* {
+                padding: 0;
+                margin: 0;
+                margin-right: 20px;
+                padding-left: 5px;
+                padding-right: 5px;
+                border-radius: 2px;
+            }
+
+
+            #title-history-clippaper>div>h3 {
+                margin: 7px;
+                margin-right: 5px;
+                margin-left: 2px;
+                width: 175px;
+            }
+
+            #clippaper-list {
+                overflow-y: auto;
+                overflow-x: hidden;
+                display: flex;
+                flex-direction: column;
+                height: 95%;
+            }
+
+            #clippaper-list>div {
+                display: flex;
+                flex-direction: row;
+                width: 100%;
+            }
+
+            #clippaper-list>div:hover {
+                border: 1px solid #b5b5b5;
+                cursor: pointer;
+            }
+
+            #clippaper-list>div:hover .clip_button>button {
+                border: 1px solid #b5b5b5;
+                cursor: pointer;
+                display: block;
+            }
+
+            .clip_button {
+                display: flex;
+                flex-direction: row;
+                justify-content: end;
+                height: 20px;
+                margin-top: 2px;
+                width: 20%;
+            }
+
+            .clip_button>button {
+                margin-right: 20px;
+                width: 100px;
+                display: none;
+            }
+
+            #clippaper-list>div>h4 {
+                margin: 0;
+                margin-bottom: 2px;
+                margin-top: 5px;
+                width: 175px;
+            }
+
+            #clippaper-list>div>p {
+                margin: 0;
+                width: 1000px;
+                white-space: nowrap;
+                overflow-x: hidden;
+                text-overflow: ellipsis;
+            }
+
+            #detailed {
+                white-space: inherit !important;
+                text-overflow: clip !important;
+            }
+        </style>
+        <script src="../../js/tools/clipboard.js"></script>
+    </div>
+
+    <script type="module" src="../../js/renderer.js"></script>
+</body>
+
+</html>

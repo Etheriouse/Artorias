@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modify password</title>
+</head>
+
+<body>
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            font-family: sans-serif;
+            height: 100%;
+            overflow-y: hidden;
+        }
+
+        #menu-bar-pwd-modif {
+            display: flex;
+            flex-direction: row;
+            padding: 0;
+        }
+
+        #menu-bar-pwd-modif-selected {
+            background-color: #d3d3d3;
+            border-radius: 4px;
+        }
+
+        h4 {
+            margin-right: 7px;
+            margin-left: 2px;
+            margin-top: 0;
+            cursor: pointer;
+        }
+
+        #content-pwd-modif {
+            display: none;
+        }
+
+        section {
+            display: none;
+            flex-direction: column;
+        }
+
+        input,
+        button {
+            height: 20px;
+            width: auto;
+            margin: 5px;
+        }
+    </style>
+
+    <div id="menu-bar-pwd-modif">
+        <h4 id="menu-bar-pwd-modif-selected">Site</h4>
+        <h4>Username</h4>
+        <h4>Password</h4>
+        <h4>Url</h4>
+    </div>
+    <div id="loading">Loading...</div>
+    <div id="content-pwd-modif">
+        <section id="Site-pwd-modif">
+            <input id="value-site-pwd">
+        </section>
+
+        <section id="Username-pwd-modif">
+            <input id="value-user-pwd">
+        </section>
+        <section id="Password-pwd-modif">
+            <input type="password" id="value-pwd-pwd">
+            <button id="show_pwd_button">Show</button>
+        </section>
+        <section id="Url-pwd-modif">
+            <input id="value-url-pwd">
+        </section>
+        <button id="save-modify-psd">Modify</button>
+    </div>
+
+    <script type="module" src="../../js/admin.js"></script>
+    <script type="module">
+
+        import { admin_perm } from "../../js/admin.js"
+
+
+        let object_pwd;
+        let isshowed = false;
+
+        async function show_password() {
+            document.getElementById('value-pwd-pwd').type = 'none'
+            isshowed = true;
+            document.getElementById('show_pwd_button').innerHTML = 'hide';
+        }
+
+        document.getElementById('save-modify-psd').addEventListener('click', async () => {
+            isshowed = false;
+            document.getElementById('value-pwd-pwd').type = 'password'
+            document.getElementById('show_pwd_button').innerHTML = 'show';
+
+            console.log("psd value: ", document.getElementById('value-pwd-pwd').value);
+            admin_perm(async () => {
+                document.getElementById('loading').style.display = 'block';
+                document.getElementById('content-pwd-modif').style.display = 'none';
+
+                const psd_object = {
+                    site: document.getElementById('value-site-pwd').value,
+                    user: document.getElementById('value-user-pwd').value,
+                    psd: document.getElementById('value-pwd-pwd').value,
+                    url: document.getElementById('value-url-pwd').value,
+                }
+                const result_write = await window.api.savepsd(psd_object);
+                if (!result_write.ok) {
+                    alert('Modification not take in count')
+                }
+            })
+
+            // const result = await window.window_.adminpassword();
+            // if (result.ok) {
+
+            // } else {
+            //     alert('Acces not garanted :c')
+            // }
+        })
+
+        document.getElementById('show_pwd_button').addEventListener('click', () => {
+            if (!isshowed) {
+                show_password();
+            } else {
+                document.getElementById('value-pwd-pwd').type = 'password'
+                isshowed = false;
+                document.getElementById('show_pwd_button').innerHTML = 'show';
+            }
+        })
+
+        async function load_pwd() {
+            object_pwd = await window.api.getobjectpwd();
+
+            if (!object_pwd) {
+                document.getElementById('loading').innerHTML = 'Error retry later'
+            }
+
+            document.getElementById('value-site-pwd').value = object_pwd.site;
+            document.getElementById('value-user-pwd').value = object_pwd.user;
+            document.getElementById('value-pwd-pwd').value = await window.api.decryptpassword(object_pwd.psd);
+            document.getElementById('value-url-pwd').value = object_pwd.url;
+
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('content-pwd-modif').style.display = 'block';
+        }
+
+        load_pwd();
+
+        document.getElementById('menu-bar-pwd-modif').childNodes.forEach(element => {
+            element.addEventListener('click', () => {
+                const menu = document.getElementById('menu-bar-pwd-modif');
+                menu.childNodes.forEach(icon => {
+                    if (icon.nodeType === Node.ELEMENT_NODE) {
+                        icon.id = '';
+                        document.getElementById(icon.innerHTML + '-pwd-modif').style.display = 'none'
+                    }
+                });
+                element.id = 'menu-bar-pwd-modif-selected';
+                document.getElementById(element.innerHTML + '-pwd-modif').style.display = 'flex';
+            })
+        })
+
+        document.getElementById('Site-pwd-modif').style.display = 'flex';
+    </script>
+
+</body>
+
+</html>

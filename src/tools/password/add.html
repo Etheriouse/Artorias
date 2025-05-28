@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add password</title>
+</head>
+
+<body>
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            font-family: sans-serif;
+            height: 100%;
+            overflow-y: hidden;
+        }
+
+        #menu-bar-pwd-modif {
+            display: flex;
+            flex-direction: row;
+            padding: 0;
+        }
+
+        #menu-bar-pwd-modif-selected {
+            background-color: #d3d3d3;
+            border-radius: 4px;
+        }
+
+        #content-pwd-register {
+            display: flex;
+            flex-direction: column;
+        }
+
+        h5 {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        section {
+            display: none;
+            flex-direction: column;
+        }
+
+        input,
+        button {
+            height: 20px;
+            width: auto;
+            margin: 5px;
+        }
+    </style>
+
+    <h3>Register password</h3>
+    <div id="loading" style="display: none;">Loading...</div>
+    <div id="content-pwd-register">
+        <h5>Site</h5>
+        <input id="value-site-pwd">
+        <h5>Username</h5>
+        <input id="value-user-pwd">
+        <h5>Password</h5>
+        <input type="password" id="value-pwd-pwd">
+        <button id="show_pwd_button">Show</button>
+        <h5>Url</h5>
+        <input id="value-url-pwd">
+        <button id="register-psd">Register</button>
+    </div>
+
+    <script type="module" src="../../js/admin.js"></script>
+    <script type="module">
+        
+        import { admin_perm } from "../../js/admin.js"
+
+        let isshowed = false;
+
+        document.getElementById('register-psd').addEventListener('click', async () => {
+            admin_perm( async () => {
+                document.getElementById('loading').style.display = 'block';
+                document.getElementById('content-pwd-register').style.display = 'none';
+                const psd_object = {
+                    site: document.getElementById('value-site-pwd').value,
+                    user: document.getElementById('value-user-pwd').value,
+                    psd: document.getElementById('value-pwd-pwd').value,
+                    url: document.getElementById('value-url-pwd').value,
+                }
+                const result_write = await window.api.addpsd(psd_object);
+                if (!result_write.ok) {
+                    alert('add not take in count')
+                }
+            })
+        })
+
+        document.getElementById('show_pwd_button').addEventListener('click', () => {
+            if (!isshowed) {
+                document.getElementById('value-pwd-pwd').type = "none";
+                isshowed = true;
+                document.getElementById('show_pwd_button').innerHTML = 'hide';
+            } else {
+                document.getElementById('value-pwd-pwd').type = "password";
+                isshowed = false;
+                document.getElementById('show_pwd_button').innerHTML = 'show';
+            }
+        })
+    </script>
+
+</body>
+
+</html>

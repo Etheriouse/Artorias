@@ -1,0 +1,89 @@
+html {
+    height: 100%;
+}
+
+body {
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    margin-left: 0;
+    margin-top: 0;
+    overflow: hidden;
+}
+
+#menu {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    width: 45px;
+}
+
+#main-app {
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    margin-left: 5px;
+}
+
+#icon-selector {
+    border-right: 1px solid #b5b5b5;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    height: 100%;
+}
+
+#tools-selector {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: start;
+}
+
+#tools-selector>div {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#settings-selector {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+#icon-selector>div {
+    margin: 5px;
+    box-sizing: border-box;
+}
+
+#tools-selector>div>span,
+#settings-selector>div>span {
+    font-size: 25px;
+}
+
+#menu .icon-selected span {
+    /*
+                display: grid;
+                place-items: center;
+                border-radius: 2px;
+                background-color: #d6d6d6;
+
+                */
+    transform: scale(1.3);
+}
+
+#menu span:hover {
+    display: inline-block;
+    transform: scale(1.3);
+    transition-duration: 0.2s;
+}
+
+#menu span {
+    cursor: pointer;
+    display: inline-block;
+    transition-duration: 0.2s;
+}

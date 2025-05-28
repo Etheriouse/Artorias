@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>Artorias Tools</title>
+</head>
+
+<body>
+    <div id="menu">
+        <div id="icon-selector">
+            <div id="tools-selector">
+                <div>
+                    <span>⛩️</span>
+                    <h3 style="display: none;">Dashboard</h3>
+                </div>
+                <div>
+                    <span>📋</span>
+                    <h3 style="display: none;">Clipboard</h3>
+                </div>
+                <div>
+                    <span>🖌️</span>
+                    <h3 style="display: none;">Whiteboard</h3>
+                </div>
+                <div>
+                    <span>🧮</span>
+                    <h3 style="display: none;">Logs</h3>
+                </div>
+                <div>
+                    <span>💾</span>
+                    <h3 style="display: none;">Template</h3>
+                </div>
+                <div>
+                    <span>⚖️</span>
+                    <h3 style="display: none;">Converter</h3>
+                </div>
+                <div>
+                    <span>🗓️</span>
+                    <h3 style="display: none;">Calendar</h3>
+                </div>
+                <div>
+                    <span>📊</span>
+                    <h3 style="display: none;">Graphics</h3>
+                </div>
+                <div>
+                    <span>🔐</span>
+                    <h3 style="display: none;">Password</h3>
+                </div>
+            </div>
+            <div id="settings-selector">
+                <div>
+                    <span>🗿</span>
+                </div>
+                <div>
+                    <span>⚙️</span>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- <style> enfaite je sais pas trop quoi en foutre ptdrr
+            #menu-icon-selected {
+                display: none;
+            }
+        </style>
+        <div id="menu-icon-selected">
+            <h2 style="white-space: nowrap;">Yuzu compiler</h2>
+        </div> -->
+    </div>
+
+    <div id="main-app">
+        <div id="bar-pwd">
+            <div id="left-icon-psd">
+                <span id="register-psd" data-function="add">
+                    💾
+                </span>
+                <span id="delete-psd">
+                    🗑️
+                </span>
+                <span id="open-folder-psd" data-function="open-folder-password">
+                    📂
+                </span>
+                <span id="refresh-psd">
+                    🔄️
+                </span>
+            </div>
+            <div id="right-icon-psd">
+                <button id="delete-confirm-psd">Delete</button>
+            </div>
+        </div>
+
+        <div id="context-menu">
+            <ul>
+                <li id="context-menu-modify">Modify</li>
+                <li id="context-menu-delete">Delete</li>
+            </ul>
+        </div>
+
+        
+        <div id="title-pwd">
+            <h3>Web site/Where</h3>
+            <h3>Username/Email</h3>
+            <h3>Password</h3>
+            <h3>Url</h3>
+        </div>
+        <div style="display: block;" id="loading">Loading... </div>
+        <div id="list-pwd">
+        </div>
+
+        <script type="module" src="../../js/tools/password.js"></script>
+
+        <style>
+            #main-app {
+                padding-left: 5px;
+            }
+
+            #bar-pwd {
+                display: flex;
+                flex-direction: row;
+            }
+
+            #bar-pwd>div>span {
+                margin: 5px;
+                margin-left: 0px;
+                margin-right: 10px;
+                font-size: 25px;
+                cursor: pointer;
+                transition-duration: 0.2s;
+            }
+
+            #bar-pwd>div>span:hover {
+                transform: scale(1.3);
+                transition-duration: 0.2s;
+            }
+
+            #bar-pwd>div {
+                display: flex;
+                flex-direction: row;
+            }
+
+            #bar-pwd>div:last-child {
+                justify-content: end;
+                align-items: center;
+                width: 20%;
+            }
+
+            #bar-pwd>div>button {
+                margin-right: 5px;
+                display: none;
+            }
+
+            #bar-pwd>div:first-child {
+                width: 80%;
+            }
+
+            #list-pwd {
+                display: none;
+                overflow-y: auto;
+            }
+
+            .pwd {
+                display: flex;
+                flex-direction: row;
+            }
+
+            #title-pwd>h3 {
+                padding: 0px;
+                margin: 0px;
+                width: 175px;
+            }
+
+            #list-pwd>div>h3:nth-child(2),
+            #title-pwd>h3:nth-child(2) {
+                width: 300px;
+            }
+
+            #list-pwd>div>h3:nth-child(4),
+            #title-pwd>h3:nth-child(4) {
+                width: 700px;
+            }
+
+            #title-pwd {
+                display: flex;
+                flex-direction: row;
+                width: 100%;
+                border-bottom: 1px solid #b5b5b5;
+            }
+
+            .pwd>h3 {
+                padding: 0px;
+                margin: 0px;
+                width: 175px;
+            }
+
+            .pwd:hover {
+                border: 1px solid #b5b5b5;
+                cursor: pointer;
+            }
+
+            #context-menu {
+                position: absolute;
+                background: white;
+                border: 1px solid #ccc;
+                box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+                display: none;
+                z-index: 1000;
+            }
+
+            #context-menu ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            #context-menu li {
+                padding: 8px 16px;
+                cursor: pointer;
+                white-space: nowrap;
+            }
+
+            #context-menu li:hover {
+                background: #eee;
+            }
+
+            .groupe-psd {
+                padding: 0;
+                margin: 0;
+                margin-bottom: 2px;
+                margin-top: 10px;
+                border-bottom: 1px solid #b5b5b5;
+            }
+
+            .groupe-psd > * {
+                padding: 0;
+                margin: 0;
+                margin-top: 5px;
+            }
+        </style>
+    </div>
+
+    <script type="module" src="../../js/renderer.js"></script>
+</body>
+
+</html>
