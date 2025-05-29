@@ -1,0 +1,8 @@
+#main-app {
+    overflow-y: auto;
+    padding-bottom: 20px;
+}
+
+section {
+    display: none;
+}

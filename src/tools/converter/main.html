@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="./convertor.css">
+    <link rel="stylesheet" href="./select.css">
+    <link rel="stylesheet" href="./selected.css">
+    <link rel="stylesheet" href="./main.css">
     <title>Artorias Tools</title>
 </head>
 
@@ -72,6 +76,58 @@
     </div>
 
     <div id="main-app">
+
+        <div id="select-convertor">
+            <div id="left-select">
+                <div id="select-type">
+                    <h3>Unit type</h3>
+                    <select id="selector-unit">
+                        <!-- Classic conversion -->
+                        <option value="money">Money</option>
+                        <option value="date">Date</option>
+                        <option value="size">Size</option>
+                        <option value="mass">Mass</option>
+                        <option value="distance">Distance</option>
+                        <option value="time">Time</option>
+                        <option value="speed">Speed</option>
+                        <option value="energy">Energy</option>
+                        <option value="volume">Volume</option>
+                        <option value="temperature">Temperature</option>
+                        <option value="angle">Angle</option>
+
+                        <!-- Special conversion -->
+                        <option value="electricity">Electricity</option> <!-- Conversion from amps to volts or ohms -->
+                        <option value="quantity">Quantity</option> <!-- Conversion from kg to ml -->
+                        <option value="states">States</option> <!-- Based on pressure and temperature, gives states -->
+                    </select>
+                </div>
+            </div>
+            <div id="right-select">
+                <div id="button">
+                    <button>clear</button>
+                </div>
+            </div>
+        </div>
+        <section id="classic-convert">
+            <div class="selected-convertor">
+                <div id="add-element-convert">
+                    <h3>+</h3>
+                </div>
+            </div>
+        </section>
+
+        <section id="states-convert">
+        </section>
+
+        
+        <section id="electricity-convert">
+        </section>
+
+        
+        <section id="quantity-convert">
+        </section>
+
+        
 
         <script src="../../js/tools/converter.js"></script>
     </div>

@@ -1,0 +1,22 @@
+#select-convertor {
+    display: flex;
+    flex-direction: row;
+}
+
+#right-select {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: center;
+    margin-right: 10px;
+}
+
+#left-select {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: baseline;
+    align-items: center;
+    margin-left: 10px;
+}

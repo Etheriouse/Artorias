@@ -25,6 +25,7 @@
     "crypto": "^1.0.1",
     "crypto-js": "^4.2.0",
     "cryptojs": "^2.5.3",
+    "decimal.js": "^10.5.0",
     "hmac": "^1.0.1"
   }
 }

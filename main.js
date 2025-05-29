@@ -19,11 +19,8 @@ const pass_ = require('./tools/password')
  * visualisateur de structure de donnée 📊
  * gestionnaire de mots de passe crypter 🔐
  * /todo list -
- * 
- * Quand on lance l'app on arrive sur un dashboard
- * une barre en haut, la barre des onglet
- * un menu qui comme vscode, icon tu clique, gestion de l'outils
- * 
+ * - Quand on lance l'app on arrive sur un dashboard
+ * - theme coloration / image de fond
 */
 
 

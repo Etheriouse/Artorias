@@ -64,6 +64,14 @@ contextBridge.exposeInMainWorld('api', {
 
     clearcache: async () => {
         ipcRenderer.invoke('clear-cache');
+    },
+
+    getpossibletypefor: async (type) => {
+        return ipcRenderer.invoke('get-possible-type-for', type);
+    },
+
+    fromconvertto: async (section, fromType, value, toType) => {
+        return await ipcRenderer.invoke('from-convert-to', section, fromType, value, toType);
     }
 })
 

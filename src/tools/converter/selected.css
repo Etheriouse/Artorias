@@ -1,0 +1,28 @@
+.selected-convertor {
+    display: flex;
+    flex-direction: column;
+}
+
+.element-convert {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
+.element-convert> * {
+    margin-left: 20px;
+}
+
+.element-convert>div {
+    display: flex;
+    flex-direction: column;
+}
+
+.element-convert>div>* {
+    margin-top: 10px;
+}
+
+/* .element-convert > .left-selected {
+    display: flex;
+    flex-direction: column;
+} */

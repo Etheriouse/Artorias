@@ -1,5 +1,6 @@
 const password_ = require('./tools/password');
 const clipboard_ = require('./tools/clipboard');
+const converter_ = require('./tools/converter');
 const utils = require('./utils');
 const path = require('path');
 const fs = require('fs');
@@ -90,6 +91,16 @@ function Handler() {
 
     ipcMain.handle('delete-to-history', (event, date) => {
         clipboard_.delete_(date);
+    })
+
+    /* -------------------- Convertor ------------------- */
+
+    ipcMain.handle('get-possible-type-for', async (event, type) => {
+        return converter_.possiblefor(type);
+    })
+
+    ipcMain.handle('from-convert-to', async (event, section, fromType, value, toType) => {
+        return converter_.convert(section, fromType, value, toType);
     })
 
     /* ---------------------- Other --------------------- */
