@@ -2,9 +2,21 @@
 let active_section = ''
 let active_type = '';
 
-document.getElementById('add-element-convert').addEventListener('click', () => {
-    add_new_convertion();
+Array.from(document.getElementsByClassName('add-element-convert')).forEach(element => {
+    element.addEventListener('click', () => {
+        add_new_convertion();
+    });
 });
+
+document.getElementById('button-clear').addEventListener('click', () => {
+    const content = document.getElementById(active_section + '-convert').getElementsByClassName('selected-convertor')[0];
+    console.log(content);
+    const to_remove = content.children;
+    Array.from(to_remove).forEach(element => {
+        if (!(element.className === 'add-element-convert'))
+            content.removeChild(element);
+    })
+})
 
 async function get_option_for(select, type) {
     const result = await window.api.getpossibletypefor(type);
@@ -27,7 +39,7 @@ async function add_new_convertion() {
     get_option_for(leftHeading, active_type);
     const leftInput = document.createElement('input');
     leftInput.className = 'first-element';
-    
+
     const middleHeading = document.createElement('h3');
     middleHeading.textContent = '➡️';
     const rightDiv = document.createElement('div');
@@ -40,7 +52,7 @@ async function add_new_convertion() {
     const subConverth3 = document.createElement('h3');
     subConvertDiv.className = 'sub-convert';
     subConverth3.innerHTML = '-';
-    
+
     leftDiv.appendChild(leftHeading);
     leftDiv.appendChild(leftInput);
     rightDiv.appendChild(rightHeading);
@@ -51,8 +63,10 @@ async function add_new_convertion() {
     subConvertDiv.appendChild(subConverth3);
     mainDiv.appendChild(subConvertDiv);
 
+    const selected_ = document.getElementsByClassName('selected-convertor')[0];
+
     subConvertDiv.addEventListener('click', () => {
-        document.getElementsByClassName('selected-convertor')[0].removeChild(mainDiv);
+        selected_.removeChild(mainDiv);
     })
 
     rightInput.addEventListener('input', async () => {
@@ -71,11 +85,12 @@ async function add_new_convertion() {
         convert_update(active_type, leftHeading, leftInput, rightHeading, rightInput);
     })
 
-    document.getElementsByClassName('selected-convertor')[0].insertBefore(mainDiv, document.getElementById('add-element-convert'));
+    selected_.insertBefore(mainDiv, selected_.getElementsByClassName('add-element-convert')[0]);
 }
 
 async function convert_update(active_type, from, value, to, value_to) {
     const result = await window.api.fromconvertto(active_type, from.value, value.value, to.value);
+    console.log(result)
     if (result.ok) {
         value_to.value = result.value;
     } else {

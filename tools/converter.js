@@ -4,6 +4,8 @@ const Decimal = require('decimal.js');
 const special = ['quantity', 'states', 'electricity']
 const special_calcule = ['money', 'date', 'angle', 'temperature']
 
+const pi = '3.14159265358979323846264338327950288419716939937510582';
+
 function possiblefor(type_) {
     if (special.includes(type_)) {
         return { ok: false };
@@ -19,7 +21,7 @@ function possiblefor(type_) {
 
 function convert(section, fromType, value, toType) {
     value = (String(value)).replace(',', '.');
-    if(value === '-') {
+    if (value === '-') {
         value = '';
     }
     if (!value) {
@@ -33,7 +35,6 @@ function convert(section, fromType, value, toType) {
         let value_ = new Decimal(value);
         let from = new Decimal(convert[fromType])
         let to = new Decimal(convert[toType])
-        
         return { ok: true, value: (value_.mul(from)).div(to).toString() };
     } catch (err) {
         return { ok: false };
@@ -47,7 +48,7 @@ function special_convert(section, fromType, value, toType) {
             return { ok: true, value: celcius_to(to_celcius(fromType, value_), toType).toString() };
 
         case 'angle':
-            return { ok: true };
+            return { ok: true, value: switch_angle_format(fromType, value_, toType).toString() };
 
         case 'date':
             return { ok: true };
@@ -77,6 +78,25 @@ function celcius_to(value, to) {
             return value.mul(new Decimal(1.8)).plus(new Decimal(32));
         case 'C':
             return value;
+    }
+}
+
+function switch_angle_format(from, value, to) {
+    switch (from) {
+        case 'deg':
+            switch (to) {
+                case 'deg':
+                    return value;
+                default:
+                    return value.mul(new Decimal(pi).div(new Decimal(180)));
+            }
+        case 'rad':
+            switch (to) {
+                case 'deg':
+                    return value.mul(new Decimal(180).div(new Decimal(pi)));
+                default:
+                    return value;
+            }
     }
 }
 

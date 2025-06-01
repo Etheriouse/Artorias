@@ -5,7 +5,8 @@
   "main": "main.js",
   "scripts": {
     "test": "test",
-    "start": "electron . -gtk-version=3 --trace-warnings"
+    "start": "electron . -gtk-version=3 --trace-warnings",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
@@ -18,7 +19,8 @@
   },
   "homepage": "https://github.com/Etheriouse/ArtoriasTools#readme",
   "devDependencies": {
-    "electron": "^36.3.1"
+    "electron": "^36.3.1",
+    "typescript": "^5.8.3"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",

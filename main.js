@@ -5,6 +5,12 @@ const { Handler } = require('./ipcHandler');
 const utils = require('./utils')
 const pass_ = require('./tools/password')
 
+const {DaiNumber} = require('./lib/DaiNumber/dist/main');
+
+const n = new DaiNumber();
+console.log(n.toString());
+console.log(new DaiNumber('1254,6435').toString());
+
 /** Artorias App 
  * settins ⚙️ 
  * moai🗿
@@ -21,6 +27,7 @@ const pass_ = require('./tools/password')
  * /todo list -
  * - Quand on lance l'app on arrive sur un dashboard
  * - theme coloration / image de fond
+ * - faire ma propre library de grand nombre
 */
 
 

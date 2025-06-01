@@ -264,8 +264,7 @@
     "angle": {
         "possible": {
             "deg": "Degree",
-            "rad": "Radian",
-            "grad": "Gradian"
+            "rad": "Radian"
         }
     },
     "temperature": {
