@@ -11,7 +11,7 @@ const createWindow = () => {
             preload: path.join(__dirname, 'preload.js'),
             contextIsolation: true,
             nodeIntegration: false,
-            sandbox: true
+            sandbox: false
         }
     });
 
@@ -20,7 +20,7 @@ const createWindow = () => {
     main_app = win;
 }
 
-const createChildWindow = (namefile, block, size) => {
+const createChildWindow = (namefile, block, size, resizeable = true) => {
     if (!size) {
         size = {
             width: 400,
@@ -31,12 +31,13 @@ const createChildWindow = (namefile, block, size) => {
         width: size.width,
         height: size.height,
         modal: block || true,
+        resizable: resizeable,
         parent: BrowserWindow.getFocusedWindow(),
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             contextIsolation: true,
             nodeIntegration: false,
-            sandbox: true
+            sandbox: false
         }
     });
 
@@ -52,6 +53,10 @@ const closeWindow = () => {
     }
 }
 
+function loadfile(namemenu) {
+    main_app.loadFile('src/' + namemenu);
+}
+
 const mainApp = () => main_app;
 
-module.exports = { createWindow, createChildWindow, mainApp, closeWindow };
+module.exports = { createWindow, createChildWindow, mainApp, closeWindow, loadfile };

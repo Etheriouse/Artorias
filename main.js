@@ -1,37 +1,29 @@
 const { app, BrowserWindow, shell, ipcMain, clipboard } = require('electron');
 const { createWindow } = require('./window');
 const { runClipboard, saveClipboardHistory } = require('./tools/clipboard');
+const { save_event, save_person } = require('./tools/calendar');
 const { Handler } = require('./ipcHandler');
 const utils = require('./utils')
 const pass_ = require('./tools/password')
-
-const {DaiNumber} = require('./lib/DaiNumber/dist/main');
-
-const n = new DaiNumber();
-console.log(n.toString());
-console.log(new DaiNumber('1254,6435').toString());
+const cal_ = require('./tools/calendar');
 
 /** Artorias App 
  * settins ⚙️ 
  * moai🗿
- * tabs 📂🗂️📁
  * Calendrier🗓️
  * Convertisseur d'unité ⚖️
  * Clipboard manager📋
- * block note interpreteur markdown / tableau blanc 🖌️
- * integrer compilateur yuzu 🛠️
+ * block note / tableau blanc 🖌️
  * createur template projet 💾🧱
- * loggeur d'entrer user 🧮
- * visualisateur de structure de donnée 📊
  * gestionnaire de mots de passe crypter 🔐
  * /todo list -
  * - Quand on lance l'app on arrive sur un dashboard
  * - theme coloration / image de fond
  * - faire ma propre library de grand nombre
+ * - interpreteur markdown 📓
 */
 
-
-const pass = require('./tools/password');
+//cal_.importfromics('../data/calendar/test.ics');
 
 app.whenReady().then(async () => {
     Handler();
@@ -47,6 +39,9 @@ app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
         app.quit()
         saveClipboardHistory();
+        save_event();
+        save_person();
         utils.savecache();
+        
     }
 })

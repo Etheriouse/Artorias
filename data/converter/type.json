@@ -293,7 +293,11 @@
             "YYYY-MM-DD": "Year-Month-Day",
             "MM/DD/YYYY": "Month/Day/Year",
             "DD-MM-YYYY": "Day-Month-Year",
-            "DD/MM/YYYY": "Day/Month/Year"
+            "DD/MM/YYYY": "Day/Month/Year",
+            "tsn": "Unix Timestamp Nanoseconds",
+            "tsm": "Unix Timestamp Microseconds",
+            "tsms": "Unix Timestamp Milliseconds",
+            "tss": "Unix Timestamp Seconds"
         }
     },
     "states": {

@@ -4,8 +4,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="./style.css">
     <title>Artorias Tools</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f4f6f8;
+            overflow-y: hidden;
+            margin: 0;
+            color: #333;
+        }
+
+        h3 {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        #loading {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        #content-event-register {
+            display: flex;
+            overflow-y: hidden;
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+            padding-top: 0;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        #left,
+        #right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        h4 {
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        select,
+        option,
+        input,
+        textarea {
+            padding: 0.6rem;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        #when {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        #start,
+        #end {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        button {
+            padding: 0.6rem;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            width: 100%;
+            cursor: pointer;
+            box-sizing: border-box;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        button:hover {
+            background-color: #bdbdbd;
+        }
+
+        #register-settings {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        #register-settings:hover {
+            background-color: #2980b9;
+        }
+
+        #color input {
+            height: 40px;
+            padding: 0;
+            border: none;
+            background: none;
+        }
+    </style>
+    <style>
+        #add-participant {
+            display: flex;
+            flex-direction: row;
+        }
+
+        #add-person {
+            margin: 5px;
+        }
+
+        #new-person-add {
+            width: 200px;
+            margin: 5px;
+            white-space: nowrap;
+        }
+
+        #person-delete {
+            width: 200px;
+            margin: 5px;
+            white-space: nowrap;
+        }
+
+        #participants {
+            margin: 5px;
+            padding: 0.6rem;
+            font-size: 1rem;
+            min-height: 20px;
+            height: auto;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+        }
+
+        .participant-person {
+            margin: 0;
+            padding: 0;
+            margin-right: 5px;
+        }
+
+        .participant-modify {
+            margin: 0;
+            padding: 0;
+            padding-left: 5px;
+            padding-right: 5px;
+            cursor: pointer;
+        }
+
+        .participant-delete {
+            margin: 4px;
+        }
+
+        .a-participant {
+            display: flex;
+            flex-direction: row;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin: 5px;
+            padding: 5px;
+        }
+
+        .div-content {
+            display: flex;
+            flex-direction: row;
+            border-radius: 4px;
+            width: 100%;
+        }
+
+        .div-check {
+            display: flex;
+            flex-direction: row;
+        }
+    </style>
 </head>
 
 <body>
@@ -17,66 +201,83 @@
                     <h3 style="display: none;">Dashboard</h3>
                 </div>
                 <div>
+                    <span>🗓️</span>
+                    <h3 style="display: none;">Calendar</h3>
+                </div>
+                <div>
                     <span>📋</span>
                     <h3 style="display: none;">Clipboard</h3>
-                </div>
-                <div>
-                    <span>🖌️</span>
-                    <h3 style="display: none;">Whiteboard</h3>
-                </div>
-                <div>
-                    <span>🧮</span>
-                    <h3 style="display: none;">Logs</h3>
-                </div>
-                <div>
-                    <span>💾</span>
-                    <h3 style="display: none;">Template</h3>
                 </div>
                 <div>
                     <span>⚖️</span>
                     <h3 style="display: none;">Converter</h3>
                 </div>
                 <div>
-                    <span>🗓️</span>
-                    <h3 style="display: none;">Calendar</h3>
-                </div>
-                <div>
-                    <span>📊</span>
-                    <h3 style="display: none;">Graphics</h3>
+                    <span>📓</span>
+                    <h3 style="display: none;">Markdown</h3>
                 </div>
                 <div>
                     <span>🔐</span>
                     <h3 style="display: none;">Password</h3>
                 </div>
+                <div>
+                    <span>🧱</span>
+                    <h3 style="display: none;">Template</h3>
+                </div>
+                <div>
+                    <span>🖌️</span>
+                    <h3 style="display: none;">Whiteboard</h3>
+                </div>
             </div>
             <div id="settings-selector">
                 <div>
                     <span>🗿</span>
+                    <h3 style="display: none;">Profil</h3>
                 </div>
                 <div>
                     <span>⚙️</span>
+                    <h3 style="display: none;">Settings</h3>
                 </div>
-
             </div>
         </div>
-
-
-        <!-- <style> enfaite je sais pas trop quoi en foutre ptdrr
-            #menu-icon-selected {
-                display: none;
-            }
-        </style>
-        <div id="menu-icon-selected">
-            <h2 style="white-space: nowrap;">Yuzu compiler</h2>
-        </div> -->
     </div>
 
     <div id="main-app">
+        <div id="content-event-register">
+            <div id="left">
+                <div id="cache">
+                    <h4>Cache</h4>
+                    <button id="clear-cache" style="width: 40%;">Clear cache</button>
+                </div>
 
-        <script src="../../js/tools/settings.js"></script>
+                <button id="register-settings">Register</button>
+            </div>
+            <div id="right">
+                <div id="participation">
+                    <h4>Persons</h4>
+                    <div id="participants">
+                    </div>
+                    <style>
+                        #gestion-participant {
+                            display: flex;
+                            justify-content: center;
+                        }
+
+                        #gestion-participant > button {
+                            width: 100%;
+                        }
+                    </style>
+                    <div id="gestion-participant">
+                        <button id="new-person-add">Add new person</button>
+                        <button id="person-delete">Delete person</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="module" src="./js/settings.js"></script>
     </div>
 
-    <script type="module" src="../../js/renderer.js"></script>
+    <script type="module" src="./js/renderer.js"></script>
 </body>
 
 </html>

@@ -1,11 +1,12 @@
 const password_ = require('./tools/password');
 const clipboard_ = require('./tools/clipboard');
 const converter_ = require('./tools/converter');
+const calendar_ = require('./tools/calendar.js');
 const utils = require('./utils');
 const path = require('path');
 const fs = require('fs');
 
-const { mainApp, closeWindow } = require('./window');
+const { mainApp, closeWindow, loadfile } = require('./window');
 const { ipcMain, shell } = require('electron');
 
 function Handler() {
@@ -13,7 +14,7 @@ function Handler() {
     /* --------------------- Window --------------------- */
 
     ipcMain.handle('load-page', async (event, namemenu) => {
-        mainApp().loadFile('src/' + namemenu);
+        loadfile(namemenu);
     })
 
 
@@ -103,6 +104,68 @@ function Handler() {
         return converter_.convert(section, fromType, value, toType);
     })
 
+    /* ---------------------- Calendar ------------------ */
+
+    ipcMain.handle('register-event', async (event, when) => {
+        calendar_.registerevent(when);
+    })
+
+    ipcMain.handle('add-event', async (event, event_) => {
+        return calendar_.addeventwindow(event_);
+    })
+
+    ipcMain.handle('confirm-event', async (event, slot) => {
+        calendar_.confirmaddevent(slot);
+    })
+
+    ipcMain.handle('get-event', async (event) => {
+        return calendar_.getevent_();
+    })
+
+    ipcMain.handle('get-event-day', async (event, year, month, day) => {
+        return calendar_.geteventday(year, month, day);
+    })
+
+    ipcMain.handle('modify-event', async (event, event_) => {
+        return await calendar_.modifyeventwindow(event_);
+    })
+
+    ipcMain.handle('confirm-modify-event', (event, event_) => {
+        return calendar_.confirmmodifyevent(event_);
+    })
+
+    ipcMain.handle('delete-event', async (event, event_) => {
+        return await calendar_.deleteevent(event_);
+    })
+
+    ipcMain.handle('get-person', async () => {
+        return await calendar_.getperson();
+    })
+
+    ipcMain.handle('get-by-uid-person', (event) => {
+        return calendar_.getperson_uid();
+    })
+
+    ipcMain.handle('open-add-person-window', () => {
+        return calendar_.addpersonwindow();
+    })
+
+    ipcMain.handle('confirm-add-person', (event, person) => {
+        return calendar_.confirmaddperson(person);
+    })
+
+    ipcMain.handle('open-modify-person-window', (event, uid) => {
+        return calendar_.modifypersonwindow(uid);
+    })
+
+    ipcMain.handle('confirm-modify-person', (event, person) => {
+        return calendar_.confirmmodifyperson(person);
+    })
+
+    ipcMain.handle('delete-person', (event, uid) => {
+        calendar_.deletePerson(uid);
+    })
+
     /* ---------------------- Other --------------------- */
 
     ipcMain.handle('put-in-cache', async (event, path, value) => {
@@ -113,9 +176,9 @@ function Handler() {
         return await utils.getcache(path);
     })
 
-    ipcMain.handle('clear-cache', async(event) => {
+    ipcMain.handle('clear-cache', async (event) => {
         utils.clearcache();
     })
 }
 
-module.exports = {Handler};
+module.exports = { Handler };

@@ -42,7 +42,10 @@ function convert(section, fromType, value, toType) {
 }
 
 function special_convert(section, fromType, value, toType) {
-    let value_ = new Decimal(value);
+    let value_;
+    if (section != 'date') {
+        value_ = new Decimal(value);
+    }
     switch (section) {
         case 'temperature':
             return { ok: true, value: celcius_to(to_celcius(fromType, value_), toType).toString() };
@@ -51,7 +54,7 @@ function special_convert(section, fromType, value, toType) {
             return { ok: true, value: switch_angle_format(fromType, value_, toType).toString() };
 
         case 'date':
-            return { ok: true };
+            return { ok: true, value: date_convert(fromType, value, toType) };
 
         case 'money':
             return { ok: true };
@@ -98,6 +101,109 @@ function switch_angle_format(from, value, to) {
                     return value;
             }
     }
+}
+
+const forma_date = ["YYYY-MM-DD",
+    "MM/DD/YYYY",
+    "DD-MM-YYYY",
+    "DD/MM/YYYY"]
+function date_convert(fromType, value, toType) {
+    let timesamp;
+    if (forma_date.includes(fromType)) {
+        timesamp = parseFormattedDate(value, fromType);
+    } else {
+        timesamp = to_timestamp_ms(fromType, value);
+    }
+
+    console.log("timestmap ms: ", timesamp);
+
+    if (['tss', 'tsms', 'tsm', 'tsn'].includes(toType)) {
+        return timestamp_ms_to(timesamp, toType);
+    } else {
+        return formatTimestamp(timesamp, toType);
+    }
+}
+
+function to_timestamp_ms(fromType, value) {
+    switch (fromType) {
+        case "tss":
+            return value * 1000;
+
+        case "tsms":
+            return value;
+
+        case "tsm":
+            return value / 1000;
+
+        case "tsn":
+            return value / 1000000;
+    }
+}
+
+function timestamp_ms_to(value, toType) {
+    switch (toType) {
+        case "tss":
+            return value / 1000;
+
+        case "tsms":
+            return value;
+
+        case "tsm":
+            return value * 1000;
+
+        case "tsn":
+            return value * 1000000;
+    }
+}
+
+function formatTimestamp(timestamp, toType) {
+    const date = new Date(parseInt(timestamp));
+
+    const year = date.getFullYear();
+    const month = `${date.getMonth() + 1}`.padStart(2, '0');
+    const day = `${date.getDate()}`.padStart(2, '0');
+
+    console.log(day, month, year);
+
+    const formats = {
+        "YYYY-MM-DD": `${year}-${month}-${day}`,
+        "MM/DD/YYYY": `${month}/${day}/${year}`,
+        "DD-MM-YYYY": `${day}-${month}-${year}`,
+        "DD/MM/YYYY": `${day}/${month}/${year}`
+    };
+
+    if (!formats[toType]) {
+        throw new Error(`Format non supporté : "${toType}"`);
+    }
+
+    return formats[toType];
+}
+
+function parseFormattedDate(dateStr, fromType) {
+    const parts = dateStr.match(/\d+/g);
+    if (!parts || parts.length !== 3) {
+        throw new Error("Date invalide ou mal formatée.");
+    }
+
+    let year, month, day;
+
+    switch (fromType) {
+        case "YYYY-MM-DD":
+            [year, month, day] = parts;
+            break;
+        case "MM/DD/YYYY":
+            [month, day, year] = parts;
+            break;
+        case "DD-MM-YYYY":
+        case "DD/MM/YYYY":
+            [day, month, year] = parts;
+            break;
+        default:
+            throw new Error(`Format non supporté : "${fromType}"`);
+    }
+
+    // ⚠️ JS : les mois commencent à 0 → janvier = 0
+    return new Date(Number(year), Number(month) - 1, Number(day)).getTime();
 }
 
 /*

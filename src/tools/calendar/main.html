@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="./calendar.css">
+    <link rel="stylesheet" href="./color.css">
+    <link rel="stylesheet" href="./context-menu.css">
+    <link rel="stylesheet" href="./bar.css">
     <title>Artorias Tools</title>
 </head>
 
@@ -17,63 +21,91 @@
                     <h3 style="display: none;">Dashboard</h3>
                 </div>
                 <div>
+                    <span>🗓️</span>
+                    <h3 style="display: none;">Calendar</h3>
+                </div>
+                <div>
                     <span>📋</span>
                     <h3 style="display: none;">Clipboard</h3>
-                </div>
-                <div>
-                    <span>🖌️</span>
-                    <h3 style="display: none;">Whiteboard</h3>
-                </div>
-                <div>
-                    <span>🧮</span>
-                    <h3 style="display: none;">Logs</h3>
-                </div>
-                <div>
-                    <span>💾</span>
-                    <h3 style="display: none;">Template</h3>
                 </div>
                 <div>
                     <span>⚖️</span>
                     <h3 style="display: none;">Converter</h3>
                 </div>
                 <div>
-                    <span>🗓️</span>
-                    <h3 style="display: none;">Calendar</h3>
-                </div>
-                <div>
-                    <span>📊</span>
-                    <h3 style="display: none;">Graphics</h3>
+                    <span>📓</span>
+                    <h3 style="display: none;">Markdown</h3>
                 </div>
                 <div>
                     <span>🔐</span>
                     <h3 style="display: none;">Password</h3>
                 </div>
+                <div>
+                    <span>🧱</span>
+                    <h3 style="display: none;">Template</h3>
+                </div>
+                <div>
+                    <span>🖌️</span>
+                    <h3 style="display: none;">Whiteboard</h3>
+                </div>
             </div>
             <div id="settings-selector">
                 <div>
                     <span>🗿</span>
+                    <h3 style="display: none;">Profil</h3>
                 </div>
                 <div>
                     <span>⚙️</span>
+                    <h3 style="display: none;">Settings</h3>
                 </div>
-
             </div>
         </div>
-
-
-        <!-- <style> enfaite je sais pas trop quoi en foutre ptdrr
-            #menu-icon-selected {
-                display: none;
-            }
-        </style>
-        <div id="menu-icon-selected">
-            <h2 style="white-space: nowrap;">Yuzu compiler</h2>
-        </div> -->
     </div>
 
     <div id="main-app">
 
-        <script src="../../js/tools/converter.js"></script>
+        <div style="display: block;" id="loading">Loading... </div>
+
+        <div id="context-menu">
+            <ul>
+                <li id="context-menu-add">Add new event</li>
+                <li id="context-menu-modify">Modify event</li>
+                <li id="context-menu-delete">Delete event</li>
+            </ul>
+        </div>
+
+        <div id="calendar" style="display: none;">
+
+            <div id="bar">
+                <div id="day-title">
+
+                </div>
+                <div id="change-week">
+                    <div id="going-today">
+                        <button id="going-today-button">Today</button>
+                    </div>
+                    <div>
+                        <span id="go-past">⬅️</span>
+                        <span id="go-futur">➡️</span>
+                    </div>
+
+                    <div id="select-week">
+                        <h3 id="short-week-name"></h3>
+                        <input id="select-week-input" type="week">
+                    </div>
+                </div>
+            </div>
+            <div id="grid">
+                <div id="side-content">
+
+                </div>
+                <div id="content">
+
+                </div>
+            </div>
+        </div>
+        <script type="module" src="../../js/tools/calendar.js"></script>
+
     </div>
 
     <script type="module" src="../../js/renderer.js"></script>

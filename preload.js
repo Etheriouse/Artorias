@@ -72,7 +72,60 @@ contextBridge.exposeInMainWorld('api', {
 
     fromconvertto: async (section, fromType, value, toType) => {
         return await ipcRenderer.invoke('from-convert-to', section, fromType, value, toType);
-    }
+    },
+
+    registerevent: async (when) => {
+        ipcRenderer.invoke('register-event', when);
+    },
+
+    getevent: async () => {
+        return await ipcRenderer.invoke('get-event');
+    },
+
+    confirmaddevent: async (event) => {
+        return await ipcRenderer.invoke('confirm-event', event);
+    },
+
+    geteventday: async (year, month, day) => {
+        return await ipcRenderer.invoke('get-event-day', year, month, day);
+    },
+
+    confirmmodifyevent: async (event) => {
+        return await ipcRenderer.invoke('confirm-modify-event', event);
+    },
+
+    deleteevent: async (event) => {
+        return await ipcRenderer.invoke('delete-event', event);
+    },
+
+    getperson: async () => {
+        return await ipcRenderer.invoke('get-person');
+    },
+
+    getperson_uid: async () => {
+        return await ipcRenderer.invoke('get-by-uid-person');
+    },
+
+    addpersonwindow: async () => {
+        return await ipcRenderer.invoke('open-add-person-window');
+    },
+
+    confirmaddperson: async (person) => {
+        return await ipcRenderer.invoke('confirm-add-person', person);
+    },
+
+    modifypersonwindow: async (uid) => {
+        return await ipcRenderer.invoke('open-modify-person-window', uid);
+    },
+
+    confirmmodifyperson: async (person) => {
+        return await ipcRenderer.invoke('confirm-modify-person', person);
+    },
+
+    deleteperson: async (uid) => {
+        return ipcRenderer.invoke('delete-person', uid);
+    },
+
 })
 
 contextBridge.exposeInMainWorld('window_', {
@@ -86,6 +139,14 @@ contextBridge.exposeInMainWorld('window_', {
 
     adminpassword: async () => {
         return await ipcRenderer.invoke('admin-password');
+    },
+
+    addevent: async (event) => {
+        return await ipcRenderer.invoke('add-event', event);
+    },
+
+    modifyevent: async (event) => {
+        return await ipcRenderer.invoke('modify-event', event);
     },
 
     close: async () => {

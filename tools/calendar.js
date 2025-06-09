@@ -1,0 +1,268 @@
+const utils = require('../utils');
+const path = require('path');
+const fs = require('fs');
+const { createChildWindow } = require('../window');
+const crypto = require('crypto-js');
+const ical = require('ical');
+
+const event_ = require('../data/calendar/event.json')
+const person_ = require('../data/calendar/person.json')
+var uid_;
+
+
+function generateUUIDv4() {
+    const randomBytes = crypto.lib.WordArray.random(16);
+
+    let hex = randomBytes.toString(crypto.enc.Hex);
+
+    hex = hex.substring(0, 32);
+
+    const uuid = hex.substring(0, 8) + '-' +
+        hex.substring(8, 12) + '-' +
+        '4' + hex.substring(13, 16) + '-' +  // version 4
+        ((parseInt(hex.substring(16, 17), 16) & 0x3) | 0x8).toString(16) + hex.substring(17, 20) + '-' +
+        hex.substring(20, 32);
+
+    return uuid;
+}
+
+function exporthasics() {
+
+}
+
+function importfromics(file) {
+    try {
+        const ics = ical.parseFile(path.join(__dirname, file));
+        const events_list = [];
+        for (const uid in ics) {
+            events_list.push(
+                {
+                    name: ics[uid].summary || '',
+                    description: ics[uid].description || '',
+                    location: ics[uid].location || '',
+                    categorie: ics[uid].categories || '',
+                    organizer: ics[uid].organizer || '',
+                    start: ics[uid].start || '',
+                    end: ics[uid].end || '',
+                    uid: uid
+                }
+            )
+        }
+        events_list.forEach(event => {
+            registerevent(event);
+        })
+    } catch (err) {
+        //console.error(err);
+        return undefined
+    }
+}
+
+function findevent(uid) {
+    const index = event_.findIndex(e => e.uid === uid);
+    if (index !== -1) {
+        return event_[index];
+    } else {
+        return index;
+    }
+}
+
+function registerevent(event) {
+    if (!event.uid) {
+        event.uid = generateUUIDv4() + '@artorias.souls';
+    }
+    const index = event_.findIndex(e => e.uid === event.uid);
+    if (index !== -1) {
+        event_[index] = event;
+    } else {
+        event_.push(event);
+    }
+}
+
+function modifyevent(event) {
+    const index = event_.findIndex(e => e.uid === event.data.uid);
+    if (index !== -1) {
+        event_[index] = event.data;
+    }
+}
+
+function deleteevent(uid) {
+    const index = event_.findIndex(e => e.uid === uid);
+    if (index !== -1) {
+        event_.splice(index, 1);
+        return { ok: true };
+    }
+    return { ok: false, error: "event not found" };
+}
+
+function save_event() {
+    fs.writeFileSync(path.join(__dirname, '../data/calendar/event.json'), JSON.stringify(event_));
+}
+
+function save_person() {
+    fs.writeFileSync(path.join(__dirname, '../data/calendar/person.json'), JSON.stringify(person_));
+}
+
+
+function getevent_() {
+    if (typeof uid_ === 'string' && uid_.includes('@')) {
+        return findevent(uid_);
+    } else {
+        return uid_;
+    }
+}
+
+function getperson() {
+    return person_;
+}
+
+function getperson_uid(uid = uid_) {
+    const index = person_.findIndex(e => e.uid === uid);
+    if (index !== -1) {
+        return person_[index]
+    }
+    return undefined;
+}
+
+async function modifyeventwindow(uid) {
+    uid_ = uid;
+    let modifywindow = createChildWindow('tools/calendar/modify', true, { width: 1050, height: 700 }, false);
+
+    const eventModPromise = new Promise((resolve) => {
+        resolveEventModPromise = resolve;
+    })
+
+    const result = await eventModPromise;
+    modifywindow.close();
+    modifywindow = null;
+    return result;
+}
+
+function confirmmodifyevent(event) {
+    resolveEventModPromise({ "ok": true })
+    modifyevent(event);
+    return true;
+}
+
+async function addeventwindow(event) {
+    uid_ = event;
+    let addwindow = createChildWindow('tools/calendar/add', true, { width: 1050, height: 700 }, false);
+
+    const eventAddPromise = new Promise((resolve) => {
+        resolveEventAddPromise = resolve;
+    })
+
+    const result = await eventAddPromise;
+    addwindow.close();
+    addwindow = null;
+    return result;
+}
+
+async function confirmaddevent(event) {
+    resolveEventAddPromise({ "ok": true, 'event': event })
+    registerevent(event.data);
+    return true;
+}
+
+function isOnThisDay(evdate, dayneed) {
+    const eventDate = new Date(evdate);
+    return (
+        eventDate.getFullYear() === dayneed.getFullYear() &&
+        eventDate.getMonth() === dayneed.getMonth() &&
+        eventDate.getDate() === dayneed.getDate()
+    );
+}
+
+function isOnThisWeek(evdate, monday) {
+    let is = false;
+    for(let i = 0; i<7; i++) {
+        is = is || isOnThisDay(evdate, new Date(monday.getFullYear(), monday.getMonth(), monday.getDate()+i));
+    }
+    return is;
+}
+
+function geteventday(year, month, day_) {
+    const events = [];
+    var date = new Date(year, month, day_);
+    for (const i in event_) {
+        if (isOnThisWeek(event_[i].start, date) || isOnThisWeek(event_[i].end, date)) {
+            events.push(event_[i]);
+        }
+    }
+    return events;
+}
+
+
+async function addpersonwindow() {
+    let addwindow = createChildWindow('tools/calendar/add-person', true, { width: 550, height: 700 }, false);
+
+    const personAddPromise = new Promise((resolve) => {
+        resolvePersonAddPromise = resolve;
+    })
+
+    const result = await personAddPromise;
+    addwindow.close();
+    addwindow = null;
+    return result;
+}
+
+function confirmaddperson(person) {
+    resolvePersonAddPromise({ "ok": true })
+    addPerson(person);
+    return true;
+}
+
+function addPerson(person) {
+    if (!person.uid) {
+        person.uid = generateUUIDv4() + '@artorias.souls';
+    }
+    const index = person_.findIndex(e => e.uid === person.uid);
+    if (index !== -1) {
+        person_[index] = person;
+    } else {
+        person_.push(person);
+    }
+}
+
+async function modifypersonwindow(uid) {
+    uid_ = uid;
+    let modifywindow = createChildWindow('tools/calendar/modify-person', true, { width: 550, height: 700 }, false);
+
+    const personModPromise = new Promise((resolve) => {
+        resolvePersonModPromise = resolve;
+    })
+
+    const result = await personModPromise;
+    modifywindow.close();
+    modifywindow = null;
+    return result;
+}
+
+function confirmmodifyperson(person) {
+    resolvePersonModPromise({ "ok": true })
+    modifyPerson(person);
+    return true;
+}
+
+function modifyPerson(person) {
+    const index = person_.findIndex(e => e.uid === person.uid);
+    if (index !== -1) {
+        person_[index] = person;
+    }
+}
+
+function deletePerson(uid) {
+    const index = person_.findIndex(e => e.uid === uid);
+    if (index !== -1) {
+        person_.splice(index, 1);
+    }
+    event_.forEach(event => {
+        const indexMember = event.members.findIndex(e => e.uid === uid);
+        if (index !== -1)
+            event.members.splice(indexMember, 1);
+        if(event.organizer === uid) {
+            event.organizer = '';
+        }
+    })
+}
+
+module.exports = { registerevent, save_event, save_person, modifyeventwindow, addeventwindow, confirmaddevent, getevent_, geteventday, confirmmodifyevent, deleteevent, importfromics, getperson, addpersonwindow, confirmaddperson, modifypersonwindow, confirmmodifyperson, getperson_uid, deletePerson }

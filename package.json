@@ -28,6 +28,9 @@
     "crypto-js": "^4.2.0",
     "cryptojs": "^2.5.3",
     "decimal.js": "^10.5.0",
-    "hmac": "^1.0.1"
+    "hmac": "^1.0.1",
+    "ical": "^0.8.0",
+    "ical.js": "^2.1.0",
+    "prompt-sync": "^4.2.0"
   }
 }

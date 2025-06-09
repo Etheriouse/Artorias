@@ -4,6 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto-js');
+const { error } = require('console');
 
 let psd_id_now;
 let adminwindow;
@@ -140,12 +141,22 @@ async function delete_(psd_to_delete) {
 }
 
 function get_json() {
-    const jsonbrut = JSON.parse(fs.readFileSync(path.join(__dirname, "../data/password/hash.json"), 'utf-8'));
-    const hmac = compute_hmac(jsonbrut.data, last_psd_gived);
-    if (hmac !== jsonbrut.hmac) {
-        throw new Error("Corrupted or modified file 💥")
+    try {
+        const jsonbrut = JSON.parse(fs.readFileSync(path.join(__dirname, "../data/password/hash.json"), 'utf-8'));
+        const hmac = compute_hmac(jsonbrut.data, last_psd_gived);
+        if (hmac !== jsonbrut.hmac) {
+            throw new Error("Corrupted or modified file 💥")
+        }
+        return decrypt_file(jsonbrut, last_psd_gived);
+    } catch (error) {
+        if(error.code === 'ENOENT') {
+            save_json({})
+            return get_json();
+        } else {
+            console.log(error);
+        }
     }
-    return decrypt_file(jsonbrut, last_psd_gived);
+
 }
 
 function save_json(json_to_save) {

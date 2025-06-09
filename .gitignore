@@ -1,2 +1,4 @@
 node_modules
 /data/password/*.json
+/data/clipboard/*.json
+/data/calendar/*.json
