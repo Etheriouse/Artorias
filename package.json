@@ -31,6 +31,9 @@
     "hmac": "^1.0.1",
     "ical": "^0.8.0",
     "ical.js": "^2.1.0",
-    "prompt-sync": "^4.2.0"
+    "node-os-utils": "^1.3.7",
+    "os-utils": "^0.0.14",
+    "prompt-sync": "^4.2.0",
+    "systeminformation": "^5.27.1"
   }
 }

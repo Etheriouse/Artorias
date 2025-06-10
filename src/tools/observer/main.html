@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="../../context-menu.css">
+    <title>Artorias Tools</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f4f6f8;
+            overflow-y: hidden;
+            margin: 0;
+            color: #333;
+        }
+
+        h3 {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        #loading {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        #cpu {
+            display: flex;
+            overflow-y: hidden;
+            flex-direction: row;
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+            padding-top: 0;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        #left,
+        #right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        h4 {
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        button {
+            padding: 0.6rem;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="menu">
+        <div id="icon-selector">
+            <div id="tools-selector">
+                <div>
+                    <span>⛩️</span>
+                    <h3 style="display: none;">Dashboard</h3>
+                </div>
+                <div>
+                    <span>🗓️</span>
+                    <h3 style="display: none;">Calendar</h3>
+                </div>
+                <div>
+                    <span>📋</span>
+                    <h3 style="display: none;">Clipboard</h3>
+                </div>
+                <div>
+                    <span>⚖️</span>
+                    <h3 style="display: none;">Converter</h3>
+                </div>
+                <div>
+                    <span>📓</span>
+                    <h3 style="display: none;">Markdown</h3>
+                </div>
+                <div>
+                    <span>🔍</span>
+                    <h3 style="display: none;">Observer</h3>
+                </div>
+                <div>
+                    <span>🔐</span>
+                    <h3 style="display: none;">Password</h3>
+                </div>
+                <div>
+                    <span>🧱</span>
+                    <h3 style="display: none;">Template</h3>
+                </div>
+                <div>
+                    <span>🖌️</span>
+                    <h3 style="display: none;">Whiteboard</h3>
+                </div>
+            </div>
+            <div id="settings-selector">
+                <div>
+                    <span>🗿</span>
+                    <h3 style="display: none;">Profil</h3>
+                </div>
+                <div>
+                    <span>⚙️</span>
+                    <h3 style="display: none;">Settings</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="main-app">
+
+        <div style="display: block;" id="loading">
+            <style>
+                .loading-spinner {
+                    display: inline-block;
+                    width: 50px;
+                    height: 50px;
+                    border: 5px solid rgba(0, 0, 0, 0.1);
+                    border-radius: 50%;
+                    border-top-color: #3498db;
+                    /* Couleur du cercle */
+                    animation: spin 1s ease-in-out infinite;
+                }
+
+                @keyframes spin {
+                    to {
+                        transform: rotate(360deg);
+                    }
+                }
+
+                .loading-container {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100vh;
+                }
+            </style>
+            <div class="loading-container">
+                <div class="loading-spinner"></div>
+            </div>
+        </div>
+
+        <div id="context-menu" style="display: none;">
+            <ul>
+                <li id="context-menu-add">Add new event</li>
+                <li id="context-menu-modify">Modify event</li>
+                <li id="context-menu-delete">Delete event</li>
+            </ul>
+        </div>
+
+        <div id="content">
+            <div id="side-categorie" style="display: none;">
+
+            </div>
+            <div id="main-content" style="display: none;">
+                <section id="cpu">
+                    <h3>Cpu</h3>
+                    <div>
+                        <div id="left">
+                            <h3>Used</h3>
+                            <p id="used-cpu"></p>
+
+                            <h3>Speed</h3>
+                            <p id="speed-cpu"></p>
+
+                            <h3>Cores</h3>
+                            <div>
+                                <h3>Physique</h3>
+                                <p id="physic-core-cpu"></p>
+                                <h3>Performence</h3>
+                                <p id="perf-core-cpu"></p>
+                            </div>
+                        </div>
+
+                        <div id="right">
+                            <h3>Virtualization</h3>
+                            <p id="virtu-cpu"></p>
+
+                            <h3>Cache</h3>
+                            <div>
+                                <h3>L1</h3>
+                                <p id="l1-cache-cpu"></p>
+                                <h3>L2</h3>
+                                <p id="l2-cache-cpu"></p>
+                                <h3>L3</h3>
+                                <p id="l3-cache-cpu"></p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="gpu">
+
+                </section>
+                <section id="memory">
+
+                </section>
+                <section id="motherboard">
+
+                </section>
+                <section id="network">
+
+                </section>
+                <section id="os">
+
+                </section>
+                <section id="battery">
+
+                </section>
+
+
+            </div>
+        </div>
+
+        <style>
+            #content {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: row;
+            }
+
+            #side-categorie {
+                width: 20%;
+                border-right: 1px solid #b5b5b5;
+            }
+
+            .menu-observer {
+                border: 1px solid #b5b5b5;
+                border-radius: 5px;
+                margin: 5px;
+                padding-left: 5px;
+                cursor: pointer;
+            }
+
+            #selected-menu-observer {
+                background-color: #dadada;
+            }
+
+            .menu-observer:hover {
+                background-color: #dadada;
+            }
+
+            .menu-observer>* {
+                margin: 5px;
+                padding: 0;
+            }
+
+            #main-app {
+                width: 80%;
+            }
+        </style>
+
+
+        <script type="module" src="../../js/tools/observer.js"></script>
+
+    </div>
+
+    <script type="module" src="../../js/renderer.js"></script>
+</body>
+
+</html>

@@ -9,6 +9,16 @@ const event_ = require('../data/calendar/event.json')
 const person_ = require('../data/calendar/person.json')
 var uid_;
 
+if (person_.length < 1) {
+    addPerson(
+        {
+            name: "admin",
+            surname: "superadmin",
+            age: -1,
+            phone: -1
+        }
+    )
+}
 
 function generateUUIDv4() {
     const randomBytes = crypto.lib.WordArray.random(16);
@@ -174,8 +184,8 @@ function isOnThisDay(evdate, dayneed) {
 
 function isOnThisWeek(evdate, monday) {
     let is = false;
-    for(let i = 0; i<7; i++) {
-        is = is || isOnThisDay(evdate, new Date(monday.getFullYear(), monday.getMonth(), monday.getDate()+i));
+    for (let i = 0; i < 7; i++) {
+        is = is || isOnThisDay(evdate, new Date(monday.getFullYear(), monday.getMonth(), monday.getDate() + i));
     }
     return is;
 }
@@ -193,7 +203,7 @@ function geteventday(year, month, day_) {
 
 
 async function addpersonwindow() {
-    let addwindow = createChildWindow('tools/calendar/add-person', true, { width: 550, height: 700 }, false);
+    let addwindow = createChildWindow('tools/calendar/add-person', true, { width: 550, height: 475 }, false);
 
     const personAddPromise = new Promise((resolve) => {
         resolvePersonAddPromise = resolve;
@@ -225,7 +235,7 @@ function addPerson(person) {
 
 async function modifypersonwindow(uid) {
     uid_ = uid;
-    let modifywindow = createChildWindow('tools/calendar/modify-person', true, { width: 550, height: 700 }, false);
+    let modifywindow = createChildWindow('tools/calendar/modify-person', true, { width: 550, height: 475 }, false);
 
     const personModPromise = new Promise((resolve) => {
         resolvePersonModPromise = resolve;
@@ -259,7 +269,7 @@ function deletePerson(uid) {
         const indexMember = event.members.findIndex(e => e.uid === uid);
         if (index !== -1)
             event.members.splice(indexMember, 1);
-        if(event.organizer === uid) {
+        if (event.organizer === uid) {
             event.organizer = '';
         }
     })

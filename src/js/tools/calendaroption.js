@@ -20,6 +20,8 @@ export async function setupPerson() {
         sortSelectOptionsByText(selector)
         sortSelectOptionsByText(document.getElementById('input-organizer'))
     }
+
+    console.log(person)
 }
 
 if (selector) {
@@ -75,12 +77,13 @@ function sortSelectOptionsByText(selector) {
 }
 
 if (document.getElementById('new-person-add')) {
-    document.getElementById('new-person-add').addEventListener('click', () => {
-        console.log('add')
-        window.window_.addnewperson();
+    document.getElementById('new-person-add').addEventListener('click', async () => {
+        const result = await window.api.addpersonwindow();
+        location.reload();
     })
 }
 
 export function get_name_by_uid(uid) {
+    console.log(uid)
     return person.find(e => e.uid === uid);
 }

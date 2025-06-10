@@ -32,6 +32,7 @@
             gap: 2rem;
             max-width: 1000px;
             margin: 0 auto;
+            margin-top: 20px;
             padding: 2rem;
             padding-top: 0;
             background-color: #fff;
@@ -55,31 +56,13 @@
         select,
         option,
         input,
-        textarea {
+        p {
             padding: 0.6rem;
             font-size: 1rem;
             border: 1px solid #ccc;
             border-radius: 6px;
             width: 100%;
             box-sizing: border-box;
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        #when {
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        #start,
-        #end {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
         }
 
         button {
@@ -109,11 +92,14 @@
             background-color: #2980b9;
         }
 
-        #color input {
-            height: 40px;
-            padding: 0;
-            border: none;
-            background: none;
+        #confirm-reset-psd {
+            display: flex;
+            flex-direction: row;
+        }
+
+        #confirm-reset-psd>button {
+            margin-right: 7px;
+            margin-left: 7px;
         }
     </style>
     <style>
@@ -250,7 +236,35 @@
                     <button id="clear-cache" style="width: 40%;">Clear cache</button>
                 </div>
 
-                <button id="register-settings">Register</button>
+                <div id="password">
+                    <h4>Super password</h4>
+                    <p style="margin: 10px 0; color: #555;">
+                        1. Click on <span style="font-weight: bold; color: #2980b9;">"Reset super password"</span>.
+                    </p>
+                    <p style="margin: 10px 0; color: #555;">
+                        2. Close the application.
+                    </p>
+                    <p style="margin: 10px 0; color: #555;">
+                        3. Put your new password inside the file located at <span
+                            style="font-weight: bold; color: #2980b9;">data/password/config.json</span> in the field
+                        <span style="font-weight: bold; color: #2980b9;">admin_pwd</span>.
+                    </p>
+                    <p style="margin: 10px 0; color: #555;">
+                        4. Run the application again.
+                    </p>
+                    <p id="confirm-reseted-psd" style="color: green; display: none;">Password resetted</p>
+                    <div id="warning-psd-reset" style="display: none;">
+                        <h3 style="margin-top: 0; color: rgb(158, 3, 3);">Warning</h3>
+                        <p style="margin: 10px 0; color: rgb(170, 1, 1);">
+                            Resetting your super password will delete all your current passwords.
+                        </p>
+                    </div>
+                    <div id="confirm-reset-psd">
+                        <button id="reset-password">Reset super password</button>
+                        <button id="confirm-reset-password" style="display: none;">Confirm</button>
+                        <button id="cancel-reset-password" style="display: none;">Cancel</button>
+                    </div>
+                </div>
             </div>
             <div id="right">
                 <div id="participation">
@@ -263,7 +277,7 @@
                             justify-content: center;
                         }
 
-                        #gestion-participant > button {
+                        #gestion-participant>button {
                             width: 100%;
                         }
                     </style>

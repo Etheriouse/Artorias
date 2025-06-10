@@ -5,7 +5,7 @@ var today, week, week_number;
 let slot_clicked;
 let event_clicked;
 
-import {setupPerson, get_name_by_uid } from "./calendaroption.js"
+import { setupPerson, get_name_by_uid } from "./calendaroption.js"
 setupPerson();
 
 async function setup() {
@@ -16,8 +16,8 @@ async function setup() {
     document.getElementById('short-week-name').innerHTML = `${(week[0].day < 10 ? '0' : '') + week[0].day}-${(week[6].day < 10 ? '0' : '') + week[6].day} ${months[today.month]}`;
     week_number = getWeekNumber(today);
     var date_week;
-    if(week_number >= 53) {
-        date_week = `${today.years-1}-W${(week_number < 10 ? '0' : '') + week_number}`;
+    if (week_number >= 53) {
+        date_week = `${today.years - 1}-W${(week_number < 10 ? '0' : '') + week_number}`;
     } else {
         date_week = `${today.years}-W${(week_number < 10 ? '0' : '') + week_number}`;
     }
@@ -29,6 +29,7 @@ async function setup() {
     document.getElementById('calendar').style.display = 'flex';
     document.getElementById('loading').style.display = 'none';
     document.getElementById('grid').scrollTop = (new Date().getHours() * 100 + ((new Date().getMinutes() / 60) * 100))
+    document.getElementById('time-now').style.height = `${(new Date().getHours() * 100 + ((new Date().getMinutes() / 60) * 100)) }px`;
 }
 
 document.getElementById('going-today-button').addEventListener('click', () => {
@@ -291,7 +292,7 @@ document.getElementById('context-menu-modify').addEventListener('click', async (
 
 document.getElementById('context-menu-delete').addEventListener('click', async () => {
     const result = await window.api.deleteevent(event_clicked);
-   if (result.ok) {
+    if (result.ok) {
         location.reload();
     }
 })
@@ -312,7 +313,7 @@ document.getElementById('go-futur').addEventListener('click', () => {
 
 document.getElementById('select-week-input').addEventListener('change', (value) => {
     const date_week = value.target.value.split('-W');
-    timetravel_update(7*(parseInt(date_week[1])-parseInt(week_number)))
+    timetravel_update(7 * (parseInt(date_week[1]) - parseInt(week_number)))
 })
 
 function getDateFromWeek(year, week, weekday = 1) {
@@ -389,9 +390,10 @@ function render_event(slot) {
     location.className = 'event-location'
 
     const organizer = document.createElement('p');
-    organizer.innerHTML = get_name_by_uid(slot.organizer).name;
-    organizer.className = 'event-organizer'
-
+    if (slot.organizer) {
+        organizer.innerHTML = get_name_by_uid(slot.organizer).name;
+        organizer.className = 'event-organizer'
+    }
     const description = document.createElement('p');
     description.innerHTML = slot.description;
     description.className = 'event-description'

@@ -1,11 +1,12 @@
 const { app, BrowserWindow, shell, ipcMain, clipboard } = require('electron');
 const { createWindow } = require('./window');
-const { runClipboard, saveClipboardHistory } = require('./tools/clipboard');
+const { runClipboard, saveClipboardHistory, set } = require('./tools/clipboard');
 const { save_event, save_person } = require('./tools/calendar');
 const { Handler } = require('./ipcHandler');
 const utils = require('./utils')
 const pass_ = require('./tools/password')
 const cal_ = require('./tools/calendar');
+const {setup} = require('./tools/observer');
 
 /** Artorias App 
  * settins ⚙️ 
@@ -29,6 +30,7 @@ app.whenReady().then(async () => {
     Handler();
     runClipboard();
     createWindow();
+    setup();
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
     })

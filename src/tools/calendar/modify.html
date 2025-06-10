@@ -153,11 +153,48 @@
             margin: 5px;
             padding: 5px;
         }
+
+        input:focus {
+            outline: none;
+        }
+
+        textarea:focus {
+            outline: none;
+        }
     </style>
 </head>
 
 <body>
-    <div id="loading" style="display: block;">Loading...</div>
+    <div style="display: none;" id="loading">
+        <style>
+            .loading-spinner {
+                display: inline-block;
+                width: 50px;
+                height: 50px;
+                border: 5px solid rgba(0, 0, 0, 0.1);
+                border-radius: 50%;
+                border-top-color: #3498db;
+                /* Couleur du cercle */
+                animation: spin 1s ease-in-out infinite;
+            }
+
+            @keyframes spin {
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+
+            .loading-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
+        </style>
+        <div class="loading-container">
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
     <div id="content-event-register" style="display: none;">
         <div id="left">
             <div id="name">

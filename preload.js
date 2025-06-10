@@ -126,6 +126,18 @@ contextBridge.exposeInMainWorld('api', {
         return ipcRenderer.invoke('delete-person', uid);
     },
 
+    resetsuperpsd: async () => {
+        return await ipcRenderer.invoke('reset-super-psd')
+    },
+
+    getobservmenu: async () => {
+        return await ipcRenderer.invoke('get-observ-menu')
+    },
+
+    getusedcpu: async () => {
+        return await ipcRenderer.invoke('get-used-cpu');
+    },
+
 })
 
 contextBridge.exposeInMainWorld('window_', {

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../../style.css">
     <link rel="stylesheet" href="./calendar.css">
     <link rel="stylesheet" href="./color.css">
-    <link rel="stylesheet" href="./context-menu.css">
+    <link rel="stylesheet" href="../../context-menu.css">
     <link rel="stylesheet" href="./bar.css">
     <title>Artorias Tools</title>
 </head>
@@ -37,6 +37,10 @@
                     <h3 style="display: none;">Markdown</h3>
                 </div>
                 <div>
+                    <span>🔍</span>
+                    <h3 style="display: none;">Observer</h3>
+                </div>
+                <div>
                     <span>🔐</span>
                     <h3 style="display: none;">Password</h3>
                 </div>
@@ -64,8 +68,36 @@
 
     <div id="main-app">
 
-        <div style="display: block;" id="loading">Loading... </div>
+        <div style="display: none;" id="loading">
+            <style>
+                .loading-spinner {
+                    display: inline-block;
+                    width: 50px;
+                    height: 50px;
+                    border: 5px solid rgba(0, 0, 0, 0.1);
+                    border-radius: 50%;
+                    border-top-color: #3498db;
+                    /* Couleur du cercle */
+                    animation: spin 1s ease-in-out infinite;
+                }
 
+                @keyframes spin {
+                    to {
+                        transform: rotate(360deg);
+                    }
+                }
+
+                .loading-container {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100vh;
+                }
+            </style>
+            <div class="loading-container">
+                <div class="loading-spinner"></div>
+            </div>
+        </div>
         <div id="context-menu">
             <ul>
                 <li id="context-menu-add">Add new event</li>
@@ -102,6 +134,7 @@
                 <div id="content">
 
                 </div>
+                <div id="time-now"></div>
             </div>
         </div>
         <script type="module" src="../../js/tools/calendar.js"></script>

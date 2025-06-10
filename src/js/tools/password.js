@@ -44,7 +44,10 @@ Array.from(titlepwd.children).forEach((element, index) => {
 let i_want_delete = false;
 
 document.getElementById('register-psd').addEventListener('click', async () => {
-    await window.window_.passwordadd();
+    const result = await window.window_.passwordadd();
+    if(result.ok) {
+        location.reload();
+    }
 })
 
 document.getElementById('refresh-psd').addEventListener('click', async () => {
@@ -66,19 +69,7 @@ document.getElementById('delete-confirm-psd').addEventListener('click', async ()
         const result = await window.api.deletepsd(psd_to_delete);
 
         if (result.ok) {
-            const div_to_delete = [];
-            document.getElementById('list-pwd').childNodes.forEach(div => {
-                if (div.nodeType === Node.ELEMENT_NODE) {
-                    psd_to_delete.forEach(id => {
-                        if (id === div.dataset.id) {
-                            div_to_delete.push(div);
-                        }
-                    })
-                }
-            })
-            div_to_delete.forEach(div => {
-                document.getElementById('list-pwd').removeChild(div)
-            })
+            location.reload();
         } else {
             alert('delete not worked :c');
         }

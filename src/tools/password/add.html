@@ -5,78 +5,137 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add password</title>
-</head>
-
-<body>
     <style>
-        html {
-            height: 100%;
-        }
-
         body {
             font-family: sans-serif;
-            height: 100%;
+            background-color: #f4f6f8;
             overflow-y: hidden;
+            margin: 0;
+            color: #333;
         }
 
-        #menu-bar-pwd-modif {
-            display: flex;
-            flex-direction: row;
-            padding: 0;
+        h3 {
+            text-align: center;
+            margin-bottom: 2rem;
         }
 
-        #menu-bar-pwd-modif-selected {
-            background-color: #d3d3d3;
-            border-radius: 4px;
+        #loading {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #666;
         }
 
         #content-pwd-register {
             display: flex;
             flex-direction: column;
+            overflow-y: hidden;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+            padding-top: 0;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
-        h5 {
-            margin-top: 0;
-            margin-bottom: 0;
+
+        h4 {
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
         }
 
-        section {
-            display: none;
-            flex-direction: column;
-        }
 
         input,
         button {
-            height: 20px;
-            width: auto;
-            margin: 5px;
+            padding: 0.6rem;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            outline: none;
+        }
+
+        #register-psd {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+            margin-top: 15px;
+        }
+
+        #register-psd:hover {
+            background-color: #2980b9;
+        }
+
+        #show_pwd_button {
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        #show_pwd_button:hover {
+            background-color: #cdcdcd;
         }
     </style>
+</head>
 
-    <h3>Register password</h3>
-    <div id="loading" style="display: none;">Loading...</div>
+<body>
+    <div style="display: none;" id="loading">
+        <style>
+            .loading-spinner {
+                display: inline-block;
+                width: 50px;
+                height: 50px;
+                border: 5px solid rgba(0, 0, 0, 0.1);
+                border-radius: 50%;
+                border-top-color: #3498db;
+                /* Couleur du cercle */
+                animation: spin 1s ease-in-out infinite;
+            }
+
+            @keyframes spin {
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+
+            .loading-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
+        </style>
+        <div class="loading-container">
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
     <div id="content-pwd-register">
-        <h5>Site</h5>
+        <h4>Web site/Where</h4>
         <input id="value-site-pwd">
-        <h5>Username</h5>
+        <h4>Username/Email</h4>
         <input id="value-user-pwd">
-        <h5>Password</h5>
+        <h4>Password</h4>
         <input type="password" id="value-pwd-pwd">
         <button id="show_pwd_button">Show</button>
-        <h5>Url</h5>
+        <h4>Url</h4>
         <input id="value-url-pwd">
         <button id="register-psd">Register</button>
     </div>
 
     <script type="module" src="../../js/admin.js"></script>
     <script type="module">
-        
+
         import { admin_perm } from "../../js/admin.js"
 
         let isshowed = false;
 
         document.getElementById('register-psd').addEventListener('click', async () => {
-            admin_perm( async () => {
+            admin_perm(async () => {
                 document.getElementById('loading').style.display = 'block';
                 document.getElementById('content-pwd-register').style.display = 'none';
                 const psd_object = {
@@ -96,11 +155,11 @@
             if (!isshowed) {
                 document.getElementById('value-pwd-pwd').type = "none";
                 isshowed = true;
-                document.getElementById('show_pwd_button').innerHTML = 'hide';
+                document.getElementById('show_pwd_button').innerHTML = 'Hide';
             } else {
                 document.getElementById('value-pwd-pwd').type = "password";
                 isshowed = false;
-                document.getElementById('show_pwd_button').innerHTML = 'show';
+                document.getElementById('show_pwd_button').innerHTML = 'Show';
             }
         })
     </script>

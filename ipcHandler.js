@@ -1,12 +1,13 @@
 const password_ = require('./tools/password');
 const clipboard_ = require('./tools/clipboard');
 const converter_ = require('./tools/converter');
-const calendar_ = require('./tools/calendar.js');
+const calendar_ = require('./tools/calendar');
+const observe_ = require('./tools/observer')
 const utils = require('./utils');
 const path = require('path');
 const fs = require('fs');
 
-const { mainApp, closeWindow, loadfile } = require('./window');
+const { closeWindow, loadfile } = require('./window');
 const { ipcMain, shell } = require('electron');
 
 function Handler() {
@@ -33,7 +34,7 @@ function Handler() {
     })
 
     ipcMain.handle('password-add', async (event) => {
-        password_.addwindow();
+        return await password_.addwindow();
     })
 
     ipcMain.handle('save-psd', async (event, psd_obj) => {
@@ -166,6 +167,17 @@ function Handler() {
         calendar_.deletePerson(uid);
     })
 
+    /* ------------------- Observer --------------------- */
+
+    ipcMain.handle('get-observ-menu', (event) => {
+        return observe_.getmenu();
+    })
+
+    ipcMain.handle('get-used-cpu', async (event) => {
+        return await observe_.getusedcpu();
+    })
+
+
     /* ---------------------- Other --------------------- */
 
     ipcMain.handle('put-in-cache', async (event, path, value) => {
@@ -178,6 +190,10 @@ function Handler() {
 
     ipcMain.handle('clear-cache', async (event) => {
         utils.clearcache();
+    })
+
+    ipcMain.handle('reset-super-psd', async (event) => {
+        return password_.resetsuperpsd();
     })
 }
 

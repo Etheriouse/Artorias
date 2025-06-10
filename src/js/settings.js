@@ -45,19 +45,26 @@ export async function setupPerson() {
     window.addEventListener('keydown', (key) => {
         if (key.key === 'Control') {
             Array.from(document.getElementsByClassName('participant-delete')).forEach(check => {
-                if (check.style.display === 'none') {
-                    check.style.display = 'block';
-                } else {
-                    check.style.display = 'none';
-                }
+                check.style.display = 'block';
+
             })
 
             Array.from(document.getElementsByClassName('participant-modify')).forEach(check => {
-                if (check.style.display === 'none') {
-                    check.style.display = 'block';
-                } else {
-                    check.style.display = 'none';
-                }
+                check.style.display = 'none';
+
+            })
+        }
+    })
+
+    window.addEventListener('keyup', (key) => {
+        if (key.key === 'Control') {
+            Array.from(document.getElementsByClassName('participant-delete')).forEach(check => {
+                check.style.display = 'none';
+
+            })
+
+            Array.from(document.getElementsByClassName('participant-modify')).forEach(check => {
+                check.style.display = 'block';
             })
         }
     })
@@ -71,7 +78,38 @@ export async function setupPerson() {
             }
         })
     })
+
+    document.getElementById('new-person-add').addEventListener('click', async () => {
+        const result = await window.api.addpersonwindow()
+        if (result.ok) {
+            location.reload()
+        }
+    })
 }
+
+document.getElementById('reset-password').addEventListener('click', () => {
+    document.getElementById('confirm-reset-password').style.display = 'block'
+    document.getElementById('warning-psd-reset').style.display = 'block'
+    document.getElementById('cancel-reset-password').style.display = 'block'
+    document.getElementById('reset-password').style.display = 'none'
+})
+
+document.getElementById('cancel-reset-password').addEventListener('click', () => {
+    document.getElementById('confirm-reset-password').style.display = 'none'
+    document.getElementById('warning-psd-reset').style.display = 'none'
+    document.getElementById('cancel-reset-password').style.display = 'none'
+    document.getElementById('reset-password').style.display = 'block'
+})
+
+document.getElementById('confirm-reset-password').addEventListener('click', async () => {
+    document.getElementById('confirm-reset-password').style.display = 'none'
+    document.getElementById('warning-psd-reset').style.display = 'none'
+    document.getElementById('cancel-reset-password').style.display = 'none'
+    const result = await window.api.resetsuperpsd();
+    if (result.ok) {
+        document.getElementById('confirm-reseted-psd').style.display = 'block'
+    }
+})
 
 
 

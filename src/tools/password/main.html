@@ -78,14 +78,43 @@
             </ul>
         </div>
 
-        
+
         <div id="title-pwd">
             <h3>Web site/Where</h3>
             <h3>Username/Email</h3>
             <h3>Password</h3>
             <h3>Url</h3>
         </div>
-        <div style="display: block;" id="loading">Loading... </div>
+        <div style="display: block;" id="loading">
+            <style>
+                .loading-spinner {
+                    display: inline-block;
+                    width: 50px;
+                    height: 50px;
+                    border: 5px solid rgba(0, 0, 0, 0.1);
+                    border-radius: 50%;
+                    border-top-color: #3498db;
+                    /* Couleur du cercle */
+                    animation: spin 1s ease-in-out infinite;
+                }
+
+                @keyframes spin {
+                    to {
+                        transform: rotate(360deg);
+                    }
+                }
+
+                .loading-container {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100vh;
+                }
+            </style>
+            <div class="loading-container">
+                <div class="loading-spinner"></div>
+            </div>
+        </div>
         <div id="list-pwd">
         </div>
 
@@ -94,6 +123,10 @@
         <style>
             #main-app {
                 padding-left: 5px;
+            }
+
+            input:focus {
+                outline: none;
             }
 
             #bar-pwd {
@@ -212,7 +245,7 @@
                 border-bottom: 1px solid #b5b5b5;
             }
 
-            .groupe-psd > * {
+            .groupe-psd>* {
                 padding: 0;
                 margin: 0;
                 margin-top: 5px;
