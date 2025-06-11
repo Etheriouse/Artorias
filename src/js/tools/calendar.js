@@ -274,6 +274,8 @@ function setup_calendar() {
 
     document.getElementById('bar').appendChild(titleday)
     get_event_day(week[0]);
+
+    document.getElementById('time-now').style.pointerEvents = 'none';
 }
 
 
