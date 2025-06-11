@@ -2,16 +2,16 @@
 <html lang="en">
 
 <head>
+    <script src="../../js/color.js"></script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modify event</title>
     <style>
         body {
             font-family: sans-serif;
-            background-color: #f4f6f8;
             overflow-y: hidden;
             margin: 0;
-            color: #333;
         }
 
         h3 {
@@ -33,7 +33,6 @@
             margin: 0 auto;
             padding: 2rem;
             padding-top: 0;
-            background-color: #fff;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
@@ -48,7 +47,6 @@
 
         h4 {
             margin-bottom: 0.5rem;
-            color: #2c3e50;
         }
 
         select,
@@ -57,7 +55,6 @@
         button {
             padding: 0.6rem;
             font-size: 1rem;
-            border: 1px solid #ccc;
             border-radius: 6px;
             width: 100%;
             box-sizing: border-box;
@@ -123,7 +120,6 @@
             min-height: 20px;
             height: auto;
             max-height: 225px;
-            border: 1px solid #ccc;
             border-radius: 6px;
             display: flex;
             flex-direction: row;
@@ -148,7 +144,6 @@
         .a-participant {
             display: flex;
             flex-direction: row;
-            border: 1px solid #ccc;
             border-radius: 4px;
             margin: 5px;
             padding: 5px;
@@ -240,7 +235,7 @@
                     <select id="add-person">
                         <option value="" disabled selected hidden>Add person</option>
                     </select>
-                    <button id="new-person-add">Add new person</button>
+                    <button style="cursor: pointer;" id="new-person-add">Add new person</button>
                 </div>
             </div>
         </div>
@@ -249,11 +244,6 @@
     <script type="module">
 
         import * as option__ from "../../js/tools/calendaroption.js"
-
-        document.getElementById('new-person-add').addEventListener('click', async () => {
-            const result = await window.api.addpersonwindow();
-            location.reload();
-        })
 
         async function get_event() {
             option__.setupPerson();

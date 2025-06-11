@@ -3,9 +3,11 @@ load_history();
 load_cache();
 let date__ = [];
 
+let select_delete = [];
+
 async function load_cache() {
     document.getElementById('repeate-refresh').value = await window.api.getcache('tools/clipboard/refresh_interval');
-    if(!document.getElementById('repeate-refresh').value) {
+    if (!document.getElementById('repeate-refresh').value) {
         document.getElementById('repeate-refresh').value = 0;
     }
 }
@@ -22,44 +24,20 @@ async function load_history() {
             date.innerHTML = timeAgo(paper.date);
             date__.push(paper.date);
             const content = document.createElement('p');
+            content.className = "content-paper-clip"
             content.innerHTML = escapeHTML(paper.content);
-            const clip = document.createElement('button');
-            clip.innerHTML = "Clip"
-            const delete_paper = document.createElement('button');
-            delete_paper.innerHTML = "Delete";
-            const div_clip = document.createElement('div');
-            div_clip.className = 'clip_button'
-            div_clip.appendChild(delete_paper);
-            div_clip.appendChild(clip);
-
 
             div.appendChild(date);
             div.appendChild(content);
-            div.appendChild(div_clip);
 
             div.addEventListener('click', (key) => {
-                if (key.ctrlKey) {
-                    if (div.childNodes[1].id === 'detailed') {
-                        div.childNodes[1].id = '';
-                    } else {
-                        list.childNodes.forEach(element => {
-                            element.childNodes[1].id = '';
-                        })
-                        div.childNodes[1].id = 'detailed'
-                    }
+                if (!istoDelete) {
+                    window.api.settopaper(content.innerHTML);
+                } else {
+                    div.className = 'to-delete-clippaper'
+                    select_delete.push(paper.date);
                 }
             })
-
-            clip.addEventListener('click', () => {
-                window.api.settopaper(content.innerHTML);
-            })
-
-            delete_paper.addEventListener('click', () => {
-                console.log(paper.date);
-                window.api.deletetohistory([paper.date]);
-                list.removeChild(div);
-            })
-
             list.prepend(div);
         }
     });
@@ -67,12 +45,56 @@ async function load_history() {
     document.getElementById('loading').style.display = 'none';
     list.scrollTop = 0;
 }
+const delete_all = document.getElementById('delete-all-button-clippaper');
+const delete_button = document.getElementById('delete-button-clippaper');
 
-document.getElementById('clear-clippaper').addEventListener('click', () => {
-    console.log(date__)
-    window.api.deletetohistory(date__);
-    document.getElementById('clippaper-list').innerHTML = '';
-    date__ = [];
+var istoDelete = false;
+document.getElementById('delete-clippaper-icon').addEventListener('click', () => {
+    if (delete_all.style.display === 'none') {
+        delete_all.style.display = 'block';
+        delete_button.style.display = 'block'
+    } else {
+        delete_button.style.display = 'none'
+        delete_all.style.display = 'none';
+    }
+    istoDelete = !istoDelete;
+    if (!istoDelete) {
+        Array.from(document.getElementById('clippaper-list').children).forEach(clip => {
+            clip.className = '';
+        })
+        select_delete = []
+    }
+})
+
+window.addEventListener('keydown', (key) => {
+    if (key.key === 'Escape') {
+        Array.from(clippaperlist.children).forEach(clip => {
+            clip.className = '';
+        })
+    }
+})
+
+const clippaperlist = document.getElementById('clippaper-list');
+delete_button.addEventListener('click', async () => {
+    const result = await window.api.deletetohistory(select_delete);
+    if (result.ok) {
+        select_delete = [];
+        Array.from(document.getElementsByClassName('to-delete-clippaper')).forEach(div => {
+            clippaperlist.removeChild(div);
+        })
+        delete_button.style.display = 'none'
+        delete_all.style.display = 'none';
+        istoDelete = !istoDelete;
+    } else {
+        alert('delete not worked');
+    }
+})
+
+delete_all.addEventListener('click', () => {
+    Array.from(clippaperlist.children).forEach(clip => {
+        clip.className = 'to-delete-clippaper';
+
+    })
 })
 
 function refresh_update(value) {

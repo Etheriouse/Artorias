@@ -2,16 +2,15 @@
 <html lang="en">
 
 <head>
+    <script src="../../js/color.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add new person</title>
     <style>
         body {
             font-family: sans-serif;
-            background-color: #f4f6f8;
             overflow-y: hidden;
             margin: 0;
-            color: #333;
         }
 
         h3 {
@@ -22,7 +21,6 @@
         #loading {
             text-align: center;
             font-size: 1.2rem;
-            color: #666;
         }
 
         #content-person-register {
@@ -33,9 +31,7 @@
             margin: 0 auto;
             padding: 2rem;
             padding-top: 0;
-            background-color: #fff;
             border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         input:focus {
@@ -52,7 +48,6 @@
 
         h4 {
             margin-bottom: 0.5rem;
-            color: #2c3e50;
         }
 
         select,
@@ -127,6 +122,8 @@
     </div>
 
     <script type="module">
+
+        import setColorTheme from "../../js/color.js"
 
         document.getElementById('register-person').addEventListener('click', async () => {
             const person = {

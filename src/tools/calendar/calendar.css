@@ -23,7 +23,6 @@
 
 #grid {
     border-radius: 3px;
-    border-top: 1px solid #b5b5b5;
     display: flex;
     flex-direction: row;
     height: 100vh;
@@ -41,7 +40,6 @@
     width: 2%;
     min-width: 40px;
     height: 2400px;
-    border-right: 1px solid #b5b5b5;
     box-sizing: border-box;
 }
 
@@ -62,8 +60,6 @@
 .day {
     width: 100%;
     height: 2400px;
-    border-right: 1px solid #b5b5b5;
-    border-top: 1px solid #b5b5b5;
     display: flex;
     position: relative;
     flex-direction: column;
@@ -76,14 +72,6 @@
     height: 50px;
     min-height: 50px;
     max-height: 50px;
-}
-
-.tophour {
-    border-bottom: 1px #b5b5b5 solid;
-}
-
-.bothour {
-    border-bottom: 1px #dcdcdc solid;
 }
 
 .event > * {
@@ -120,110 +108,10 @@ button:focus {
 
 #time-now {
     border-bottom: #3498db 2px solid;
-    background-color: rgb(0, 0, 0, 3%);
+    /* background-color: rgb(0, 0, 0, 3%); */
+    background-color: rgb(255, 255, 255, 3%); /* color theme */
     width: 100%;
     position: absolute;
     z-index: 20;
+    pointer-events: none;
 }
-
-/* #content {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-
-#grid::-webkit-scrollbar {
-    display: none;
-}
-
-#grid {
-    overflow-y: auto;
-    display: flex;
-    flex-direction: row;
-}
-
-#day-title {
-    display: flex;
-    flex-direction: row;
-    width: 95%;
-    margin-left: 5%;
-}
-
-#day-title>div {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-
-#day-title>div>h3:first-child {
-    margin-right: 5%;
-}
-
-.day,
-.hour,
-#content {
-    overflow: visible;
-}
-
-.hour {
-    min-height: 100px;
-    border-top: 1px #b5b5b5 solid;
-    display: flex;
-    flex-direction: row;
-}
-
-.day {
-    display: flex;
-    flex-direction: column;
-}
-
-.tophour {
-    border-bottom: 1px #dcdcdc solid;
-    display: flex;
-    flex-direction: row;
-    box-sizing: border-box;
-}
-
-.day>div {
-    height: 100%;
-}
-
-.day {
-    border-left: 1px #b5b5b5 solid;
-    /* padding: 0;
-    margin: 0;
-    width: 100%; */
-/*
-max-width: 100%;
-
-flex: 1 1 0;
-min-width: 0;
-box-sizing: border-box;
-}
-
-*/
-/*
-.day::-webkit-scrollbar {
-    display: none;
-}
-
-.day {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-}
-
-.hour {
-    padding: 0;
-    margin: 0;
-    min-height: 80px;
-    border-top: 1px #b5b5b5 solid;
-}
-
-.hour > h3 {
-    padding: 0;
-    margin: 0;
-} */

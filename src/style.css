@@ -28,7 +28,6 @@ body {
 }
 
 #icon-selector {
-    border-right: 1px solid #b5b5b5;
     display: flex;
     flex-direction: column;
     justify-content: end;
@@ -67,13 +66,6 @@ body {
 }
 
 #menu .icon-selected span {
-    /*
-                display: grid;
-                place-items: center;
-                border-radius: 2px;
-                background-color: #d6d6d6;
-
-                */
     transform: scale(1.3);
 }
 
@@ -87,4 +79,8 @@ body {
     cursor: pointer;
     display: inline-block;
     transition-duration: 0.2s;
+}
+
+input:focus, button:focus, textarea:focus select:focus  option:focus{
+    outline: none;
 }

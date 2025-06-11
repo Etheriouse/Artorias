@@ -1,7 +1,5 @@
 #context-menu {
     position: absolute;
-    background: white;
-    border: 1px solid #ccc;
     box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
     display: none;
     z-index: 1000;
@@ -17,8 +15,4 @@
     padding: 8px 16px;
     cursor: pointer;
     white-space: nowrap;
-}
-
-#context-menu li:hover {
-    background: #eee;
 }

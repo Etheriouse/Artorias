@@ -2,6 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const bcrypt = require('bcryptjs');
 const config = require('./config.json');
+var {colortheme} = require('./config.json');
+
 var admin_pwd = require('./data/password/config.json').admin_pwd;
 
 if (!(admin_pwd.substring(0, 7) === '$2b$10$')) {
@@ -10,4 +12,4 @@ if (!(admin_pwd.substring(0, 7) === '$2b$10$')) {
     admin_pwd = newhash;
 }
 
-module.exports = { config, admin_pwd };
+module.exports = { config, admin_pwd, colortheme };

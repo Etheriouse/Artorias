@@ -2,6 +2,21 @@ const path = require('path');
 const fs = require('fs');
 
 var cache = require('./cache.json');
+var {colortheme} = require('./config')
+
+const cache_cleared = {
+    tools: {
+        clipboard: {
+            refresh_interval: "1000"
+        },
+        calendar: {
+            "time-travel": 0
+        },
+        markdown: {
+            input: ""
+        }
+    }
+}
 
 /**
  * Put assignate inside the folder path
@@ -38,21 +53,9 @@ async function getcache(path) {
     return value;
 }
 
-/**
- * Clear the content of the folder put in setting
- * @param {*} path 
- */
-async function clearcache(path) {
-    const path_ = path.split('/');
-    let value = cache;
-    let fvalue
-    let fkey
-    path_.forEach(key => {
-        fvalue = value;
-        fkey = key;
-        value = value[key];
-    });
-    fvalue[fkey] = {};
+async function clearcache() {
+   cache = cache_cleared;
+   return {ok: true}
 }
 
 /**
@@ -66,4 +69,8 @@ async function savecache() {
     }
 }
 
-module.exports = { putincache, getcache, clearcache, savecache };
+function getcolortheme() {
+    return path.join(__dirname, `./data/color/${colortheme}.css`);
+}
+
+module.exports = { putincache, getcache, clearcache, savecache, getcolortheme };

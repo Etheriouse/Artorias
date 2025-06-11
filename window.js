@@ -1,12 +1,32 @@
-const { BrowserWindow } = require('electron');
+const { BrowserWindow, dialog } = require('electron');
 const path = require('path');
+const fs = require('fs')
+var { colortheme } = require('./config');
 
 let main_app;
+
+const ext = {
+    "md": "Markdown",
+    "txt": "Text",
+    "cc": "C++",
+    "js": "JavaScript",
+    "py": "Python",
+    "html": "Html",
+    "json": "Json",
+    "ts": "TypeScript",
+    "png": "Image",
+    "jpeg": "Image",
+    "jpg": "Image",
+    "bit": "Image",
+}
+
+var bgcolor = colortheme == 'dark'? '#2d2d2d' : '#ffffff' 
 
 const createWindow = () => {
     const win = new BrowserWindow({
         width: 1600,
         height: 900,
+        backgroundColor: bgcolor,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             contextIsolation: true,
@@ -17,6 +37,9 @@ const createWindow = () => {
 
     win.loadFile('src/Dashboard.html');
     win.setMenuBarVisibility(false);
+    win.webContents.on('did-finish-load', () => {
+        win.show(); // <-- la fenêtre ne s'affiche qu'une fois tout prêt
+    });
     main_app = win;
 }
 
@@ -57,6 +80,58 @@ function loadfile(namemenu) {
     main_app.loadFile('src/' + namemenu);
 }
 
+async function saveFile(content, typefile) {
+    const options = {
+        title: 'Save file',
+        defaultPath: 'newfile' + '.' + typefile,
+        buttonLabel: 'Save',
+        filters: [
+            { name: `${ext[typefile]} Files`, extensions: [typefile] },
+            { name: 'All Files', extensions: ['*'] }
+        ]
+    };
+
+    const result = await dialog.showSaveDialog(BrowserWindow.getFocusedWindow(), options);
+
+    if (result.canceled) {
+        return { ok: true, canceled: true };
+    } else if (!result.filePath) {
+        return { ok: false, canceled: false };
+    } else {
+        fs.writeFileSync(result.filePath, content)
+        return { ok: true, canceled: false };
+    }
+}
+
+async function openFile(typefile) {
+    const options = {
+        title: 'Open file',
+        buttonLabel: 'Open',
+        openDirectory: false,
+        multiSelections: false,
+        showHiddenFiles: true,
+        filters: [
+            { name: `${ext[typefile]} Files`, extensions: [typefile] },
+            { name: 'All Files', extensions: ['*'] }
+        ]
+    };
+
+    const result = await dialog.showOpenDialog(BrowserWindow.getFocusedWindow(), options);
+
+    if (result.canceled) {
+        return { ok: true, canceled: true };
+    } else if (!result.filePaths) {
+        return { ok: false, canceled: false };
+    } else {
+        const ext_give = result.filePaths[0].split('.')
+        if (ext_give[ext_give.length - 1] === typefile) {
+            return { ok: true, canceled: false, content: fs.readFileSync(result.filePaths[0], 'utf-8') };
+        } else {
+            return { ok: false, canceled: false };
+        }
+    }
+}
+
 const mainApp = () => main_app;
 
-module.exports = { createWindow, createChildWindow, mainApp, closeWindow, loadfile };
+module.exports = { createWindow, createChildWindow, mainApp, closeWindow, loadfile, saveFile, openFile };

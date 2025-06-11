@@ -48,6 +48,7 @@ function delete_(date) {
             history.splice(index, 1);
         }
     })
+    return {ok: true}
 }
 
 function unescapeHTML(html) {

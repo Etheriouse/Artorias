@@ -1,7 +1,6 @@
 
 
 const participants = document.getElementById('participants');
-const selector = document.getElementById('add-person');
 
 export async function setupPerson() {
     const persons = await window.api.getperson();
@@ -108,6 +107,13 @@ document.getElementById('confirm-reset-password').addEventListener('click', asyn
     const result = await window.api.resetsuperpsd();
     if (result.ok) {
         document.getElementById('confirm-reseted-psd').style.display = 'block'
+    }
+})
+
+document.getElementById('clear-cache').addEventListener('click', async () => {
+    const result = await window.api.clearcache();
+    if(result.ok) {
+        document.getElementById('clear-cache-confirm').style.display = 'block'
     }
 })
 

@@ -30,6 +30,7 @@ async function setup() {
     document.getElementById('loading').style.display = 'none';
     document.getElementById('grid').scrollTop = (new Date().getHours() * 100 + ((new Date().getMinutes() / 60) * 100))
     document.getElementById('time-now').style.height = `${(new Date().getHours() * 100 + ((new Date().getMinutes() / 60) * 100)) }px`;
+
 }
 
 document.getElementById('going-today-button').addEventListener('click', () => {

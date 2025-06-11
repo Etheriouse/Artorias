@@ -51,7 +51,7 @@ contextBridge.exposeInMainWorld('api', {
     },
 
     deletetohistory: (date) => {
-        ipcRenderer.invoke('delete-to-history', date);
+        return ipcRenderer.invoke('delete-to-history', date);
     },
 
     putincache: async (path, value) => {
@@ -63,7 +63,7 @@ contextBridge.exposeInMainWorld('api', {
     },
 
     clearcache: async () => {
-        ipcRenderer.invoke('clear-cache');
+        return ipcRenderer.invoke('clear-cache');
     },
 
     getpossibletypefor: async (type) => {
@@ -136,6 +136,18 @@ contextBridge.exposeInMainWorld('api', {
 
     getusedcpu: async () => {
         return await ipcRenderer.invoke('get-used-cpu');
+    },
+
+    openfile: async (extention) => {
+        return await ipcRenderer.invoke('open-file', extention);
+    },
+    
+    savefile: async (content, extention) => {
+        return await ipcRenderer.invoke('save-file', content, extention);
+    },
+
+    getcolortheme: async () => {
+        return await ipcRenderer.invoke('get-color-theme');
     },
 
 })

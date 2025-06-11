@@ -2,16 +2,15 @@
 <html lang="en">
 
 <head>
+    <script src="../../js/color.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modify person</title>
     <style>
         body {
             font-family: sans-serif;
-            background-color: #f4f6f8;
             overflow-y: hidden;
             margin: 0;
-            color: #333;
         }
 
         input:focus {
@@ -37,7 +36,6 @@
             margin: 0 auto;
             padding: 2rem;
             padding-top: 0;
-            background-color: #fff;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
@@ -52,7 +50,6 @@
 
         h4 {
             margin-bottom: 0.5rem;
-            color: #2c3e50;
         }
 
         select,
@@ -62,7 +59,6 @@
         button {
             padding: 0.6rem;
             font-size: 1rem;
-            border: 1px solid #ccc;
             border-radius: 6px;
             width: 100%;
             box-sizing: border-box;
@@ -108,7 +104,7 @@
 </head>
 
 <body>
-     <div style="display: none;" id="loading">
+    <div style="display: none;" id="loading">
         <style>
             .loading-spinner {
                 display: inline-block;
@@ -161,7 +157,7 @@
         async function setup() {
             const result = await window.api.getperson_uid();
             console.log(result);
-            
+
             document.getElementById('input-name').value = result.name
             document.getElementById('input-surname').value = result.surname
             document.getElementById('input-age').value = result.age

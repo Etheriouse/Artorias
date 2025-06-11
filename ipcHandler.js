@@ -7,7 +7,7 @@ const utils = require('./utils');
 const path = require('path');
 const fs = require('fs');
 
-const { closeWindow, loadfile } = require('./window');
+const { closeWindow, loadfile, openFile, saveFile } = require('./window');
 const { ipcMain, shell } = require('electron');
 
 function Handler() {
@@ -18,6 +18,13 @@ function Handler() {
         loadfile(namemenu);
     })
 
+    ipcMain.handle('open-file', async (event, extention) => {
+        return await openFile(extention);
+    })
+
+    ipcMain.handle('save-file', async (event, content, extention) => {
+        return await saveFile(content, extention);
+    })
 
     /* -------------------- Password -------------------- */
 
@@ -92,7 +99,7 @@ function Handler() {
     })
 
     ipcMain.handle('delete-to-history', (event, date) => {
-        clipboard_.delete_(date);
+        return clipboard_.delete_(date);
     })
 
     /* -------------------- Convertor ------------------- */
@@ -189,11 +196,15 @@ function Handler() {
     })
 
     ipcMain.handle('clear-cache', async (event) => {
-        utils.clearcache();
+        return utils.clearcache();
     })
 
     ipcMain.handle('reset-super-psd', async (event) => {
         return password_.resetsuperpsd();
+    })
+
+    ipcMain.handle('get-color-theme', async (event) => {
+        return utils.getcolortheme();
     })
 }
 

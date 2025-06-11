@@ -7,5 +7,6 @@
         "password": {
             "number_try": 3
         }
-    }
+    },
+    "colortheme": "dark"
 }

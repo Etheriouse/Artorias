@@ -7,6 +7,8 @@ const utils = require('./utils')
 const pass_ = require('./tools/password')
 const cal_ = require('./tools/calendar');
 const {setup} = require('./tools/observer');
+const fs = require('fs');
+const path = require('path');
 
 /** Artorias App 
  * settins ⚙️ 
@@ -24,13 +26,12 @@ const {setup} = require('./tools/observer');
  * - interpreteur markdown 📓
 */
 
-//cal_.importfromics('../data/calendar/test.ics');
 
 app.whenReady().then(async () => {
     Handler();
     runClipboard();
     createWindow();
-    setup();
+    //setup();
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
     })

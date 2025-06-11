@@ -64,7 +64,7 @@ async function setup() {
     if (network) {
         menu.push({
             name: 'Network',
-            subtitle: network.find(i => i.iface === 'Ethernet').ip4,
+            subtitle: await si.networkGatewayDefault(),
             data: network
         });
     }
@@ -79,15 +79,11 @@ async function setup() {
 
         }
     }
-
-
-    console.log(cpu)
-
     resolvePersonAddPromise({ ok: true })
 }
 
 async function getmenu() {
-    await personAddPromise;
+    //await personAddPromise;
     return { ok: true, data: menu }
 }
 
