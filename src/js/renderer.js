@@ -3,25 +3,12 @@ import * as menus from './menus.js'
 import { admin_perm } from './admin.js';
 // import { setColorTheme } from './color.js'
 
-const tools = [
-    { icon: "⛩️", label: "Dashboard" },
-    { icon: "📋", label: "Clipboard" },
-    { icon: "🖌️", label: "Whiteboard" },
-    { icon: "💾", label: "Template" },
-    { icon: "⚖️", label: "Converter" },
-    { icon: "🔐", label: "Password" }
-];
-
-const settings = [
-    { icon: "🗿", label: "Profil" },
-    { icon: "⚙️", label: "Settings" }
-]
 
 function set_event() {
     document.getElementById('tools-selector').childNodes.forEach(element => {
         element.addEventListener('click', () => {
             menus.select_icon(element);
-            const value = (String(element.childNodes[3].innerHTML)).toLowerCase();
+            const value = (String(element.childNodes[1].innerHTML)).toLowerCase();
             if (value === "dashboard") {
                 menus.loadmenu("Dashboard.html");
             } else {
