@@ -12,16 +12,33 @@ const tools = [
 ];
 
 const games = [
-    { icon: "💣", label: "Minesweaper" },
+    { icon: "💣", label: "Minesweeper" },
     { icon: "✖️", label: "2048" },
-    { icon: "🔢", label: "power4" },
-    { icon: "🧮", label: "sudoku" }
+    { icon: "🔢", label: "Power4" },
+    { icon: "🧮", label: "Sudoku" }
 ]
 
 const settings = [
     { icon: "🗿", label: "Profil" },
     { icon: "⚙️", label: "Settings" }
 ]
+var gamesHidden = true;
+
+async function loadCache() {
+    gamesHidden = await window.api.getcache('menu/games');
+    if (!gamesHidden) {
+        const gameIcons = document.querySelectorAll('.games-icons');
+        gameIcons.forEach(e => {
+            e.style.opacity = '1';
+            e.style.transform = 'translateY(0px)';
+        })
+    }
+}
+
+window.onbeforeunload = () => {
+    window.api.putincache('menu/games', gamesHidden);
+}
+
 
 function createMenu() {
     const iconss = document.getElementById('icon-selector');
@@ -33,12 +50,38 @@ function createMenu() {
         const div = document.createElement('div');
         const span = document.createElement('span');
         span.innerHTML = menu_.icon;
+        span.className = 'icon-menu-span'
+        span.dataset.name = menu_.label;
         const h3 = document.createElement('h3');
         h3.innerHTML = menu_.label;
         h3.style.display = 'none'
         div.appendChild(span);
         div.appendChild(h3);
         toolss.appendChild(div);
+    })
+
+    const gamess = toolss.lastChild;
+    gamess.id = "games"
+
+    gamess.firstChild.style.zIndex = 10;
+    const gamessubmenu = document.createElement('div');
+    gamessubmenu.id = "games-menus";
+    gamess.appendChild(gamessubmenu)
+
+    games.forEach(menu_ => {
+        const div = document.createElement('div');
+        const span = document.createElement('span');
+        span.innerHTML = menu_.icon;
+        span.style.fontSize = '25px'
+        span.className = 'icon-menu-span'
+        span.dataset.name = menu_.label;
+        const h3 = document.createElement('h3');
+        h3.innerHTML = menu_.label;
+        h3.style.display = 'none'
+        div.className = 'games-icons'
+        div.appendChild(span);
+        div.appendChild(h3);
+        gamessubmenu.appendChild(div);
     })
 
     const settingss = document.createElement('div');
@@ -48,6 +91,8 @@ function createMenu() {
         const div = document.createElement('div');
         const span = document.createElement('span');
         span.innerHTML = menu_.icon;
+        span.className = 'icon-menu-span'
+        span.dataset.name = menu_.label;
         const h3 = document.createElement('h3');
         h3.innerHTML = menu_.label;
         h3.style.display = 'none'

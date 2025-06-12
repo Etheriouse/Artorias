@@ -11,10 +11,8 @@
     <style>
         body {
             font-family: sans-serif;
-            background-color: #f4f6f8;
             overflow-y: hidden;
             margin: 0;
-            color: #333;
         }
 
         #loading {
@@ -44,7 +42,6 @@
             margin-top: 20px;
             padding: 2rem;
             padding-top: 0;
-            background-color: #fff;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
@@ -121,13 +118,21 @@
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    height: 100vh;
+                    height: 50vh;
+                }
+                #notsupported{
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: center;
                 }
             </style>
             <div class="loading-container">
                 <div class="loading-spinner"></div>
             </div>
         </div>
+
+        <div id="notsupported"><h1>Tools not supported</h1></div>
 
         <div id="context-menu" style="display: none;">
             <ul>

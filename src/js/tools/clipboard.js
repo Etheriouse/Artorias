@@ -1,18 +1,23 @@
-
+let date__ = [];
+let select_delete = [];
+let interval_refresh_id;
+let valuebreak = '';
+let scroll_ = 0;
 load_history();
 load_cache();
-let date__ = [];
 
-let select_delete = [];
 
 async function load_cache() {
     document.getElementById('repeate-refresh').value = await window.api.getcache('tools/clipboard/refresh_interval');
     if (!document.getElementById('repeate-refresh').value) {
         document.getElementById('repeate-refresh').value = 0;
     }
+
+    refresh_update(document.getElementById('repeate-refresh').value)
 }
 
 async function load_history() {
+    scroll_ = document.getElementById('clippaper-list').scrollTop;
     const result = await window.api.gethistorypaper();
     const list = document.getElementById('clippaper-list');
     list.innerHTML = ''
@@ -43,17 +48,29 @@ async function load_history() {
     });
 
     document.getElementById('loading').style.display = 'none';
-    list.scrollTop = 0;
+    
+    document.getElementById('clippaper-list').scrollTop = scroll_;
 }
+
+function pause_refresh(reprise) {
+    if(!reprise) {
+        clearInterval(interval_refresh_id);
+    } else {
+        interval_refresh_id = setInterval(load_history, parseInt(valuebreak))
+    }
+}
+
 const delete_all = document.getElementById('delete-all-button-clippaper');
 const delete_button = document.getElementById('delete-button-clippaper');
 
 var istoDelete = false;
 document.getElementById('delete-clippaper-icon').addEventListener('click', () => {
     if (delete_all.style.display === 'none') {
+        pause_refresh(false);
         delete_all.style.display = 'block';
         delete_button.style.display = 'block'
     } else {
+        pause_refresh(true);
         delete_button.style.display = 'none'
         delete_all.style.display = 'none';
     }
@@ -85,6 +102,7 @@ delete_button.addEventListener('click', async () => {
         delete_button.style.display = 'none'
         delete_all.style.display = 'none';
         istoDelete = !istoDelete;
+        pause_refresh(true);
     } else {
         alert('delete not worked');
     }
@@ -101,6 +119,7 @@ function refresh_update(value) {
     if (value === '0') {
         clearInterval(interval_refresh_id);
     } else {
+        valuebreak = value;
         clearInterval(interval_refresh_id);
         interval_refresh_id = setInterval(load_history, parseInt(value))
     }
@@ -119,8 +138,6 @@ function escapeHTML(html) {
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
 }
-
-let interval_refresh_id;
 
 function timeAgo(date) {
     const now = new Date();

@@ -150,6 +150,9 @@ contextBridge.exposeInMainWorld('api', {
         return await ipcRenderer.invoke('get-color-theme');
     },
 
+    changetheme: async (theme) => {
+        return await ipcRenderer.invoke('change-theme', theme);
+    },
 })
 
 contextBridge.exposeInMainWorld('window_', {

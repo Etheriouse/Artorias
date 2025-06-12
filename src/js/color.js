@@ -3,6 +3,7 @@ async function setColorTheme() {
     const color = document.createElement('link');
     color.rel = "stylesheet"
     color.href = theme;
+    color.id = "color-style-sheet"
     document.head.appendChild(color)
     document.documentElement.style.visibility = 'visible';
 }

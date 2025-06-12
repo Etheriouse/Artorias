@@ -1,0 +1,88 @@
+#tab-bar {
+    display: flex;
+    flex-direction: row;
+    height: 45px;
+}
+
+#add-tab {
+    width: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 3px;
+    padding: 2px;
+    border-radius: 5px;
+}
+
+.tab {
+    display: flex;
+    flex-direction: row;
+    min-width: 5%;
+    width: 100%;
+    max-width: 200px;
+    align-items: center;
+    border-radius: 5px;
+    margin: 3px;
+    padding: 2px;
+}
+
+#title-tab>h3 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.delete-tab {
+    width: 30%;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    padding-right: 10px;
+}
+
+#selected-tab span {
+    display: block;
+}
+
+.tab:hover span {
+    display: block !important;
+}
+
+.delete-tab>span {
+    display: none;
+}
+
+.title-tab {
+    display: flex;
+    flex-direction: row;
+    width: 70%;
+    align-items: center;
+}
+
+/*--- Coloration ---*/
+#tab-bar {
+    border-bottom: 1px solid #141414;
+    padding-bottom: 2px;
+    padding-top: 2px;
+}
+
+.tab {
+    background-color: #232323;
+}
+
+.tab:hover {
+    background-color: #303030;
+}
+
+#add-tab:hover {
+    background-color: #272727;
+}
+
+#context-games {
+    background-color: #232323;
+}
+
+#context-games li:hover {
+    background: rgb(44, 44, 44);
+}

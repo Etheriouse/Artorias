@@ -20,6 +20,15 @@ button {
     border: 1px solid #141414;
 }
 
+#load-psd-button {
+    border: 1px solid #141414;
+    background-color: #303030;
+}
+
+#load-psd-button:hover {
+    background: rgb(56, 56, 56);
+}
+
 #context-menu {
     /* background: white; */
     background: rgb(45, 45, 45);
@@ -80,11 +89,6 @@ button,
     color: #ffffff;
 }
 
-#input-area {
-    background-color: #2d2d2d;
-    border: none;
-}
-
 .event>p {
     background-color: 'none'
 }
@@ -121,7 +125,31 @@ button,
     border: 1px solid #141414;
 }
 
+#title-history-clippaper {
+    border-bottom: 1px solid #141414;
+}
+
+#clippaper-list>div:hover {
+    background-color: #232323;
+}
+
 #input,
 #output {
+    border: 1px solid #141414;
+}
+
+#input-area {
+    background-color: #2d2d2d;
+}
+
+#tools-bar-whiteboard {
+    border: 1px solid #141414;
+}
+
+.tools-selected-whiteboard {
+    background-color: #3f3f3f;
+}
+
+#drawing-canvas {
     border: 1px solid #141414;
 }

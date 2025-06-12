@@ -12,4 +12,7 @@ if (!(admin_pwd.substring(0, 7) === '$2b$10$')) {
     admin_pwd = newhash;
 }
 
-module.exports = { config, admin_pwd, colortheme };
+function saveconfig() {
+    fs.writeFileSync(path.join(__dirname, 'config.json'), JSON.stringify(config));
+}
+module.exports = { config, admin_pwd, colortheme, saveconfig };

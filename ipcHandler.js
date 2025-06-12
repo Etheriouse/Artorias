@@ -206,6 +206,9 @@ function Handler() {
     ipcMain.handle('get-color-theme', async (event) => {
         return utils.getcolortheme();
     })
+    ipcMain.handle('change-theme', async (event, theme) => {
+        return utils.changetheme(theme);
+    })
 }
 
 module.exports = { Handler };

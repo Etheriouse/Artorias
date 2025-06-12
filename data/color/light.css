@@ -20,6 +20,15 @@ button {
     border: 1px solid #b5b5b5;
 }
 
+#load-psd-button {
+    border: 1px solid #b5b5b5;
+    background-color: #eee;
+}
+
+#load-psd-button:hover {
+    background: #ccc;
+}
+
 #context-menu {
     background: white;
     border: 1px solid #ccc;
@@ -95,7 +104,37 @@ button:hover {
     border-bottom: 1px #b5b5b5 solid;
 }
 
+.content-paper-clip {
+    color: #000000;
+    border: 1px solid #b5b5b5;
+}
+
+#title-history-clippaper {
+    border-bottom: 1px solid #b5b5b5;
+}
+
+#clippaper-list>div:hover {
+    background-color: #bdbdbd;
+}
+
+
 #input,
 #output {
     border: 1px solid #ccc;
+}
+
+#input-area {
+    background-color: #ffffff;
+}
+
+#tools-bar-whiteboard {
+    border: 1px solid #b5b5b5;
+}
+
+.tools-selected-whiteboard {
+    background-color: #bdbdbd;
+}
+
+#drawing-canvas {
+    border: 1px solid #b5b5b5;
 }

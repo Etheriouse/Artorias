@@ -45,7 +45,7 @@ let i_want_delete = false;
 
 document.getElementById('register-psd').addEventListener('click', async () => {
     const result = await window.window_.passwordadd();
-    if(result.ok) {
+    if (result.ok) {
         location.reload();
     }
 })
@@ -93,75 +93,81 @@ document.getElementById('delete-psd').addEventListener('click', async () => {
 })
 
 async function load_pwd_list() {
-    const list = document.getElementById('list-pwd');
-    list.innerHTML = '';
+    document.getElementById('load-psd-ask').style.display = 'none'
     document.getElementById('loading').style.display = 'block'
+    admin_perm(async () => {
+        const list = document.getElementById('list-pwd');
+        list.innerHTML = '';
 
-    const pwds = await window.api.loadpwds();
+        const pwds = await window.api.loadpwds();
 
-    for (const id in pwds) {
-        //<input type="checkbox" class="checkbox-delete-psd" data>
-        const entry = pwds[id];
-        const div = document.createElement('div');
-        div.dataset.id = id;
-        div.className = 'pwd'
-        const website = document.createElement('h3');
-        website.innerHTML = entry.site;
-        const username = document.createElement('h3');
-        username.innerHTML = entry.user;
-        const pass = document.createElement('h3');
-        pass.innerHTML = '**********';
-        const url = document.createElement('h3');
-        url.className = "url-pwd";
-        url.innerHTML = entry.url;
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox'
-        checkbox.style.display = 'none';
-        checkbox.className = "checkbox-delete-psd";
-        checkbox.dataset.id = id;
+        for (const id in pwds) {
+            //<input type="checkbox" class="checkbox-delete-psd" data>
+            const entry = pwds[id];
+            const div = document.createElement('div');
+            div.dataset.id = id;
+            div.className = 'pwd'
+            const website = document.createElement('h3');
+            website.innerHTML = entry.site;
+            const username = document.createElement('h3');
+            username.innerHTML = entry.user;
+            const pass = document.createElement('h3');
+            pass.innerHTML = '**********';
+            const url = document.createElement('h3');
+            url.className = "url-pwd";
+            url.innerHTML = entry.url;
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox'
+            checkbox.style.display = 'none';
+            checkbox.className = "checkbox-delete-psd";
+            checkbox.dataset.id = id;
 
-        div.addEventListener('contextmenu', (e) => {
-            e.preventDefault();
-            menu.style.top = `${e.pageY}px`;
-            menu.style.left = `${e.pageX}px`;
-            menu.style.display = 'block';
-        });
+            div.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+                menu.style.top = `${e.pageY}px`;
+                menu.style.left = `${e.pageX}px`;
+                menu.style.display = 'block';
+            });
 
-        website.addEventListener('click', (key) => {
-            if (!key.ctrlKey) {
-                window.api.settopaper(website.innerHTML);
-            }
-        })
+            website.addEventListener('click', (key) => {
+                if (!key.ctrlKey) {
+                    window.api.settopaper(website.innerHTML);
+                }
+            })
 
-        username.addEventListener('click', (key) => {
-            if (!key.ctrlKey) {
-                window.api.settopaper(username.innerHTML);
-            }
-        })
+            username.addEventListener('click', (key) => {
+                if (!key.ctrlKey) {
+                    window.api.settopaper(username.innerHTML);
+                }
+            })
 
-        url.addEventListener('click', (key) => {
-            if (!key.ctrlKey) {
-                window.api.settopaper(url.innerHTML);
-            }
-        })
+            url.addEventListener('click', (key) => {
+                if (!key.ctrlKey) {
+                    window.api.settopaper(url.innerHTML);
+                }
+            })
 
-        div.appendChild(website);
-        div.appendChild(username);
-        div.appendChild(pass);
-        div.appendChild(url);
-        div.appendChild(checkbox);
+            div.appendChild(website);
+            div.appendChild(username);
+            div.appendChild(pass);
+            div.appendChild(url);
+            div.appendChild(checkbox);
 
-        list.insertBefore(div, list.children[1])
-    }
+            list.insertBefore(div, list.children[1])
+        }
 
-    list.style.display = 'block';
-    document.getElementById('loading').style.display = 'none'
+        list.style.display = 'block';
+        document.getElementById('loading').style.display = 'none'
 
-    setup_event_listenner();
-    sortPsd(document.getElementById('list-pwd'), 0);
-
+        setup_event_listenner();
+        sortPsd(document.getElementById('list-pwd'), 0);
+    })
 }
-load_pwd_list();
+
+
+document.getElementById('load-psd-button').addEventListener('click', async () => {
+    load_pwd_list()
+})
 
 function modify(pwd) {
     window.window_.passwordmodify(pwd);

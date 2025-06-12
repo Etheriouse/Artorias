@@ -1,20 +1,24 @@
 const path = require('path');
 const fs = require('fs');
 
+const { setbackground } = require('./window')
 var cache = require('./cache.json');
-var {colortheme} = require('./config')
+const {config} = require('./config')
 
 const cache_cleared = {
-    tools: {
-        clipboard: {
-            refresh_interval: "1000"
+    "tools": {
+        "clipboard": {
+            "refresh_interval": "0"
         },
-        calendar: {
+        "calendar": {
             "time-travel": 0
         },
-        markdown: {
-            input: ""
+        "markdown": {
+            "input": ""
         }
+    },
+    "menu": {
+        "games": true
     }
 }
 
@@ -53,6 +57,11 @@ async function getcache(path) {
     return value;
 }
 
+function changetheme(theme) {
+    config.colortheme = theme;
+    return {ok: true};
+}
+
 async function clearcache() {
    cache = cache_cleared;
    return {ok: true}
@@ -70,7 +79,7 @@ async function savecache() {
 }
 
 function getcolortheme() {
-    return path.join(__dirname, `./data/color/${colortheme}.css`);
+    return path.join(__dirname, `./data/color/${config.colortheme}.css`);
 }
 
-module.exports = { putincache, getcache, clearcache, savecache, getcolortheme };
+module.exports = { putincache, getcache, clearcache, savecache, getcolortheme, changetheme };

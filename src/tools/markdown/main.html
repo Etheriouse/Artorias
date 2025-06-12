@@ -20,7 +20,7 @@
         #bar {
             margin: 0.5%;
             margin-bottom: 0;
-            height: 3%;
+            height: 5%;
         }
 
         span {
@@ -31,7 +31,7 @@
 
         span:hover {
             display: inline-block;
-            transform: scale(1.3);
+            transform: scale(1.2);
             transition-duration: 0.2s;
         }
 
@@ -40,7 +40,7 @@
             display: flex;
             flex-direction: row;
             width: 100%;
-            height: 97%;
+            height: 95%;
         }
 
         #input,
@@ -49,12 +49,7 @@
             width: 100%;
         }
 
-        #output {
-            padding: 0.5%;
-            padding-left: 1%;
-        }
-
-        textarea {
+        #input-area {
             border: none;
             overflow: auto;
             outline: none;
@@ -62,8 +57,8 @@
             -moz-box-shadow: none;
             box-shadow: none;
             resize: none;
-            width: 93%;
-            height: 94%;
+            width: 97%;
+            height: 98%;
             margin: 1%;
         }
 
@@ -72,8 +67,14 @@
             width: 100%;
             height: 100%;
             font-size: 1rem;
+            border: 1px solid #ccc;
             border-radius: 6px;
             box-sizing: border-box;
+        }
+
+        #output {
+            padding: 1%;
+            padding-top: 0;
         }
 
         textarea:focus,
@@ -107,7 +108,7 @@
 </head>
 
 <body>
-      <div id="menu">
+    <div id="menu">
         <div id="icon-selector">
         </div>
     </div>

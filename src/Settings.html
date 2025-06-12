@@ -92,6 +92,16 @@
             margin-right: 7px;
             margin-left: 7px;
         }
+
+        #theme > div {
+            display: flex;
+            flex-direction: row;
+        }
+
+        #theme > div > button {
+            margin: 5px;
+            cursor: pointer;
+        }
     </style>
     <style>
         #add-participant {
@@ -164,7 +174,7 @@
 </head>
 
 <body>
-        <div id="menu">
+    <div id="menu">
         <div id="icon-selector">
         </div>
     </div>
@@ -177,6 +187,15 @@
                     <h4>Cache</h4>
                     <button id="clear-cache" style="width: 40%;">Clear cache</button>
                     <p id="clear-cache-confirm" style="color: green; display: none;">Cache cleared</p>
+                </div>
+
+                <div id="theme">
+                    <h4>Theme</h4>
+                    <div>
+                        <button id="light-theme">Set light theme</button>
+                        <button id="dark-theme">Set dark theme</button>
+                    </div>
+                    <p id="change-theme-confirm" style="color: orange; display: none;">Relaod the app for a complete application</p>
                 </div>
 
                 <div id="password">

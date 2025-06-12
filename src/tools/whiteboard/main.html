@@ -8,21 +8,124 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../style.css">
     <title>Artorias Tools</title>
+
 </head>
 
 <body>
-       <div id="menu">
+    <div id="menu">
         <div id="icon-selector">
         </div>
     </div>
     <script src="../../js/menu.js"></script>
 
     <div id="main-app">
+        <div id="draw-page">
+            <canvas id="drawing-canvas">
+
+            </canvas>
+
+            <div id="erase-cursor" style="display: none;">
+            </div>
+        </div>
+        <div id="side-right-whiteboard">
+            <div id="tools-bar-whiteboard">
+                <span class="tools-whiteboard tools-selected-whiteboard" id="brush-whiteboard">🖌️</span>
+                <span data-stroke="1">▪️</span>
+                <span data-stroke="2">◾</span>
+                <span data-stroke="8">◼️</span>
+                <span data-stroke="16">⬛</span>
+                <span class="tools-whiteboard" id="clear-whiteboard">🗑️</span>
+                <span class="tools-whiteboard" id="erase-whiteboard">🧽</span>
+                <span data-color="red">🟥</span>
+                <span data-color="orange">🟧</span>
+                <span data-color="yellow">🟨</span>
+                <span data-color="green">🟩</span>
+                <span data-color="blue">🟦</span>
+                <span data-color="purple">🟪</span>
+                <span data-color="black">⬛</span>
+                <span data-color="white">⬜</span>
+                <input id="color-selector-whiteboard" type="color">
+            </div>
+        </div>
+
+        <style>
+
+            #erase-cursor {
+                position: absolute;
+                cursor: pointer;
+                pointer-events: none;
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                border: 1px solid black;
+            }
+
+            #main-app {
+                display: flex;
+                flex-direction: row;
+                margin-left: 0;
+            }
+
+            #draw-page {
+                padding: 20px;
+                width: 98%;
+                position: relative;
+            }
+
+            #side-right-whiteboard {
+                width: 2%;
+                font-size: 25px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 5px;
+                margin: 4px;
+            }
+
+            #tools-bar-whiteboard {
+                display: flex;
+                flex-direction: column;
+
+                border-radius: 6px;
+                box-sizing: border-box;
+            }
+
+            #tools-bar-whiteboard>* {
+                padding: 2px;
+                margin: 3px;
+                border-radius: 5px;
+                cursor: pointer;
+                display: inline-block;
+                transition-duration: 0.2s;
+            }
+
+            #tools-bar-whiteboard>*:hover {
+                display: inline-block;
+                transform: scale(1.3);
+                transition-duration: 0.2s;
+            }
+
+            #color-selector-whiteboard:hover {
+                transform: none;
+            }
+
+            #color-selector-whiteboard {
+                border-radius: 5px;
+                width: auto;
+                height: 50px;
+                box-sizing: border-box;
+            }
+
+            #drawing-canvas {
+                cursor: crosshair;
+                width: 100%;
+                height: 100%;
+                border-radius: 5px;
+            }
+        </style>
 
         <script src="../../js/tools/whiteboard.js"></script>
     </div>
 
     <script type="module" src="../../js/renderer.js"></script>
-</body>
-
 </html>

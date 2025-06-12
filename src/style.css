@@ -81,6 +81,40 @@ body {
     transition-duration: 0.2s;
 }
 
-input:focus, button:focus, textarea:focus select:focus  option:focus{
+input:focus,
+button:focus,
+textarea:focus select:focus option:focus {
     outline: none;
+}
+
+#games-menus {
+    display: flex;
+    flex-direction: column;
+}
+
+.games-icons {
+    opacity: 0;
+    /* transition: transform 0.7s ease; */
+}
+
+.games-icons:nth-child(1) {
+    transform: translateY(-15px);
+}
+
+.games-icons:nth-child(2) {
+    transform: translateY(-35px);
+}
+
+.games-icons:nth-child(3) {
+    transform: translateY(-70px);
+}
+
+.games-icons:nth-child(4) {
+   transform: translateY(-105px);
+}
+
+#games {
+    height: auto !important;
+    display: flex;
+    flex-direction: column;
 }

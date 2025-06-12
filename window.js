@@ -1,7 +1,7 @@
 const { BrowserWindow, dialog } = require('electron');
 const path = require('path');
 const fs = require('fs')
-var { colortheme } = require('./config');
+const { colortheme } = require('./config')
 
 let main_app;
 
@@ -20,7 +20,8 @@ const ext = {
     "bit": "Image",
 }
 
-var bgcolor = colortheme == 'dark'? '#2d2d2d' : '#ffffff' 
+var bgcolor = colortheme == 'dark' ? '#2d2d2d' : '#ffffff'
+
 
 const createWindow = () => {
     const win = new BrowserWindow({
@@ -44,6 +45,7 @@ const createWindow = () => {
 }
 
 const createChildWindow = (namefile, block, size, resizeable = true) => {
+    
     if (!size) {
         size = {
             width: 400,
@@ -53,6 +55,7 @@ const createChildWindow = (namefile, block, size, resizeable = true) => {
     const childWindow = new BrowserWindow({
         width: size.width,
         height: size.height,
+        backgroundColor: bgcolor,
         modal: block || true,
         resizable: resizeable,
         parent: BrowserWindow.getFocusedWindow(),

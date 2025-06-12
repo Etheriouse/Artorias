@@ -53,7 +53,7 @@
             <h3>Password</h3>
             <h3>Url</h3>
         </div>
-        <div style="display: block;" id="loading">
+        <div style="display: none;" id="loading">
             <style>
                 .loading-spinner {
                     display: inline-block;
@@ -83,7 +83,26 @@
                 <div class="loading-spinner"></div>
             </div>
         </div>
+        <div id="load-psd-ask">
+            <style>
+                #load-psd-ask {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: center;
+                    height: 20%;
+                }
+
+                #load-psd-button {
+                    padding: 10px;
+                    border-radius: 6px;
+                    cursor: pointer;
+                }
+            </style>
+            <h4 id="load-psd-button">Load password</h4>
+        </div>
         <div id="list-pwd">
+
         </div>
 
         <script type="module" src="../../js/tools/password.js"></script>

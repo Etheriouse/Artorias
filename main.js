@@ -9,6 +9,7 @@ const cal_ = require('./tools/calendar');
 const {setup} = require('./tools/observer');
 const fs = require('fs');
 const path = require('path');
+const {saveconfig} = require('./config')
 
 /** Artorias App 
  * settins ⚙️ 
@@ -45,6 +46,6 @@ app.on('window-all-closed', () => {
         save_event();
         save_person();
         utils.savecache();
-        
+        saveconfig()
     }
 })
