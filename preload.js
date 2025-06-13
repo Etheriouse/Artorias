@@ -173,6 +173,14 @@ contextBridge.exposeInMainWorld('api', {
     clearbdd: () => {
         return ipcRenderer.invoke('clear-bdd');
     },
+
+    flagordig: async (x, y, digflag) => {
+        return await ipcRenderer.invoke('set-flag-or-dig', x, y, digflag);
+    },
+
+    generateground: async (size) => {
+         return await ipcRenderer.invoke('generate-ground',size);
+    },
 })
 
 contextBridge.exposeInMainWorld('window_', {
@@ -200,3 +208,7 @@ contextBridge.exposeInMainWorld('window_', {
         return await ipcRenderer.invoke('close-window');
     }
 })
+
+// contextBridge.executeInMainWorld('mine', {
+    
+// })

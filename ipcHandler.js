@@ -2,8 +2,9 @@ const password_ = require('./tools/password');
 const clipboard_ = require('./tools/clipboard');
 const converter_ = require('./tools/converter');
 const calendar_ = require('./tools/calendar');
-const observe_ = require('./tools/observer')
-const search_ = require('./tools/search')
+const observe_ = require('./tools/observer');
+const search_ = require('./tools/search');
+const games = require('./tools/games');
 const utils = require('./utils');
 const path = require('path');
 const fs = require('fs');
@@ -232,6 +233,16 @@ function Handler() {
     ipcMain.handle('change-theme', async (event, theme) => {
         return utils.changetheme(theme);
     })
+
+    /* Games */
+
+    ipcMain.handle('generate-ground', async (event, size) => {
+        return games.minesweeper.generateground(size);
+    })
+
+    ipcMain.handle('set-flag-or-dig', async (event, x, y, a) => {
+        return games.minesweeper.setflagordig(x, y, a);
+    });
 }
 
 module.exports = { Handler };

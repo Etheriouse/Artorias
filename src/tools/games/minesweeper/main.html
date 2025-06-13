@@ -17,11 +17,118 @@
     <script src="../../../js/menu.js"></script>
 
     <div id="main-app">
-mine
+        <style>
+            .grid {
+                display: grid;
+                gap: 4px;
+                margin-top: 20px;
+            }
+
+            .cell {
+                width: 40px;
+                height: 40px;
+                border: 2px solid #666;
+                border-radius: 2px;
+                box-sizing: border-box;
+                background-color: #666;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                font-weight: bold;
+            }
+
+            .cell.diged {
+                cursor: default;
+
+                background-color: #2d2d2d;
+            }
+
+            .cell.bomb {
+                background-color: red;
+                color: white;
+            }
+        </style>
+
+
+        <h1>Mini Démineur</h1>
+        <p>Clique sur les cases, mais évite la bombe !</p>
+        <div id="dead-message" style="display: none;">
+            <h3>Dead :c</h3>
+            <button id="restart-button">Restart</button>
+        </div>
+        <div class="grid" id="grid"></div>
+
+        <script>
+            const size = {
+                w: 20,
+                h: 10
+            };
+
+            document.getElementById('restart-button').addEventListener('click', () => {
+                location.reload();
+            })
+
+            const grid = document.getElementById('grid')
+            grid.style.gridTemplateColumns = `repeat(${size.w}, 40px)`
+            grid.style.gridTemplateRows = `repeat(${size.h}, 40px)`
+            var game;
+            setup();
+
+            async function setup() {
+                game = await window.api.generateground(size);
+                game.game.grid.forEach((row, y) => {
+                    row.forEach((cell_, x) => {
+                        const cell = document.createElement('div')
+                        cell.className = 'cell';
+                        const value = document.createElement('span');
+
+                        cell.addEventListener('click', async (e) => {
+                            if (game.isAlive) {
+                                if (cell.classList.contains('clicked')) return;
+
+                                if (e.shiftKey) {
+                                    if (!cell.className.includes('diged')) {
+                                        game = await window.api.flagordig(x, y, 'flag');
+                                        cell.classList.add('flaged')
+                                    }
+                                } else {
+                                    game = await window.api.flagordig(x, y, 'dig');
+                                    cell.classList.add('diged')
+                                }
+                                rendererGame(game);
+                            }
+                        })
+
+                        cell.appendChild(value);
+                        grid.appendChild(cell)
+                    })
+                })
+            }
+
+            async function rendererGame(game) {
+                Array.from(grid.children).forEach((cell, i) => {
+                    const y = parseInt((Number(i) / size.w));
+                    const x = i % size.w;
+                    const cell_ = game.game.grid[y][x];
+                    cell.childNodes[0].innerHTML = cell_.string;
+
+                    if (cell_.valeur) {
+                        if (cell_.isShowed) {
+                            game.isAlive = false;
+                        }
+                    }
+                })
+
+                if (!game.isAlive) {
+                    document.getElementById('dead-message').style.display = 'block'
+                }
+            }
+        </script>
     </div>
 
     <script type="module" src="../../../js/renderer.js"></script>
-    <script type="module" src="../../../js/tools/games/mine.js"></script>
+    <!-- <script type="module" src="../../../js/tools/games/mine.js"></script> -->
 </body>
 
 </html>
