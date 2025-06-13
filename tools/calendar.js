@@ -1,7 +1,8 @@
 const utils = require('../utils');
 const path = require('path');
 const fs = require('fs');
-const { createChildWindow } = require('../window');
+const { createChildWindow, openFile } = require('../window');
+
 const crypto = require('crypto-js');
 const ical = require('ical');
 
@@ -37,24 +38,91 @@ function generateUUIDv4() {
 }
 
 function exporthasics() {
+    try {
+        const escapeICS = (str) =>
+            String(str)
+                .replace(/\\n/g, "\\n")
+                .replace(/,/g, "\\,")
+                .replace(/;/g, "\\;")
+                .replace(/\r?\n/g, "\\n");
 
+        const formatDate = (dateStr) => {
+            const date = new Date(dateStr);
+           return date.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+        };
+
+        const getNameByUID = (uid) => {
+            const user = person_.find(u => u.uid === uid);
+            return user ? `${user.name} ${user.surname}` : uid;
+        };
+
+        const lines = [
+            "BEGIN:VCALENDAR",
+            "VERSION:2.0",
+            "PRODID:-//Artorias Tools//FR"
+        ];
+
+        for (const e of event_) {
+            lines.push("BEGIN:VEVENT");
+            lines.push(`UID:${e.uid}`);
+            lines.push(`DTSTAMP:${formatDate(e["last-write"])}`);
+            lines.push(`DTSTART:${formatDate(e.start)}`);
+            lines.push(`DTEND:${formatDate(e.end)}`);
+            lines.push(`SUMMARY:${escapeICS(e.name)}`);
+            lines.push(`DESCRIPTION:${escapeICS(e.description)}`);
+            lines.push(`LOCATION:${escapeICS(e.location)}`);
+            lines.push(`CATEGORIES:${escapeICS(e.categorie)}`);
+            lines.push(`ORGANIZER;CN="${getNameByUID(e.organizer)}":MAILTO:${e.organizer}`);
+
+            if (e.members) {
+                for (const member of e.members) {
+                    const name = getNameByUID(member);
+                    lines.push(`ATTENDEE;CN="${name}";RSVP=TRUE:MAILTO:${member}`);
+                }
+            }
+            lines.push("END:VEVENT");
+        }
+
+        lines.push("END:VCALENDAR");
+
+        const icsContent = lines.join("\r\n");
+
+        fs.writeFileSync(path.join(__dirname, '../data/calendar/event.ics'), icsContent, 'utf-8');
+        return { ok: true }
+    } catch (err) {
+        console.log(err)
+        return { ok: false };
+    }
 }
 
-function importfromics(file) {
+async function importfromics() {
+    const result = await openFile('ics');
+    if (result.ok) {
+        import__(result.filepath);
+        return { ok: true };
+    } else {
+        return { ok: false };
+    }
+}
+
+function import__(file) {
     try {
-        const ics = ical.parseFile(path.join(__dirname, file));
+        const ics = ical.parseFile(file);
         const events_list = [];
         for (const uid in ics) {
+            const uid_giv = addPerson({ name: ics[uid].organizer, surname: '', age: '', phone: '' });
             events_list.push(
                 {
                     name: ics[uid].summary || '',
                     description: ics[uid].description || '',
                     location: ics[uid].location || '',
                     categorie: ics[uid].categories || '',
-                    organizer: ics[uid].organizer || '',
-                    start: ics[uid].start || '',
-                    end: ics[uid].end || '',
+                    organizer: uid_giv || '',
+                    start: new Date(ics[uid].start).toString() || '',
+                    end: new Date(ics[uid].end).toString() || '',
+                    "last-write": (!ics[uid].lastmodified) ? new Date().toString() : new Date(ics[uid].lastmodified).toString(),
                     uid: uid
+
                 }
             )
         }
@@ -86,6 +154,7 @@ function registerevent(event) {
     } else {
         event_.push(event);
     }
+    save_event();
 }
 
 function modifyevent(event) {
@@ -93,6 +162,7 @@ function modifyevent(event) {
     if (index !== -1) {
         event_[index] = event.data;
     }
+    save_event();
 }
 
 function deleteevent(uid) {
@@ -231,6 +301,8 @@ function addPerson(person) {
     } else {
         person_.push(person);
     }
+    save_person();
+    return person.uid;
 }
 
 async function modifypersonwindow(uid) {
@@ -258,6 +330,7 @@ function modifyPerson(person) {
     if (index !== -1) {
         person_[index] = person;
     }
+    save_person();
 }
 
 function deletePerson(uid) {
@@ -275,4 +348,4 @@ function deletePerson(uid) {
     })
 }
 
-module.exports = { registerevent, save_event, save_person, modifyeventwindow, addeventwindow, confirmaddevent, getevent_, geteventday, confirmmodifyevent, deleteevent, importfromics, getperson, addpersonwindow, confirmaddperson, modifypersonwindow, confirmmodifyperson, getperson_uid, deletePerson }
+module.exports = { registerevent, save_event, save_person, modifyeventwindow, addeventwindow, confirmaddevent, getevent_, geteventday, confirmmodifyevent, deleteevent, importfromics, getperson, addpersonwindow, confirmaddperson, modifypersonwindow, confirmmodifyperson, getperson_uid, deletePerson, exporthasics }

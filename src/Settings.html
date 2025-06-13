@@ -93,14 +93,19 @@
             margin-left: 7px;
         }
 
-        #theme > div {
+        #theme>div {
             display: flex;
             flex-direction: row;
         }
 
-        #theme > div > button {
+        #theme>div>button {
             margin: 5px;
             cursor: pointer;
+        }
+
+        #calendar > div {
+            margin-left: 10px;
+            width: 90%;
         }
     </style>
     <style>
@@ -195,7 +200,44 @@
                         <button id="light-theme">Set light theme</button>
                         <button id="dark-theme">Set dark theme</button>
                     </div>
-                    <p id="change-theme-confirm" style="color: orange; display: none;">Relaod the app for a complete application</p>
+                    <p id="change-theme-confirm" style="color: orange; display: none;">Relaod the app for a complete
+                        application</p>
+                </div>
+
+                <div id="calendar">
+                    <h4>Event</h4>
+                    <div>
+                        <h4>Export</h4>
+                        <p id="export-ics-confirm" style="color: green; display: none;">Export confirmed</p>
+                        <p id="export-ics-confirm-failed" style="color: red; display: none;">Export failed</p>
+                        <button id="export-ics">Export event has ics format</button>
+                        <script>
+                            document.getElementById('export-ics').addEventListener('click', async () => {
+                                const result = await window.api.exporttoics();
+                                if (result.ok) {
+                                    document.getElementById('export-ics-confirm').style.display = 'block';
+                                } else {
+                                    document.getElementById('export-ics-confirm-failed').style.display = 'block';
+                                }
+                            })
+                        </script>
+                    </div>
+                    <div>
+                        <h4>Import</h4>
+                        <p id="import-ics-confirm" style="color: green; display: none;">Import confirmed, reload for show person</p>
+                        <p id="import-ics-confirm-failed" style="color: red; display: none;">Import failed</p>
+                        <button id="import-ics">Import event from ics format</button>
+                        <script>
+                            document.getElementById('import-ics').addEventListener('click', async () => {
+                                const result = await window.api.importfromics();
+                                if (result.ok) {
+                                    document.getElementById('import-ics-confirm').style.display = 'block';
+                                } else {
+                                    document.getElementById('import-ics-confirm-failed').style.display = 'block';
+                                }
+                            })
+                        </script>
+                    </div>
                 </div>
 
                 <div id="password">

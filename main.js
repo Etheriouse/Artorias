@@ -10,6 +10,7 @@ const {setup} = require('./tools/observer');
 const fs = require('fs');
 const path = require('path');
 const {saveconfig} = require('./config')
+const search = require('./tools/search')
 
 /** Artorias App 
  * settins ⚙️ 
@@ -22,17 +23,15 @@ const {saveconfig} = require('./config')
  * gestionnaire de mots de passe crypter 🔐
  * /todo list -
  * - Quand on lance l'app on arrive sur un dashboard
- * - theme coloration / image de fond
  * - faire ma propre library de grand nombre
- * - interpreteur markdown 📓
+ * - moteur de recherche de fichier avec index inverser !important
+ * - faire un mini language de script !important 
 */
-
 
 app.whenReady().then(async () => {
     Handler();
     runClipboard();
     createWindow();
-    //setup();
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
     })

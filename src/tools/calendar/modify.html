@@ -266,30 +266,32 @@
                 document.getElementById('input-location').value = result.location;
                 document.getElementById('input-categorie').value = result.categorie;
 
-                result.members.forEach(uid => {
-                    const person__ = option__.get_name_by_uid(uid);
-                    const div = document.createElement('div');
-                    div.className = 'a-participant';
-                    const name = document.createElement('h4');
-                    name.className = 'participant-person';
-                    name.innerHTML = person__.name;
-                    name.dataset.uid = person__.uid;
-                    const remove = document.createElement('h4');
-                    remove.className = 'participant-remove';
-                    remove.innerHTML = '-'
-                    remove.addEventListener('click', () => {
-                        participants.removeChild(div);
-                        const option = document.createElement('option');
-                        option.value = person__.uid;
-                        option.textContent = person__.name;
-                        document.getElementById('add-person').appendChild(option);
-                        sortSelectOptionsByText(document.getElementById('add-person'))
+                if (result.member) {
+                    result.members.forEach(uid => {
+                        const person__ = option__.get_name_by_uid(uid);
+                        const div = document.createElement('div');
+                        div.className = 'a-participant';
+                        const name = document.createElement('h4');
+                        name.className = 'participant-person';
+                        name.innerHTML = person__.name;
+                        name.dataset.uid = person__.uid;
+                        const remove = document.createElement('h4');
+                        remove.className = 'participant-remove';
+                        remove.innerHTML = '-'
+                        remove.addEventListener('click', () => {
+                            participants.removeChild(div);
+                            const option = document.createElement('option');
+                            option.value = person__.uid;
+                            option.textContent = person__.name;
+                            document.getElementById('add-person').appendChild(option);
+                            sortSelectOptionsByText(document.getElementById('add-person'))
+                        })
+                        div.appendChild(name)
+                        div.appendChild(remove)
+                        participants.appendChild(div);
+                        option__.removeOptionSelct(document.getElementById('add-person'), uid)
                     })
-                    div.appendChild(name)
-                    div.appendChild(remove)
-                    participants.appendChild(div);
-                    option__.removeOptionSelct(document.getElementById('add-person'), uid)
-                })
+                }
 
                 let i = 0;
                 let index = 0;
@@ -298,6 +300,8 @@
                         index = i;
                     i++;
                 })
+                console.log(result.organizer)
+                console.log(index)
 
 
                 document.getElementById('input-organizer').selectedIndex = index;

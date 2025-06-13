@@ -153,3 +153,8 @@ button,
 #drawing-canvas {
     border: 1px solid #141414;
 }
+
+#result-search {
+    border: 1px solid #141414;
+    background-color: #303030;
+}

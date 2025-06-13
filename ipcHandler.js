@@ -3,6 +3,7 @@ const clipboard_ = require('./tools/clipboard');
 const converter_ = require('./tools/converter');
 const calendar_ = require('./tools/calendar');
 const observe_ = require('./tools/observer')
+const search_ = require('./tools/search')
 const utils = require('./utils');
 const path = require('path');
 const fs = require('fs');
@@ -174,6 +175,14 @@ function Handler() {
         calendar_.deletePerson(uid);
     })
 
+    ipcMain.handle('export-ics-confirm', () => {
+        return calendar_.exporthasics();
+    })
+
+    ipcMain.handle('import-from-ics', () => {
+        return calendar_.importfromics();
+    })
+
     /* ------------------- Observer --------------------- */
 
     ipcMain.handle('get-observ-menu', (event) => {
@@ -184,6 +193,19 @@ function Handler() {
         return await observe_.getusedcpu();
     })
 
+    /* ---------------------- Search -------------------- */
+
+    ipcMain.handle('search-in-index-base', async (event, words) => {
+        return search_.searchinindexbase(words);
+    })
+
+    ipcMain.handle('fetch-bdd', async (event, path) => {
+        return search_.fillBdd(path);
+    })
+
+    ipcMain.handle('clear-bdd', async (event) => {
+        return search_.clearBdd();
+    })
 
     /* ---------------------- Other --------------------- */
 
@@ -206,6 +228,7 @@ function Handler() {
     ipcMain.handle('get-color-theme', async (event) => {
         return utils.getcolortheme();
     })
+
     ipcMain.handle('change-theme', async (event, theme) => {
         return utils.changetheme(theme);
     })

@@ -394,8 +394,10 @@ function render_event(slot) {
 
     const organizer = document.createElement('p');
     if (slot.organizer) {
-        organizer.innerHTML = get_name_by_uid(slot.organizer).name;
-        organizer.className = 'event-organizer'
+        if(get_name_by_uid(slot.organizer)) {
+            organizer.innerHTML = get_name_by_uid(slot.organizer).name;
+            organizer.className = 'event-organizer'
+        }
     }
     const description = document.createElement('p');
     description.innerHTML = slot.description;

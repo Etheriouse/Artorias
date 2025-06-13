@@ -5,6 +5,6 @@ async function setColorTheme() {
     color.href = theme;
     color.id = "color-style-sheet"
     document.head.appendChild(color)
-    document.documentElement.style.visibility = 'visible';
+    document.documentElement.style.display = 'block';
 }
 setColorTheme()

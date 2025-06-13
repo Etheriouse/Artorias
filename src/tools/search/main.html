@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="../../js/color.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="../../context-menu.css">
+    <title>Artorias Tools</title>
+</head>
+
+<body>
+    <div id="menu">
+        <div id="icon-selector">
+        </div>
+    </div>
+    <script src="../../js/menu.js"></script>
+
+    <div id="main-app">
+        <div id="context-menu">
+            <ul>
+                <li id="context-menu-modify">Modify</li>
+                <li id="context-menu-delete">Delete</li>
+            </ul>
+        </div>
+
+        <style>
+            #content-search {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-top: 2%;
+                height: 100%;
+                width: 100%;
+            }
+
+            #div-search-bar {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                width: 50%;
+            }
+
+            span {
+                margin: 5px;
+                font-size: 30px
+            }
+
+            #search-bar {
+                margin: 5px;
+                border-radius: 5px;
+                padding: 10px;
+                width: 100%;
+            }
+
+            #result-search {
+                overflow-y: scroll;
+                width: 50%;
+                display: none;
+                flex-direction: column;
+                align-items: center;
+                border-radius: 1%;
+                margin: 20px;
+            }
+
+            .file {
+                display: flex;
+                flex-direction: column;
+                align-items: baseline;
+                width: 30%;
+            }
+
+            #result-search::-webkit-scrollbar {
+                display: none;
+            }
+
+            #path-to-fetch {
+                padding: 5px;
+            }
+
+            #fetch-bdd {
+                cursor: pointer;
+            }
+        </style>
+
+        <div id="content-search">
+            <h3>Search a file</h3>
+            <div id="div-search-bar">
+                <span>🔍</span>
+                <input id="search-bar" placeholder="Search a word">
+            </div>
+            <div>
+                <h4 id="fetch-bdd">Fetch file</h4>
+                <div style="display: none;" id="loading">
+                    <style>
+                        .loading-spinner {
+                            display: inline-block;
+                            width: 10px;
+                            height: 10px;
+                            border: 5px solid rgba(0, 0, 0, 0.1);
+                            border-radius: 50%;
+                            border-top-color: #3498db;
+                            /* Couleur du cercle */
+                            animation: spin 1s ease-in-out infinite;
+                        }
+
+                        @keyframes spin {
+                            to {
+                                transform: rotate(360deg);
+                            }
+                        }
+
+                        .loading-container {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                        }
+                    </style>
+                    <div class="loading-container">
+                        <div class="loading-spinner"></div>
+                    </div>
+                </div>
+            </div>
+            <input id="path-to-fetch" placeholder="Absolute path to fetch">
+            <h4 id="clear-bdd">Clear bdd</h4>
+            <script>
+                document.getElementById('clear-bdd').addEventListener('click', async () => {
+                    const result = await window.api.clearbdd();
+                    if(result.ok) {
+                        document.getElementById('bdd-cleared').style.display = 'block';
+                    }
+                })
+            </script>
+            <p id='bdd-cleared' style="display: none; color: green;">bdd cleared</p>
+            <div id="result-search">
+
+            </div>
+        </div>
+
+        <script type="module" src="../../js/tools/search.js"></script>
+
+    </div>
+
+    <script type="module" src="../../js/renderer.js"></script>
+</body>
+
+</html>

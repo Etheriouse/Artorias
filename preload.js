@@ -153,6 +153,26 @@ contextBridge.exposeInMainWorld('api', {
     changetheme: async (theme) => {
         return await ipcRenderer.invoke('change-theme', theme);
     },
+
+    search: async (words) => {
+        return await ipcRenderer.invoke('search-in-index-base', words);
+    },
+
+    fetchbdd: async (path) => {
+        return await ipcRenderer.invoke('fetch-bdd', path);
+    },
+
+    exporttoics: () => {
+        return ipcRenderer.invoke('export-ics-confirm');
+    },
+    
+    importfromics: () => {
+        return ipcRenderer.invoke('import-from-ics');
+    },
+    
+    clearbdd: () => {
+        return ipcRenderer.invoke('clear-bdd');
+    },
 })
 
 contextBridge.exposeInMainWorld('window_', {

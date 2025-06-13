@@ -128,7 +128,7 @@ async function openFile(typefile) {
     } else {
         const ext_give = result.filePaths[0].split('.')
         if (ext_give[ext_give.length - 1] === typefile) {
-            return { ok: true, canceled: false, content: fs.readFileSync(result.filePaths[0], 'utf-8') };
+            return { ok: true, canceled: false, content: fs.readFileSync(result.filePaths[0], 'utf-8'), filepath: result.filePaths[0] };
         } else {
             return { ok: false, canceled: false };
         }
