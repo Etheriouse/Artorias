@@ -28,7 +28,6 @@
 
         #content-event-register {
             display: flex;
-            overflow-y: hidden;
             gap: 2rem;
             max-width: 1000px;
             margin: 0 auto;
@@ -36,6 +35,15 @@
             padding: 2rem;
             padding-top: 0;
             border-radius: 12px;
+        }
+
+        #main-app {
+            overflow-y: scroll;
+            height: 100%;
+        }
+
+       #main-app::-webkit-scrollbar {
+            display: none;
         }
 
         #left,

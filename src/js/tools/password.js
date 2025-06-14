@@ -51,6 +51,9 @@ document.getElementById('register-psd').addEventListener('click', async () => {
 })
 
 document.getElementById('refresh-psd').addEventListener('click', async () => {
+    document.getElementById('loading').style.display = 'block'
+    document.getElementById('list-pwd').style.display = 'none'
+
     load_pwd_list()
 })
 
@@ -93,9 +96,7 @@ document.getElementById('delete-psd').addEventListener('click', async () => {
 })
 
 async function load_pwd_list() {
-    document.getElementById('load-psd-ask').style.display = 'none'
-    document.getElementById('loading').style.display = 'block'
-    admin_perm(async () => {
+    const result = admin_perm(async () => {
         const list = document.getElementById('list-pwd');
         list.innerHTML = '';
 
@@ -157,8 +158,8 @@ async function load_pwd_list() {
         }
 
         list.style.display = 'block';
-        document.getElementById('loading').style.display = 'none'
 
+        document.getElementById('loading').style.display = 'none'
         setup_event_listenner();
         sortPsd(document.getElementById('list-pwd'), 0);
     })
@@ -166,6 +167,8 @@ async function load_pwd_list() {
 
 
 document.getElementById('load-psd-button').addEventListener('click', async () => {
+    document.getElementById('load-psd-ask').style.display = 'none'
+    document.getElementById('loading').style.display = 'block'
     load_pwd_list()
 })
 

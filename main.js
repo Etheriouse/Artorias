@@ -1,30 +1,17 @@
-const { app, BrowserWindow, shell, ipcMain, clipboard } = require('electron');
+const { app, BrowserWindow } = require('electron');
 const { createWindow } = require('./window');
-const { runClipboard, saveClipboardHistory, set } = require('./tools/clipboard');
+const { runClipboard, saveClipboardHistory } = require('./tools/clipboard');
 const { save_event, save_person } = require('./tools/calendar');
 const { Handler } = require('./ipcHandler');
 const utils = require('./utils')
-const pass_ = require('./tools/password')
-const cal_ = require('./tools/calendar');
-const {setup} = require('./tools/observer');
-const fs = require('fs');
-const path = require('path');
 const {saveconfig} = require('./config')
-const search = require('./tools/search')
 
 /** Artorias App 
- * settins ⚙️ 
- * moai🗿
- * Calendrier🗓️
- * Convertisseur d'unité ⚖️
- * Clipboard manager📋
- * block note / tableau blanc 🖌️
- * createur template projet 💾🧱
- * gestionnaire de mots de passe crypter 🔐
  * /todo list -
+ * - moai🗿
+ * - createur template projet 💾🧱
  * - Quand on lance l'app on arrive sur un dashboard
  * - faire ma propre library de grand nombre
- * - moteur de recherche de fichier avec index inverser !important
  * - faire un mini language de script !important 
 */
 

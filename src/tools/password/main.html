@@ -46,63 +46,64 @@
             </ul>
         </div>
 
-
-        <div id="title-pwd">
-            <h3>Web site/Where</h3>
-            <h3>Username/Email</h3>
-            <h3>Password</h3>
-            <h3>Url</h3>
-        </div>
-        <div style="display: none;" id="loading">
-            <style>
-                .loading-spinner {
-                    display: inline-block;
-                    width: 50px;
-                    height: 50px;
-                    border: 5px solid rgba(0, 0, 0, 0.1);
-                    border-radius: 50%;
-                    border-top-color: #3498db;
-                    /* Couleur du cercle */
-                    animation: spin 1s ease-in-out infinite;
-                }
-
-                @keyframes spin {
-                    to {
-                        transform: rotate(360deg);
-                    }
-                }
-
-                .loading-container {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    height: 100vh;
-                }
-            </style>
-            <div class="loading-container">
-                <div class="loading-spinner"></div>
+        <div id="password-content">
+            <div id="title-pwd">
+                <h3>Where</h3>
+                <h3>How</h3>
+                <h3>Password</h3>
+                <h3>Url</h3>
             </div>
-        </div>
-        <div id="load-psd-ask">
-            <style>
-                #load-psd-ask {
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    justify-content: center;
-                    height: 20%;
-                }
+            <div style="display: none;" id="loading">
+                <style>
+                    .loading-spinner {
+                        display: inline-block;
+                        width: 50px;
+                        height: 50px;
+                        border: 5px solid rgba(0, 0, 0, 0.1);
+                        border-radius: 50%;
+                        border-top-color: #3498db;
+                        /* Couleur du cercle */
+                        animation: spin 1s ease-in-out infinite;
+                    }
 
-                #load-psd-button {
-                    padding: 10px;
-                    border-radius: 6px;
-                    cursor: pointer;
-                }
-            </style>
-            <h4 id="load-psd-button">Load password</h4>
-        </div>
-        <div id="list-pwd">
+                    @keyframes spin {
+                        to {
+                            transform: rotate(360deg);
+                        }
+                    }
 
+                    .loading-container {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        height: 50vh;
+                    }
+                </style>
+                <div class="loading-container">
+                    <div class="loading-spinner"></div>
+                </div>
+            </div>
+            <div id="load-psd-ask">
+                <style>
+                    #load-psd-ask {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: center;
+                        height: 20%;
+                    }
+
+                    #load-psd-button {
+                        padding: 10px;
+                        border-radius: 6px;
+                        cursor: pointer;
+                    }
+                </style>
+                <h4 id="load-psd-button">Load password</h4>
+            </div>
+            <div id="list-pwd">
+
+            </div>
         </div>
 
         <script type="module" src="../../js/tools/password.js"></script>
@@ -166,19 +167,21 @@
             }
 
             #title-pwd>h3 {
-                padding: 0px;
+                padding: 5px;
                 margin: 0px;
-                width: 175px;
+                width: 100%;
+                max-width: 20%;
             }
 
-            #list-pwd>div>h3:nth-child(2),
-            #title-pwd>h3:nth-child(2) {
-                width: 300px;
+            #list-pwd>div>h3 {
+                width: 100%;
+                max-width: 20%;
+                padding: 5px;
             }
 
-            #list-pwd>div>h3:nth-child(4),
-            #title-pwd>h3:nth-child(4) {
-                width: 700px;
+            .pwd {
+                margin: 5px;
+                border-radius: 5px;
             }
 
             #title-pwd {

@@ -4,7 +4,6 @@ const tools = [
     { icon: "📋", label: "Clipboard" },
     { icon: "⚖️", label: "Converter" },
     { icon: "📓", label: "Markdown" },
-    { icon: "💻", label: "Observer" },
     { icon: "🔐", label: "Password" },
     { icon: "🔍", label: "Search" },
     { icon: "🧱", label: "Template" },

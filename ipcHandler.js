@@ -2,7 +2,6 @@ const password_ = require('./tools/password');
 const clipboard_ = require('./tools/clipboard');
 const converter_ = require('./tools/converter');
 const calendar_ = require('./tools/calendar');
-const observe_ = require('./tools/observer');
 const search_ = require('./tools/search');
 const games = require('./tools/games');
 const utils = require('./utils');
@@ -182,16 +181,6 @@ function Handler() {
 
     ipcMain.handle('import-from-ics', () => {
         return calendar_.importfromics();
-    })
-
-    /* ------------------- Observer --------------------- */
-
-    ipcMain.handle('get-observ-menu', (event) => {
-        return observe_.getmenu();
-    })
-
-    ipcMain.handle('get-used-cpu', async (event) => {
-        return await observe_.getusedcpu();
     })
 
     /* ---------------------- Search -------------------- */

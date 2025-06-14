@@ -63,18 +63,17 @@
             const size = {
                 w: 20,
                 h: 10
-            };
-
+            };        
             document.getElementById('restart-button').addEventListener('click', () => {
                 location.reload();
             })
 
+            
             const grid = document.getElementById('grid')
             grid.style.gridTemplateColumns = `repeat(${size.w}, 40px)`
             grid.style.gridTemplateRows = `repeat(${size.h}, 40px)`
             var game;
             setup();
-
             async function setup() {
                 game = await window.api.generateground(size);
                 game.game.grid.forEach((row, y) => {
@@ -82,7 +81,7 @@
                         const cell = document.createElement('div')
                         cell.className = 'cell';
                         const value = document.createElement('span');
-
+                        
                         cell.addEventListener('click', async (e) => {
                             if (game.isAlive) {
                                 if (cell.classList.contains('clicked')) return;
