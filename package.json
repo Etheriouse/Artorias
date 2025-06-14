@@ -1,7 +1,7 @@
 {
-  "name": "artorias",
+  "name": "Artorias",
   "version": "1.0.0",
-  "description": "A cools set of tools",
+  "description": "Multi-tools tools",
   "main": "main.js",
   "build": {
     "productName": "Artorias",
@@ -22,7 +22,7 @@
     "type": "git",
     "url": "git+https://github.com/Etheriouse/Artorias.git"
   },
-  "author": "Liayel",
+  "author": "Etheriouse",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Etheriouse/ArtoriasTools/issues"
