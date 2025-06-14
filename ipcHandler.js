@@ -9,7 +9,7 @@ const path = require('path');
 const fs = require('fs');
 
 const { closeWindow, loadfile, openFile, saveFile } = require('./window');
-const { ipcMain, shell } = require('electron');
+const { ipcMain, shell, app } = require('electron');
 
 function Handler() {
 
@@ -82,9 +82,17 @@ function Handler() {
 
     ipcMain.handle('open-folder', (event, path_) => {
         if (path_.dirname) {
-            shell.openPath(path.join(__dirname, path_.path));
+            shell.openPath(path.join(app.getPath('userData'), path_.path));
         } else {
             shell.openPath(path.join(path_.path));
+        }
+    })
+
+    ipcMain.handle('open-file-folder', (event, path_) => {
+        if(path_.dirname) {
+            shell.showItemInFolder(path.join(app.getPath('userData'), path_.path));
+        } else {
+            shell.showItemInFolder(path.join(path_.path));
         }
     })
 
@@ -211,8 +219,8 @@ function Handler() {
         return utils.clearcache();
     })
 
-    ipcMain.handle('reset-super-psd', async (event) => {
-        return password_.resetsuperpsd();
+    ipcMain.handle('reset-super-psd', async (event, nsp) => {
+        return password_.resetsuperpsd(nsp);
     })
 
     ipcMain.handle('get-color-theme', async (event) => {

@@ -104,7 +104,8 @@ document.getElementById('confirm-reset-password').addEventListener('click', asyn
     document.getElementById('confirm-reset-password').style.display = 'none'
     document.getElementById('warning-psd-reset').style.display = 'none'
     document.getElementById('cancel-reset-password').style.display = 'none'
-    const result = await window.api.resetsuperpsd();
+    const nsp = document.getElementById('new-super-password').value
+    const result = await window.api.resetsuperpsd(nsp);
     if (result.ok) {
         document.getElementById('confirm-reseted-psd').style.display = 'block'
     }

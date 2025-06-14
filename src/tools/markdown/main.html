@@ -18,9 +18,9 @@
         }
 
         #bar {
-            margin: 0.5%;
+            margin: 6px;
             margin-bottom: 0;
-            height: 5%;
+            height: 40px;
         }
 
         span {
@@ -40,7 +40,7 @@
             display: flex;
             flex-direction: row;
             width: 100%;
-            height: 95%;
+            height: calc(100% - 40px);
         }
 
         #input,
@@ -62,12 +62,22 @@
             margin: 1%;
         }
 
+        #input-area::-webkit-scrollbar {
+            display: none;
+        }
+        
+        #output {
+            overflow: auto;
+        }
+        #output::-webkit-scrollbar {
+            display: none;
+        }
+
         #input,
         #output {
             width: 100%;
             height: 100%;
             font-size: 1rem;
-            border: 1px solid #ccc;
             border-radius: 6px;
             box-sizing: border-box;
         }

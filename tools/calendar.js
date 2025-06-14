@@ -5,9 +5,11 @@ const { createChildWindow, openFile } = require('../window');
 
 const crypto = require('crypto-js');
 const ical = require('ical');
+const { app } = require('electron')
 
-const event_ = require('../data/calendar/event.json')
-const person_ = require('../data/calendar/person.json')
+const event_ = JSON.parse(fs.readFileSync(path.join(app.getPath('userData') ,'calendar/event.json'), 'utf-8'));
+const person_ = JSON.parse(fs.readFileSync(path.join(app.getPath('userData') ,'calendar/person.json'), 'utf-8'));
+
 var uid_;
 
 if (person_.length < 1) {
@@ -86,8 +88,7 @@ function exporthasics() {
         lines.push("END:VCALENDAR");
 
         const icsContent = lines.join("\r\n");
-
-        fs.writeFileSync(path.join(__dirname, '../data/calendar/event.ics'), icsContent, 'utf-8');
+        fs.writeFileSync(path.join(app.getPath('userData') ,'calendar/event.ics'), icsContent, 'utf-8');
         return { ok: true }
     } catch (err) {
         console.log(err)
@@ -175,11 +176,11 @@ function deleteevent(uid) {
 }
 
 function save_event() {
-    fs.writeFileSync(path.join(__dirname, '../data/calendar/event.json'), JSON.stringify(event_));
+    fs.writeFileSync(path.join(app.getPath('userData') ,'calendar/event.json'), JSON.stringify(event_));
 }
 
 function save_person() {
-    fs.writeFileSync(path.join(__dirname, '../data/calendar/person.json'), JSON.stringify(person_));
+    fs.writeFileSync(path.join(app.getPath('userData') ,'calendar/person.json'), JSON.stringify(person_));
 }
 
 
@@ -205,7 +206,7 @@ function getperson_uid(uid = uid_) {
 
 async function modifyeventwindow(uid) {
     uid_ = uid;
-    let modifywindow = createChildWindow('tools/calendar/modify', true, { width: 1050, height: 700 }, false);
+    let modifywindow = createChildWindow('tools/calendar/modify', true, { width: 1050, height: 700 }, false, 'event.png');
 
     const eventModPromise = new Promise((resolve) => {
         resolveEventModPromise = resolve;
@@ -225,7 +226,7 @@ function confirmmodifyevent(event) {
 
 async function addeventwindow(event) {
     uid_ = event;
-    let addwindow = createChildWindow('tools/calendar/add', true, { width: 1050, height: 700 }, false);
+    let addwindow = createChildWindow('tools/calendar/add', true, { width: 1050, height: 700 }, false, 'event.png');
 
     const eventAddPromise = new Promise((resolve) => {
         resolveEventAddPromise = resolve;
@@ -273,7 +274,7 @@ function geteventday(year, month, day_) {
 
 
 async function addpersonwindow() {
-    let addwindow = createChildWindow('tools/calendar/add-person', true, { width: 550, height: 475 }, false);
+    let addwindow = createChildWindow('tools/calendar/add-person', true, { width: 550, height: 475 }, false, 'person.png');
 
     const personAddPromise = new Promise((resolve) => {
         resolvePersonAddPromise = resolve;
@@ -307,7 +308,7 @@ function addPerson(person) {
 
 async function modifypersonwindow(uid) {
     uid_ = uid;
-    let modifywindow = createChildWindow('tools/calendar/modify-person', true, { width: 550, height: 475 }, false);
+    let modifywindow = createChildWindow('tools/calendar/modify-person', true, { width: 550, height: 475 }, false, 'person.png');
 
     const personModPromise = new Promise((resolve) => {
         resolvePersonModPromise = resolve;

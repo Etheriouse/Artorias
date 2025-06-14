@@ -15,6 +15,8 @@ const {saveconfig} = require('./config')
  * - faire un mini language de script !important 
 */
 
+console.log(app.getPath('userData'))
+
 app.whenReady().then(async () => {
     Handler();
     runClipboard();

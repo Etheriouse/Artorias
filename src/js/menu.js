@@ -19,7 +19,7 @@ const games = [
 ]
 
 const settings = [
-    { icon: "🗿", label: "Profil" },
+    // { icon: "🗿", label: "Profil" },
     { icon: "⚙️", label: "Settings" }
 ]
 var gamesHidden = true;

@@ -28,6 +28,7 @@ const createWindow = () => {
         width: 1600,
         height: 900,
         backgroundColor: bgcolor,
+        icon: path.join(__dirname, 'assets/icons/icon.ico'),
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             contextIsolation: true,
@@ -44,7 +45,7 @@ const createWindow = () => {
     main_app = win;
 }
 
-const createChildWindow = (namefile, block, size, resizeable = true) => {
+const createChildWindow = (namefile, block, size, resizeable = true, iconname = 'icon.ico') => {
     
     if (!size) {
         size = {
@@ -58,6 +59,7 @@ const createChildWindow = (namefile, block, size, resizeable = true) => {
         backgroundColor: bgcolor,
         modal: block || true,
         resizable: resizeable,
+        icon: path.join(__dirname, 'assets/icons/'+iconname),
         parent: BrowserWindow.getFocusedWindow(),
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),

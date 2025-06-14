@@ -38,6 +38,10 @@ contextBridge.exposeInMainWorld('api', {
         ipcRenderer.invoke('open-folder', path);
     },
 
+    openfilefolder: async (path) => {
+        ipcRenderer.invoke('open-file-folder', path);
+    },
+
     opensite: async (url) => {
         ipcRenderer.invoke('open-website', url);
     },
@@ -126,8 +130,8 @@ contextBridge.exposeInMainWorld('api', {
         return ipcRenderer.invoke('delete-person', uid);
     },
 
-    resetsuperpsd: async () => {
-        return await ipcRenderer.invoke('reset-super-psd')
+    resetsuperpsd: async (nsp) => {
+        return await ipcRenderer.invoke('reset-super-psd', nsp)
     },
 
     getobservmenu: async () => {

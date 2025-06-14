@@ -42,7 +42,7 @@
             height: 100%;
         }
 
-       #main-app::-webkit-scrollbar {
+        #main-app::-webkit-scrollbar {
             display: none;
         }
 
@@ -111,7 +111,7 @@
             cursor: pointer;
         }
 
-        #calendar > div {
+        #calendar>div {
             margin-left: 10px;
             width: 90%;
         }
@@ -198,27 +198,46 @@
             <div id="left">
                 <div id="cache">
                     <h4>Cache</h4>
-                    <button id="clear-cache" style="width: 40%;">Clear cache</button>
-                    <p id="clear-cache-confirm" style="color: green; display: none;">Cache cleared</p>
+                    <button id="clear-cache" style="width: 40%;">Clear Cache</button>
+                    <p id="clear-cache-confirm" style="color: green; display: none;">Cache cleared.</p>
                 </div>
+
+                <div id="config">
+                    <h4>Configuration</h4>
+                    <div style="display: flex; flex-direction: row;">
+                        <button id="open-config-folder" style="width: 50%; margin: 5px;">Open configuration folder</button>
+                        <button id="open-config-file" style="width: 50%;  margin: 5px;">Open configuration file</button>
+                    </div>
+                </div>
+
+                <script>
+                    document.getElementById('open-config-folder').addEventListener('click', () => {
+                        window.api.openfolder({ path: '/', dirname: true });
+                    })
+                    document.getElementById('open-config-file').addEventListener('click', () => {
+                        window.api.openfolder({ path: '/config.json', dirname: true });
+                    })
+                </script>
 
                 <div id="theme">
                     <h4>Theme</h4>
                     <div>
-                        <button id="light-theme">Set light theme</button>
-                        <button id="dark-theme">Set dark theme</button>
+                        <button id="light-theme">Light Theme</button>
+                        <button id="dark-theme">Dark Theme</button>
                     </div>
-                    <p id="change-theme-confirm" style="color: orange; display: none;">Relaod the app for a complete
-                        application</p>
+                    <p id="change-theme-confirm" style="color: orange; display: none;">
+                        Reload the app for changes to fully apply.
+                    </p>
                 </div>
 
                 <div id="calendar">
-                    <h4>Event</h4>
+                    <h4>Events</h4>
+
                     <div>
                         <h4>Export</h4>
-                        <p id="export-ics-confirm" style="color: green; display: none;">Export confirmed</p>
-                        <p id="export-ics-confirm-failed" style="color: red; display: none;">Export failed</p>
-                        <button id="export-ics">Export event has ics format</button>
+                        <p id="export-ics-confirm" style="color: green; display: none;">Export successful.</p>
+                        <p id="export-ics-confirm-failed" style="color: red; display: none;">Export failed.</p>
+                        <button id="export-ics">Export events to ICS format</button>
                         <script>
                             document.getElementById('export-ics').addEventListener('click', async () => {
                                 const result = await window.api.exporttoics();
@@ -230,11 +249,14 @@
                             })
                         </script>
                     </div>
+
                     <div>
                         <h4>Import</h4>
-                        <p id="import-ics-confirm" style="color: green; display: none;">Import confirmed, reload for show person</p>
-                        <p id="import-ics-confirm-failed" style="color: red; display: none;">Import failed</p>
-                        <button id="import-ics">Import event from ics format</button>
+                        <p id="import-ics-confirm" style="color: green; display: none;">
+                            Import successful. Reload the app to view people.
+                        </p>
+                        <p id="import-ics-confirm-failed" style="color: red; display: none;">Import failed.</p>
+                        <button id="import-ics">Import events from ICS format</button>
                         <script>
                             document.getElementById('import-ics').addEventListener('click', async () => {
                                 const result = await window.api.importfromics();
@@ -249,59 +271,60 @@
                 </div>
 
                 <div id="password">
-                    <h4>Super password</h4>
+                    <h4>Master Password</h4>
                     <p class="instruction" style="margin: 10px 0;">
-                        1. Click on <span style="font-weight: bold; color: #2980b9;">"Reset super password"</span>.
+                        To change your <strong style="color: #2980b9;">master password</strong>:
                     </p>
                     <p class="instruction" style="margin: 10px 0;">
-                        2. Close the application.
+                        1. Enter your new master password below.
                     </p>
+                    <input id="new-super-password" type="password" placeholder="Your new master password">
                     <p class="instruction" style="margin: 10px 0;">
-                        3. Put your new password inside the file located at <span
-                            style="font-weight: bold; color: #2980b9;">data/password/config.json</span> in the field
-                        <span style="font-weight: bold; color: #2980b9;">admin_pwd</span>.
+                        2. Click <strong style="color: #2980b9;">"Change master password"</strong>.
                     </p>
-                    <p class="instruction" style="margin: 10px 0;">
-                        4. Run the application again.
-                    </p>
-                    <p id="confirm-reseted-psd" style="color: green; display: none;">Password resetted</p>
+                    <p id="confirm-reseted-psd" style="color: green; display: none;">Password changed successfully.</p>
                     <div id="warning-psd-reset" style="display: none;">
                         <h3 style="margin-top: 0; color: rgb(158, 3, 3);">Warning</h3>
                         <p style="margin: 10px 0; color: rgb(170, 1, 1);">
-                            Resetting your super password will delete all your current passwords.
+                            Changing your master password will delete all your saved passwords.
                         </p>
                     </div>
                     <div id="confirm-reset-psd">
-                        <button id="reset-password">Reset super password</button>
+                        <button id="reset-password">Change master password</button>
                         <button id="confirm-reset-password" style="display: none;">Confirm</button>
                         <button id="cancel-reset-password" style="display: none;">Cancel</button>
                     </div>
                 </div>
             </div>
+
             <div id="right">
                 <div id="participation">
-                    <h4>Persons</h4>
-                    <div id="participants">
-                    </div>
+                    <h4>People</h4>
+                    <div id="participants"></div>
+
                     <style>
                         #gestion-participant {
                             display: flex;
                             justify-content: center;
+                            gap: 5px;
                         }
 
                         #gestion-participant>button {
                             width: 100%;
                         }
                     </style>
+
                     <div id="gestion-participant">
-                        <button id="new-person-add">Add new person</button>
-                        <button id="person-delete">Delete person</button>
+                        <button id="new-person-add">Add New Person</button>
+                        <button id="person-delete">Delete Person</button>
                     </div>
                 </div>
             </div>
         </div>
+
         <script type="module" src="./js/settings.js"></script>
     </div>
+
 
     <script type="module" src="./js/renderer.js"></script>
 </body>

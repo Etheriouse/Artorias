@@ -7,6 +7,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../style.css">
     <title>Artorias Tools</title>
+        <style>
+        #tool-showcase {
+            padding: 2rem;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        #tool-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .tool-card-dashboard {
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: transform 0.2s;
+        }
+
+        .tool-card-dashboard:hover {
+            transition: transform 0.2s;
+            transform: scale(1.02);
+        }
+
+        .tool-icon-dashboard {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+    </style>
 </head>
 
 <body>
@@ -17,7 +47,51 @@
     <script src="../../js/menu.js"></script>
 
     <div id="main-app">
-        dashboard
+        <div id="tool-showcase">
+            <div id="tool-list">
+                <div class="tool-card-dashboard">
+                    <div class="tool-icon-dashboard">📅</div>
+                    <h4>2048</h4>
+                    <p style="display: none;">2048</p>
+                    <p>Slide and combine matching numbers to reach the elusive 2048 tile. A simple yet addictive puzzle
+                        game that challenges your strategy and foresight.</p>
+                </div>
+
+                <div class="tool-card-dashboard">
+                    <div class="tool-icon-dashboard">📋</div>
+                    <h4>Minesweeper</h4>
+                    <p style="display: none;">minesweeper</p>
+                    <p>Test your logic and deduction skills by clearing the board without detonating hidden mines. A
+                        timeless classic of concentration and precision.</p>
+                </div>
+
+                <div class="tool-card-dashboard">
+                    <div class="tool-icon-dashboard">⚖️</div>
+                    <h4>Connect 4</h4>
+                    <p style="display: none;">power4</p>
+                    <p>Challenge a friend or the AI in this strategic game. Align four discs in a row — horizontally,
+                        vertically, or diagonally — to win!</p>
+                </div>
+
+                <div class="tool-card-dashboard">
+                    <div class="tool-icon-dashboard">📓</div>
+                    <h4>Sudoku</h4>
+                    <p style="display: none;">sudoku</p>
+                    <p>Sharpen your mind with Sudoku. Fill in the grid so that every row, column, and 3×3 box contains
+                        the digits 1 through 9 without repetition.</p>
+                </div>
+            </div>
+        </div>
+
+        <script type="module">
+            import * as menus from '../../js/menus.js'
+
+            Array.from(document.getElementById('tool-list').children).forEach(div => {
+                div.addEventListener('click', () => {
+                    menus.loadmenu("tools/games/" + div.childNodes[5].innerHTML + "/main.html");
+                })
+            })
+        </script>
     </div>
 
     <script type="module" src="../../js/renderer.js"></script>

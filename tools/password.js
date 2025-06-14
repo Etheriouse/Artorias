@@ -1,10 +1,11 @@
 const { createChildWindow, closeWindow } = require('../window');
-const { config, admin_pwd } = require('../config');
+const { config } = require('../config');
+var { admin_pwd } = require('../config');
 const path = require('path');
 const fs = require('fs');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto-js');
-
+const { app } = require('electron');
 let psd_id_now;
 let adminwindow;
 let try_pwd = 0;
@@ -30,12 +31,12 @@ async function loadpsds() {
 }
 
 async function modifywindow(psd_id) {
-    createChildWindow('tools/password/modify', true, { width: 500, height: 525 }, false);
+    createChildWindow('tools/password/modify', true, { width: 500, height: 525 }, false, 'modify-password.png');
     psd_id_now = psd_id;
 }
 
 async function addwindow() {
-    let addwindow = createChildWindow('tools/password/add', true, { width: 500, height: 525 }, false);
+    let addwindow = createChildWindow('tools/password/add', true, { width: 500, height: 525 }, false, 'add-password.png');
 
     const psdAddPromise = new Promise((resolve) => {
         resolvePsdAddPromise = resolve;
@@ -65,7 +66,7 @@ async function savepsd(psd_obj) {
 }
 
 async function adminPassword() {
-    adminwindow = createChildWindow('admin', true, { width: 300, height: 250 });
+    adminwindow = createChildWindow('admin', true, { width: 300, height: 250 }, false, 'admin.png');
 
     const pwdPromise = new Promise((resolve) => {
         resolvePwdPromise = resolve;
@@ -151,7 +152,7 @@ async function delete_(psd_to_delete) {
 
 function get_json() {
     try {
-        const jsonbrut = JSON.parse(fs.readFileSync(path.join(__dirname, "../data/password/hash.json"), 'utf-8'));
+        const jsonbrut = JSON.parse(fs.readFileSync(path.join(app.getPath('userData'), "password/hash.json"), 'utf-8'));
         const hmac = compute_hmac(jsonbrut.data, last_psd_gived);
         if (hmac !== jsonbrut.hmac) {
             save_json({})
@@ -172,14 +173,16 @@ function get_json() {
 function save_json(json_to_save) {
     const jsoncrypt = encrypt_file(json_to_save, last_psd_gived);
     const hmac = compute_hmac(jsoncrypt.data, last_psd_gived);
-    fs.writeFileSync(path.join(__dirname, "../data/password/hash.json"), JSON.stringify({ data: jsoncrypt.data, salt: jsoncrypt.salt, iv: jsoncrypt.iv, hmac }))
+    fs.writeFileSync(path.join(app.getPath('userData'), "password/hash.json"), JSON.stringify({ data: jsoncrypt.data, salt: jsoncrypt.salt, iv: jsoncrypt.iv, hmac }))
 }
 
-function resetsuperpsd() {
-    fs.writeFileSync(path.join(__dirname, "../data/password/config.json"), JSON.stringify({ admin_pwd: "" }));
-    if (fs.existsSync(path.join(__dirname, "../data/password/hash.json"))) {
-        fs.rmSync(path.join(__dirname, "../data/password/hash.json"));
+function resetsuperpsd(newSuperPassword) {
+    const newsp = bcrypt.hashSync(newSuperPassword);
+    fs.writeFileSync(path.join(app.getPath('userData'), "password/config.json"), JSON.stringify({ superpassword: newsp }));
+    if (fs.existsSync(path.join(app.getPath('userData'), "password/hash.json"))) {
+        fs.rmSync(path.join(app.getPath('userData'), "password/hash.json"));
     }
+    admin_pwd = newsp;
     return { ok: true };
 }
 

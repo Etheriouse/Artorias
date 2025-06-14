@@ -1,8 +1,8 @@
 const path = require('path');
 const fs = require('fs');
+const { app } = require('electron')
 
-const { setbackground } = require('./window')
-var cache = require('./cache.json');
+var cache = JSON.parse(fs.readFileSync(path.join(app.getPath('userData') ,'Cache/cache.json'), 'utf-8'));
 const {config} = require('./config')
 
 const cache_cleared = {
@@ -18,7 +18,7 @@ const cache_cleared = {
         }
     },
     "menu": {
-        "games": true
+        "games": false
     }
 }
 
@@ -72,7 +72,7 @@ async function clearcache() {
  */
 async function savecache() {
     try {
-        fs.writeFileSync(path.join(__dirname, './cache.json'), JSON.stringify(cache));
+        fs.writeFileSync(path.join(app.getPath('userData') ,'Cache/cache.json'), JSON.stringify(cache));
     } catch (err) {
         console.error("Error when save cache ", err);
     }

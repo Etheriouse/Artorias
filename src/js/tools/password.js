@@ -58,7 +58,7 @@ document.getElementById('refresh-psd').addEventListener('click', async () => {
 })
 
 document.getElementById('open-folder-psd').addEventListener('click', async () => {
-    await window.api.openfolder({ path: 'data/password', dirname: true });
+    window.api.openfolder({ path: 'password', dirname: true });
 })
 
 document.getElementById('delete-confirm-psd').addEventListener('click', async () => {

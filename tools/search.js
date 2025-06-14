@@ -1,8 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 const bcrypt = require('bcryptjs');
+const { app } = require('electron')
 
-const bdd = require('../data/search/bdd.json');
+const bdd = JSON.parse(fs.readFileSync(path.join(app.getPath('userData') ,'search/bdd.json'), 'utf-8'));
 
 const ext = [
     'txt', 'md', 'rtf', 'csv', 'tsv', 'log', 'ini', 'conf', 'cfg',
@@ -88,7 +89,6 @@ function addFileToBdd(file) {
     const hash = hash_(file);
     let maj = bdd.files.includes(hash);
     if (maj) {
-        majFileToBdd(file, hash);
     } else {
         const content = fs.readFileSync(file, 'utf-8');
         bdd.files.push(hash);
@@ -125,16 +125,12 @@ function hash_(input) {
     return Math.abs(hash).toString();
 }
 
-async function majFileToBdd(file, hash) {
-
-}
-
 function saveBdd() {
-    fs.writeFileSync('data/search/bdd.json', JSON.stringify(bdd));
+    fs.writeFileSync(path.join(app.getPath('userData') ,'search/bdd.json'), JSON.stringify(bdd));
 }
 
 function clearBdd() {
-    fs.writeFileSync('data/search/bdd.json', JSON.stringify({
+    fs.writeFileSync(path.join(app.getPath('userData') ,'search/bdd.json'), JSON.stringify({
         length: 0,
         files: [],
         words: {}

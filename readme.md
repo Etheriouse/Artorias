@@ -4,24 +4,22 @@ des outils sympa
 
 ## setup
 
-Cree 1 fichier dans data/password, config.json
-Cree 1 fichier dans data/search, bdd.json
-Cree 2 fichier dans data/calendar, person.json event.json
+### Window
 
-dans config.json
+Dans ce fichier AppData\Roaming\artorias\password\config.json
+
+Inserer entre les guillement votre super mots de passe
 
 {
-    "admin_pwd": "votre super mots de passe"
+    "superpassword": ""
 }
 
-dans event.json et person.json 
+### Linux
 
-[]
+Dans ce fichier /artorias/password/config.json
 
-dans bdd.json
+Inserer entre les guillement votre super mots de passe
 
 {
-    "length": 0,
-    "files": [],
-    "words": {}
+    "superpassword": ""
 }

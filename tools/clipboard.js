@@ -1,10 +1,10 @@
-const { clipboard } = require('electron');
+const { clipboard, app } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const { config } = require('../config');
 
 
-var history = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/clipboard/history.json')));
+var history = JSON.parse(fs.readFileSync(path.join(app.getPath('userData') ,'clipboard/history.json'), 'utf-8'));
 var last_clip_text;
 
 var history_loaded = false;
@@ -19,7 +19,7 @@ function backup_clipboard() {
 }
 
 function saveClipboardHistory() {
-    fs.writeFileSync(path.join(__dirname, '../data/clipboard/history.json'), JSON.stringify(history));
+    fs.writeFileSync(path.join(app.getPath('userData') ,'clipboard/history.json'), JSON.stringify(history));
 }
 
 function runClipboard() {

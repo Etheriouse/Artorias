@@ -162,3 +162,11 @@ button,
 #show_pwd_button:hover {
     background: rgb(56, 56, 56);
 }
+
+.tool-card-dashboard {
+    background-color: #303030;
+}
+
+.tool-card-dashboard:hover {
+    background-color: #363636;
+}
