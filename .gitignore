@@ -4,3 +4,4 @@ node_modules
 /data/calendar/*.json
 /data/calendar/*.ics
 /data/search/*.json
+*.zip

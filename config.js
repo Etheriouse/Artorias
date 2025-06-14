@@ -19,6 +19,9 @@ if (!fs.existsSync(path.join(app.getPath('userData'), 'calendar'))) {
 if (!fs.existsSync(path.join(app.getPath('userData'), 'search'))) {
     fs.mkdirSync(path.join(app.getPath('userData'), 'search'), { recursive: true });
 }
+if (!fs.existsSync(path.join(app.getPath('userData'), 'Cache'))) {
+    fs.mkdirSync(path.join(app.getPath('userData'), 'Cache'), { recursive: true });
+}
 
 try {
     fs.readFileSync(path.join(app.getPath('userData'), 'clipboard/history.json'), 'utf-8');
