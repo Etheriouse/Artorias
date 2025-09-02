@@ -1,7 +1,7 @@
 const { app, BrowserWindow } = require('electron');
 const { createWindow } = require('./window');
 const { runClipboard, saveClipboardHistory } = require('./tools/clipboard');
-const { save_event, save_person } = require('./tools/calendar');
+const { save_event, save_person, save_color_event } = require('./tools/calendar');
 const { Handler } = require('./ipcHandler');
 const utils = require('./utils')
 const {saveconfig} = require('./config')
@@ -33,6 +33,7 @@ app.on('window-all-closed', () => {
         saveClipboardHistory();
         save_event();
         save_person();
+        save_color_event();
         utils.savecache();
         saveconfig()
     }

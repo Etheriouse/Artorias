@@ -29,7 +29,7 @@ async function setup() {
     document.getElementById('calendar').style.display = 'flex';
     document.getElementById('loading').style.display = 'none';
     document.getElementById('grid').scrollTop = (new Date().getHours() * 100 + ((new Date().getMinutes() / 60) * 100))
-    document.getElementById('time-now').style.height = `${(new Date().getHours() * 100 + ((new Date().getMinutes() / 60) * 100)) }px`;
+    document.getElementById('time-now').style.height = `${(new Date().getHours() * 100 + ((new Date().getMinutes() / 60) * 100))}px`;
 
 }
 
@@ -79,6 +79,8 @@ function get_day_(moving = 0) {
 async function get_event_day(dayy) {
     const result = await window.api.geteventday(dayy.years, dayy.month, dayy.day);
     var events = [];
+    console.log("result event: ")
+    console.log(result)
     result.forEach(event => {
         calculateEventNDay(event).forEach(splitevent => {
             events.push(splitevent);
@@ -362,12 +364,20 @@ function hexToRgb(hex) {
     return `${r}, ${g}, ${b}`;
 }
 
-function render_event(slot) {
+async function render_event(slot) {
     if (typeof slot === 'string') {
         slot = JSON.parse(slot).data;
     }
     const event_div = document.createElement('div');
     event_div.style.zIndex = 10;
+    if (!slot.color) {
+        console.log("get color from file")
+        const resultOfName = await window.api.getColorOfEventByName(slot.name);
+        console.log(resultOfName)
+        if (resultOfName.ok) {
+            slot.color = resultOfName.color;
+        }
+    }
     const color = hexToRgb(slot.color);
     event_div.style.backgroundColor = `rgba(${color} ,0.4)`;
     event_div.style.borderLeft = `7px solid rgb(${color})`
@@ -393,19 +403,27 @@ function render_event(slot) {
     location.className = 'event-location'
 
     const organizer = document.createElement('p');
-    if (slot.organizer) {
-        if(get_name_by_uid(slot.organizer)) {
+    if (!slot.organizer === 'none' && slot.organizer) {
+        if (get_name_by_uid(slot.organizer)) {
             organizer.innerHTML = get_name_by_uid(slot.organizer).name;
             organizer.className = 'event-organizer'
-        }
+        }    
+    } else {
+        organizer.style.display = "none"
     }
     const description = document.createElement('p');
     description.innerHTML = slot.description;
     description.className = 'event-description'
 
+    const houre = document.createElement('p');
+    var minutesS = slot.startDate.getMinutes(), minutesE = slot.endDate.getMinutes();
+    
+    houre.innerHTML = `${slot.startDate.getHours()}h${minutesS != '00'?minutesS:''} - ${slot.endDate.getHours()}h${minutesE != '00'?minutesE:''}`;
+    
     event_div.appendChild(name)
-    event_div.appendChild(description)
     event_div.appendChild(location)
+    event_div.appendChild(houre)
+    event_div.appendChild(description)
     event_div.appendChild(organizer)
 
     event_div.className = 'event';

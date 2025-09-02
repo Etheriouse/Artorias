@@ -7,8 +7,9 @@ const crypto = require('crypto-js');
 const ical = require('ical');
 const { app } = require('electron')
 
-const event_ = JSON.parse(fs.readFileSync(path.join(app.getPath('userData') ,'calendar/event.json'), 'utf-8'));
-const person_ = JSON.parse(fs.readFileSync(path.join(app.getPath('userData') ,'calendar/person.json'), 'utf-8'));
+const event_ = JSON.parse(fs.readFileSync(path.join(app.getPath('userData'), 'calendar/event.json'), 'utf-8'));
+const person_ = JSON.parse(fs.readFileSync(path.join(app.getPath('userData'), 'calendar/person.json'), 'utf-8'));
+const color_event = JSON.parse(fs.readFileSync(path.join(app.getPath('userData'), 'calendar/color_event.json'), 'utf-8'));
 
 var uid_;
 
@@ -50,7 +51,7 @@ function exporthasics() {
 
         const formatDate = (dateStr) => {
             const date = new Date(dateStr);
-           return date.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+            return date.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
         };
 
         const getNameByUID = (uid) => {
@@ -88,7 +89,8 @@ function exporthasics() {
         lines.push("END:VCALENDAR");
 
         const icsContent = lines.join("\r\n");
-        fs.writeFileSync(path.join(app.getPath('userData') ,'calendar/event.ics'), icsContent, 'utf-8');
+        console.log(path.join(app.getPath('userData'), 'calendar/event.ics'))
+        fs.writeFileSync(path.join(app.getPath('userData'), 'calendar/event.ics'), icsContent, 'utf-8');
         return { ok: true }
     } catch (err) {
         console.log(err)
@@ -111,18 +113,32 @@ function import__(file) {
         const ics = ical.parseFile(file);
         const events_list = [];
         for (const uid in ics) {
-            const uid_giv = addPerson({ name: ics[uid].organizer, surname: '', age: '', phone: '' });
+            var uid_giv = "none"
+            if(ics[uid].organizer) {
+                uid_giv = addPerson({ name: ics[uid].organizer, surname: '', age: '', phone: '' });
+            }
+            var uidOfEvent;
+            if (!uid.includes('@')) {
+                uidOfEvent = generateUUIDv4() + '@artorias.souls';
+            } else {
+                uidOfEvent = uid;
+            }
+
+            if(ics[uid].summary === "Pause déjeuner") {
+                continue;
+            }
+            console.log(uidOfEvent)
             events_list.push(
                 {
                     name: ics[uid].summary || '',
-                    description: ics[uid].description || '',
+                    description: ics[uid].description.replace(/^\n+/, '').replace(/\(Modifié le:.*?\)\s*$/, '').replaceAll('\n', '<br>') || '',
                     location: ics[uid].location || '',
                     categorie: ics[uid].categories || '',
                     organizer: uid_giv || '',
                     start: new Date(ics[uid].start).toString() || '',
                     end: new Date(ics[uid].end).toString() || '',
                     "last-write": (!ics[uid].lastmodified) ? new Date().toString() : new Date(ics[uid].lastmodified).toString(),
-                    uid: uid
+                    uid: uidOfEvent
 
                 }
             )
@@ -176,11 +192,17 @@ function deleteevent(uid) {
 }
 
 function save_event() {
-    fs.writeFileSync(path.join(app.getPath('userData') ,'calendar/event.json'), JSON.stringify(event_));
+    fs.writeFileSync(path.join(app.getPath('userData'), 'calendar/event.json'), JSON.stringify(event_));
+}
+
+function save_color_event() {
+    console.log(color_event);
+    console.log(JSON.stringify(color_event))
+    fs.writeFileSync(path.join(app.getPath('userData'), 'calendar/color_event.json'), JSON.stringify(color_event));
 }
 
 function save_person() {
-    fs.writeFileSync(path.join(app.getPath('userData') ,'calendar/person.json'), JSON.stringify(person_));
+    fs.writeFileSync(path.join(app.getPath('userData'), 'calendar/person.json'), JSON.stringify(person_));
 }
 
 
@@ -349,4 +371,25 @@ function deletePerson(uid) {
     })
 }
 
-module.exports = { registerevent, save_event, save_person, modifyeventwindow, addeventwindow, confirmaddevent, getevent_, geteventday, confirmmodifyevent, deleteevent, importfromics, getperson, addpersonwindow, confirmaddperson, modifypersonwindow, confirmmodifyperson, getperson_uid, deletePerson, exporthasics }
+function randomHexColor() {
+    return "#" + Math.floor(Math.random() * 0xffffff).toString(16).padStart(6, "0");
+}
+
+
+function getColorOfEventByName(name) {
+    const key = Object.keys(color_event).find(k => name.includes(k));
+
+    if (!key) {
+        const newColor = randomHexColor();
+        const shortName = String(name).split(" ")[0];
+        color_event[shortName] = newColor; 
+        return { ok: true, color: newColor };
+    }
+
+
+
+    return { ok: true, color: key ? color_event[key] : null };
+}
+
+
+module.exports = { registerevent, save_event, save_person, save_color_event, modifyeventwindow, addeventwindow, confirmaddevent, getevent_, geteventday, confirmmodifyevent, deleteevent, importfromics, getperson, addpersonwindow, confirmaddperson, modifypersonwindow, confirmmodifyperson, getperson_uid, deletePerson, exporthasics, getColorOfEventByName }

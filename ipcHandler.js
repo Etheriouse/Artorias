@@ -191,6 +191,10 @@ function Handler() {
         return calendar_.importfromics();
     })
 
+    ipcMain.handle('get-color-of-event-by-name', (event, name) => {
+        return calendar_.getColorOfEventByName(name);
+    })
+
     /* ---------------------- Search -------------------- */
 
     ipcMain.handle('search-in-index-base', async (event, words) => {

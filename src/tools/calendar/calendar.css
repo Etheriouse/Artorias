@@ -84,7 +84,10 @@
     border-radius: 5px;
     display: flex;
     flex-direction: column;
+}
 
+.event > * {
+    margin: 5px;
 }
 
 .event-title {
@@ -96,13 +99,15 @@
 button:focus {
     outline: none;
 }
+
 .event-description {
     width: 80%;
     word-wrap: break-word;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    font-size: 14px;
+    line-clamp: auto;
     -webkit-box-orient: vertical;
 }
 

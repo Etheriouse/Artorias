@@ -185,6 +185,10 @@ contextBridge.exposeInMainWorld('api', {
     generateground: async (size) => {
          return await ipcRenderer.invoke('generate-ground',size);
     },
+
+    getColorOfEventByName: async (name) => {
+        return await ipcRenderer.invoke('get-color-of-event-by-name', name);
+    }
 })
 
 contextBridge.exposeInMainWorld('window_', {

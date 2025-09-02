@@ -42,6 +42,12 @@ try {
 }
 
 try {
+    fs.readFileSync(path.join(app.getPath('userData'), 'calendar/color_event.json'), 'utf-8');
+} catch (err) {
+    fs.writeFileSync(path.join(app.getPath('userData'), 'calendar/color_event.json'), JSON.stringify([]));
+}
+
+try {
     fs.readFileSync(path.join(app.getPath('userData'), 'search/bdd.json'), 'utf-8');
 } catch (err) {
     fs.writeFileSync(path.join(app.getPath('userData'), 'search/bdd.json'), JSON.stringify({
