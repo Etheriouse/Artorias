@@ -170,3 +170,7 @@ button,
 .tool-card-dashboard:hover {
     background-color: #363636;
 }
+
+#bar-menu {
+    border-top: 1px solid #141414;
+}

@@ -1,0 +1,22 @@
+#day-title {
+    padding-left: 7%;
+}
+
+.event {
+    font-size: 12px;
+    text-overflow: hidden;
+}
+
+.event > * {
+    margin: 2px;
+    word-break: break-all;
+}
+
+.event-description {
+    display: none;
+}
+
+.event-hour {
+    display: none;
+}
+

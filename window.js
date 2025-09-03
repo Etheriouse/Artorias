@@ -25,8 +25,8 @@ var bgcolor = colortheme == 'dark' ? '#2d2d2d' : '#ffffff'
 
 const createWindow = () => {
     const win = new BrowserWindow({
-        width: 1600,
-        height: 900,
+        width: 360,
+        height: 800,
         backgroundColor: bgcolor,
         icon: path.join(__dirname, 'assets/icons/icon.ico'),
         webPreferences: {
@@ -37,7 +37,7 @@ const createWindow = () => {
         }
     });
 
-    win.loadFile('src/Dashboard.html');
+    win.loadFile('src/tools/calendar/today.html');
     win.setMenuBarVisibility(false);
     win.webContents.on('did-finish-load', () => {
         win.show(); // <-- la fenêtre ne s'affiche qu'une fois tout prêt

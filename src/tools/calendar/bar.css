@@ -16,10 +16,6 @@
     margin-right: 5%;
 }
 
-#today {
-    min-width: 25%;
-}
-
 #day-title>div>div>* {
     padding: 0;
     margin: 0;
@@ -64,7 +60,7 @@
 }
 
 #select-week-input {
-    margin-left: 5%;
+    /* margin-left: 5%;
     height: 30px;
     border-radius: 5px;
     overflow: auto;
@@ -72,7 +68,8 @@
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
-    resize: none;
+    resize: none; */
+    display: none;
 }
 
 button {

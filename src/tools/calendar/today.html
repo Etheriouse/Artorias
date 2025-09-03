@@ -9,18 +9,15 @@
     <link rel="stylesheet" href="./calendar.css">
     <link rel="stylesheet" href="../../context-menu.css">
     <link rel="stylesheet" href="./bar.css">
+    <link rel="stylesheet" href="./bar-menu.css">
     <title>Artorias Tools</title>
 </head>
 
 <body>
-    <div id="menu">
-        <div id="icon-selector">
-        </div>
-    </div>
     <script src="../../js/menu.js"></script>
-
     <div id="main-app">
 
+      
         <div style="display: none;" id="loading">
             <style>
                 .loading-spinner {
@@ -66,17 +63,9 @@
 
                 </div>
                 <div id="change-week">
-                    <div id="going-today">
-                        <button id="going-today-button">Today</button>
-                    </div>
-                    <div>
-                        <span id="go-past">⬅️</span>
-                        <span id="go-futur">➡️</span>
-                    </div>
-
+        
                     <div id="select-week">
                         <h3 id="short-week-name"></h3>
-                        <input id="select-week-input" type="week">
                     </div>
                 </div>
             </div>
@@ -88,6 +77,17 @@
 
                 </div>
                 <div id="time-now"></div>
+            </div>
+            <div id="bar-menu">
+                <div id="today-button-bar-menu-div">
+                    <span>📅</span>
+                </div>
+                <div id="week-button-bar-menu-div">
+                    <span>📅</span>
+                </div>
+                <div id="settings-button-bar-menu-div">
+                    <span>📅</span>
+                </div>
             </div>
         </div>
         <script type="module" src="../../js/tools/calendar.js"></script>

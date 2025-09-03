@@ -29,11 +29,13 @@
   },
   "homepage": "https://github.com/Etheriouse/ArtoriasTools#readme",
   "devDependencies": {
-    "electron": "^36.4.0",
+    "electron": "^36.8.1",
     "electron-builder": "^26.0.12",
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "@capacitor/cli": "^7.4.3",
+    "@capacitor/core": "^7.4.3",
     "bcryptjs": "^3.0.2",
     "crypto": "^1.0.1",
     "crypto-js": "^4.2.0",

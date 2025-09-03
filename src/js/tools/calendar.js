@@ -1,5 +1,5 @@
-const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 var time_travel = 0;
 var today, week, week_number;
 let slot_clicked;
@@ -7,6 +7,8 @@ let event_clicked;
 
 import { setupPerson, get_name_by_uid } from "./calendaroption.js"
 setupPerson();
+const select_week_input = document.getElementById('select-week-input');
+
 
 async function setup() {
     await load_cache();
@@ -21,8 +23,10 @@ async function setup() {
     } else {
         date_week = `${today.years}-W${(week_number < 10 ? '0' : '') + week_number}`;
     }
-    console.log(date_week)
-    document.getElementById('select-week-input').value = date_week;
+    console.log(date_week);
+    if (select_week_input) {
+        select_week_input.value = date_week;
+    }
 
     setup_calendar();
 
@@ -33,7 +37,9 @@ async function setup() {
 
 }
 
-document.getElementById('going-today-button').addEventListener('click', () => {
+const goingTodayButton = document.getElementById('going-today-button');
+
+if (goingTodayButton) goingTodayButton.addEventListener('click', () => {
     time_travel = 0;
     timetravel_update(0);
 })
@@ -76,8 +82,26 @@ function get_day_(moving = 0) {
     return { daysweek: getDayOfWeek(this_week.getDay()) - 1, day: this_week.getDate(), month: this_week.getMonth(), years: this_week.getFullYear() };
 }
 
-async function get_event_day(dayy) {
+async function get_event_day_single(dayy) {
     const result = await window.api.geteventday(dayy.years, dayy.month, dayy.day);
+    var events = [];
+    console.log("result event: ")
+    console.log(result)
+    result.forEach(event => {
+        calculateEventNDay(event).forEach(splitevent => {
+            events.push(splitevent);
+        })
+    })
+    events = parseDay(events, dayy);
+    calculateEventRender(events);
+    events.forEach(event => {
+        render_event(event);
+    })
+
+}
+
+async function get_event_day(dayyy) {
+    const result = await window.api.geteventday(dayyy.years, dayyy.month, dayyy.day);
     var events = [];
     console.log("result event: ")
     console.log(result)
@@ -154,6 +178,14 @@ function calculateEventRender(events) {
     return events;
 }
 
+function parseDay(events, dayy) {
+    const filteredEvents = events.filter(event => {
+        const eventDate = new Date(event.start).getDate();
+        return eventDate === dayy.day;
+    })
+    return filteredEvents;
+}
+
 function parseWeek(events) {
     const filteredEvents = events.filter(event => {
         const eventDate = new Date(event.start).getDate();
@@ -195,8 +227,50 @@ function calculateEventNDay(event) {
     return events;
 }
 
-function setup_calendar() {
+function setup_calendar_today() {
+    const d = today;
+    const day = document.createElement('div');
+    day.className = "day";
 
+    for (let i = 0; i < 24; i++) {
+        const demi_hour = document.createElement('div');
+        demi_hour.className = "bothour";
+        const demi_hour2 = document.createElement('div');
+        demi_hour2.className = "tophour"
+
+        demi_hour.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            document.getElementById('context-menu-add').style.display = 'block';
+            document.getElementById('context-menu-modify').style.display = 'none';
+            menu.style.top = `${e.pageY}px`;
+            menu.style.left = `${e.pageX}px`;
+            menu.style.display = 'block';
+            slot_clicked = { start: new Date(d.years, d.month, d.day, i, 0), end: new Date(d.years, d.month, d.day, i + 1, 0) }
+            console.log(slot_clicked);
+        });
+
+        demi_hour2.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            document.getElementById('context-menu-add').style.display = 'block';
+            document.getElementById('context-menu-modify').style.display = 'none';
+            menu.style.top = `${e.pageY}px`;
+            menu.style.left = `${e.pageX}px`;
+            menu.style.display = 'block';
+            slot_clicked = { start: new Date(d.years, d.month, d.day, i, 30), end: new Date(d.years, d.month, d.day, i + 1, 30) }
+            console.log(slot_clicked);
+
+        });
+
+        day.appendChild(demi_hour)
+        day.appendChild(demi_hour2)
+
+    }
+    document.getElementById('content').appendChild(day)
+    get_event_day_single(d);
+
+}
+
+function setup_calendar_week() {
     week.forEach(d => {
         const day = document.createElement('div');
         day.className = "day";
@@ -237,20 +311,11 @@ function setup_calendar() {
             day.appendChild(demi_hour2)
 
         }
+
+        if(d.daysweek == 5 || d.daysweek == 6) day.style.display = 'none';
         document.getElementById('content').appendChild(day)
 
     })
-
-    for (let i = 0; i < 24; i++) {
-        const divhour = document.createElement('div');
-        const hour = document.createElement('h3');
-        if (i < 10) {
-            hour.innerHTML = '0';
-        }
-        hour.innerHTML += i;
-        divhour.appendChild(hour)
-        document.getElementById('side-content').appendChild(divhour)
-    }
 
     const titleday = document.getElementById('day-title');
 
@@ -268,6 +333,11 @@ function setup_calendar() {
             day_date.innerHTML += '0';
         }
         day_date.innerHTML += day.day;
+
+        if(day.daysweek == 5 || day.daysweek == 6) {
+            divday.style.display = 'none'
+        }
+
         divtitle.appendChild(day_week)
         divtitle.appendChild(day_date)
         divday.appendChild(divtitle)
@@ -278,6 +348,31 @@ function setup_calendar() {
     get_event_day(week[0]);
 
     document.getElementById('time-now').style.pointerEvents = 'none';
+
+}
+
+
+function setup_calendar() {
+
+    console.log(today)
+
+    if (select_week_input) {
+        setup_calendar_week();
+    } else {
+        setup_calendar_today();
+    }
+
+    for (let i = 0; i < 24; i++) {
+        const divhour = document.createElement('div');
+        const hour = document.createElement('h3');
+        if (i < 10) {
+            hour.innerHTML = '0';
+        }
+        hour.innerHTML += i;
+        divhour.appendChild(hour)
+        document.getElementById('side-content').appendChild(divhour)
+    }
+
 }
 
 
@@ -308,15 +403,19 @@ function timetravel_update(value) {
     location.reload();
 }
 
-document.getElementById('go-past').addEventListener('click', () => {
+const go_past_button = document.getElementById('go-past');
+
+if (go_past_button) go_past_button.addEventListener('click', () => {
     timetravel_update(-7);
 })
 
-document.getElementById('go-futur').addEventListener('click', () => {
+const go_futur_button = document.getElementById('go-futur');
+
+if (go_futur_button) go_futur_button.addEventListener('click', () => {
     timetravel_update(7);
 })
 
-document.getElementById('select-week-input').addEventListener('change', (value) => {
+if (select_week_input) select_week_input.addEventListener('change', (value) => {
     const date_week = value.target.value.split('-W');
     timetravel_update(7 * (parseInt(date_week[1]) - parseInt(week_number)))
 })
@@ -407,7 +506,7 @@ async function render_event(slot) {
         if (get_name_by_uid(slot.organizer)) {
             organizer.innerHTML = get_name_by_uid(slot.organizer).name;
             organizer.className = 'event-organizer'
-        }    
+        }
     } else {
         organizer.style.display = "none"
     }
@@ -416,10 +515,11 @@ async function render_event(slot) {
     description.className = 'event-description'
 
     const houre = document.createElement('p');
+    houre.className = 'event-hour'
     var minutesS = slot.startDate.getMinutes(), minutesE = slot.endDate.getMinutes();
-    
-    houre.innerHTML = `${slot.startDate.getHours()}h${minutesS != '00'?minutesS:''} - ${slot.endDate.getHours()}h${minutesE != '00'?minutesE:''}`;
-    
+
+    houre.innerHTML = `${slot.startDate.getHours()}h${minutesS != '00' ? minutesS : ''} - ${slot.endDate.getHours()}h${minutesE != '00' ? minutesE : ''}`;
+
     event_div.appendChild(name)
     event_div.appendChild(location)
     event_div.appendChild(houre)
@@ -440,6 +540,38 @@ async function render_event(slot) {
         event_clicked = event.uid;
     })
 
-    const div = get_divslot(slot.startDate.getHours(), getDayOfWeek(slot.startDate.getDay()) - 1, 0)
-    div.appendChild(event_div);
+    if(select_week_input) {
+        const div = get_divslot(slot.startDate.getHours(), getDayOfWeek(slot.startDate.getDay()) - 1, 0)
+        div.appendChild(event_div);
+    } else {
+        const div = get_divslot(slot.startDate.getHours(), 0, 0)
+        div.appendChild(event_div);
+    }
 }
+
+
+const trigger = document.getElementById("week-trigger");
+
+
+if (select_week_input && trigger) {
+    trigger.addEventListener("click", () => {
+        select_week_input.showPicker?.();
+        select_week_input.click();
+    });
+
+    select_week_input.addEventListener("change", () => {
+        trigger.textContent = `📅 ${select_week_input.value}`;
+    });
+}
+
+
+document.getElementById('today-button-bar-menu-div').addEventListener('click', () => {
+    window.api.loadpage('tools/calendar/today.html')
+});
+document.getElementById('week-button-bar-menu-div').addEventListener('click', () => {
+    window.api.loadpage('tools/calendar/week.html')
+});
+document.getElementById('settings-button-bar-menu-div').addEventListener('click', () => {
+    window.api.loadpage('tools/calendar/settings.html')
+});
+

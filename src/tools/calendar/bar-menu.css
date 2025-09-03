@@ -1,0 +1,16 @@
+#bar-menu {
+    display: flex;
+    flex-direction: row;
+    height: 7%;
+}
+
+#bar-menu > div {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#bar-menu > div > span {
+    font-size: 22px;
+}

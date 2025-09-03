@@ -5,6 +5,10 @@ contextBridge.exposeInMainWorld('api', {
         return await ipcRenderer.invoke('load-page', namemenu)
     },
 
+    loadpage: async(namepage) => {
+        return await ipcRenderer.invoke('load-page', namepage)
+    },
+
     getobjectpwd: async () => {
         return ipcRenderer.invoke('get-objectpwd')
     },
